@@ -1,0 +1,22 @@
+<ng-container *ngIf="busChauffeur != null">
+  <table class="table-bordered marginTop10 marginBottom1O">
+    <tr>
+      <th>Naam:</th>
+      <td>{{busChauffeur.voornaam}} {{busChauffeur.achternaam}}</td>
+    </tr>
+    <tr>
+      <th>Uurloon:</th>
+      <td>{{busChauffeur.uurloon}} euro/uur</td>
+    </tr>
+  </table>
+</ng-container>
+
+<ng-template *ngIf="busChauffeur == null">
+  <div class="row">
+    <div class="col-2 offset-5 text-center">
+      <div class="spinner-border spinner" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+  </div>
+</ng-template>

@@ -13,6 +13,18 @@ export class BusChauffeurService {
 
   constructor(private router: Router, private http: HttpClient) { }
 
+  getBusChauffeurById$(id: string): Observable<BusChauffeur> {
+    return this.http.get(`${environment.apiUrl}/busChauffeur/${id}`).pipe(
+      catchError(error => {
+        return of(null);
+      }),
+      map((bc: any): BusChauffeur => {
+        bc = BusChauffeur.fromJSON(bc);
+        return bc;
+      })
+    );
+  }
+
   addBusChauffeur$(voornaam: string, achternaam: string, uurloon: string): Observable<any> {
     return this.http.post(`${environment.apiUrl}/BusChauffeur`,
       { voornaam, achternaam, uurloon }, { responseType: 'json' })
@@ -27,6 +39,18 @@ export class BusChauffeurService {
           return bc;
         })
       );
+  }
+
+  getAllBusCheuffeurs$(): Observable<any[]> {
+    return this.http.get(`${environment.apiUrl}/BusChauffeur/getAll`).pipe(
+      catchError(error => {
+        return of(null);
+      }),
+      map((list: any[]): any[] => {
+        list = list.map(BusChauffeur.fromJSON)
+        return list;
+      })
+    );
   }
 
 }
