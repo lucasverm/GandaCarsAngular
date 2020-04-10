@@ -1,0 +1,39 @@
+<div class="row">
+  <div class="col-12">
+    <h1>Bus chauffeur toevoegen:</h1>
+    <form [formGroup]="busChauffeurToevoegenFormulier" class="row" (ngSubmit)='chauffeurToevoegen()'>
+      <div class="col-12">
+        <div class="alert alert-success" role="alert" [hidden]="successMessage == null">
+          {{successMessage}}
+        </div>
+        <div class="alert alert-danger" role="alert" [hidden]="errorMessage == null">
+          {{errorMessage}}
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 col-md-4">
+        <label for="voornaam" class="marginTop10">Voornaam</label>
+        <input type="text" class="form-control" id="voornaam" formControlName="voornaam">
+      </div>
+      <div class="col-12 col-sm-6 col-md-4">
+        <label for="achternaam" class="marginTop10">Achternaam</label>
+        <input type="text" class="form-control" id="achternaam" formControlName="achternaam">
+      </div>
+      <div class="col-12 col-sm-6 col-md-4">
+        <label for="uurloon" class="marginTop10">Uurloon:</label>
+        <input type="tel" class="form-control" id="uurloon" formControlName="uurloon">
+      </div>
+      <div class="col-12 col-sm-6">
+        <label for="geboorteDatum" class="marginTop10">Geboorte datum</label>
+        <input type="date" class="form-control" id="geboorteDatum" formControlName="geboorteDatum">
+      </div>
+      <div class="col-12 col-md-6">
+        <label for="email" class="marginTop10">Emailadres</label>
+        <input type="email" class="form-control" id="email" formControlName="email">
+      </div>
+      <div class="col-12 text-center">
+        <button type="submit" class="btn btn-primary" [disabled]='!busChauffeurToevoegenFormulier.valid'>Buschauffeur
+          toevoegen!</button>
+      </div>
+    </form>
+  </div>
+</div>
