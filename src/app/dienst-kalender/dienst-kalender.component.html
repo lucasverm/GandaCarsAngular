@@ -1,0 +1,10 @@
+<mwl-calendar-week-view
+  precision="minutes"
+  [viewDate]="viewDate"
+  [events]=calendarEvents()
+  [weekStartsOn]="weekStartsOn"
+  [locale]="locale"
+  (eventClicked)="eventClicked($event)"
+  (beforeViewRender)="updateCalendarEvents($event)"
+>
+</mwl-calendar-week-view>

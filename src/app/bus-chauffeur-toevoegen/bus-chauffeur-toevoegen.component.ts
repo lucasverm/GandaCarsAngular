@@ -33,7 +33,7 @@ export class BusChauffeurToevoegenComponent implements OnInit {
       val => {
         if (val) {
           //this.router.navigate([`../buschauffeur/${val.id}`], { state: { successMessage: 'Item toevoegen gelukt!' } });
-          console.log(val)
+       
         }
       },
       (error: HttpErrorResponse) => {

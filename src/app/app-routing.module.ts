@@ -4,9 +4,22 @@ import { BusChauffeurToevoegenComponent } from './bus-chauffeur-toevoegen/bus-ch
 import { BusChauffeurOverzichtComponent } from './bus-chauffeur-overzicht/bus-chauffeur-overzicht.component';
 import { BuschauffeurInfoComponent } from './buschauffeur-info/buschauffeur-info.component';
 import { BusChauffeurResolver } from './resolvers/bus-chauffeur.resolver';
+import { dienstKalenderComponent } from './dienst-kalender/dienst-kalender.component';
+import { DienstOverzichtComponent } from './dienst-overzicht/dienst-overzicht.component';
+import { DienstInfoComponent } from './dienst-info/dienst-info.component';
+import { DienstResolver } from './resolvers/dienst.resolver';
 
 
 const routes: Routes = [
+  {
+    path: 'dienst-overzicht',
+    component: DienstOverzichtComponent,
+  },
+  {
+    path: "dienst-info/:id",
+    component: DienstInfoComponent,
+    resolve: { dienst: DienstResolver },
+  },
   {
     path: 'buschauffeur-toevoegen',
     component: BusChauffeurToevoegenComponent,

@@ -1,0 +1,47 @@
+<div class="row">
+  <div class="col-12">
+    <h1>{{dienst.naam}}</h1>
+  </div>
+  <div class="col-12">
+    <div class="alert alert-success marginTop10" role="alert" [hidden]="successMessage == null">
+      {{successMessage}}
+    </div>
+    <div class="alert alert-danger marginTop10" role="alert" [hidden]="errorMessage == null">
+      {{errorMessage}}
+    </div>
+  </div>
+  <div class="col-12">
+    <table class="table-bordered marginTop10 marginBottom1O">
+      <tr>
+        <th>Naam:</th>
+        <td>{{dienst.naam}}</td>
+      </tr>
+      <tr>
+          <th>Dag:</th>
+          <td>{{dienst.dag.naam}}</td>
+        </tr>
+      <tr>
+        <th>Start uur:</th>
+        <td>{{dienst.startUur | date: "hh:mm"}}</td>
+      </tr>
+      <tr>
+          <th>Eind uur:</th>
+          <td>{{dienst.eindUur | date: "hh:mm"}}</td>
+        </tr>
+        <tr>
+          <th>Buschauffeur:</th>
+          <td>{{dienst.busChauffeur.voornaam }} {{dienst.busChauffeur.achternaam }}</td>
+        </tr>
+    </table>
+  </div>
+</div>
+
+<ng-template #loadingItemsError>
+  <tr>
+    <td colspan="6" class="text-center">
+      <div class="spinner-border spinner" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </td>
+  </tr>
+</ng-template>

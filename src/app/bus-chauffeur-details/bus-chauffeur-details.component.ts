@@ -13,7 +13,6 @@ export class BusChauffeurDetailsComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log(this.busChauffeur)
   }
 
 }
