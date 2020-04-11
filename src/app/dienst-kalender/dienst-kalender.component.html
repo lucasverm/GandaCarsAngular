@@ -1,10 +1,5 @@
-<mwl-calendar-week-view
-  precision="minutes"
-  [viewDate]="viewDate"
-  [events]=calendarEvents()
-  [weekStartsOn]="weekStartsOn"
-  [locale]="locale"
-  (eventClicked)="eventClicked($event)"
-  (beforeViewRender)="updateCalendarEvents($event)"
->
+<div [ngSwitch]="view">
+<mwl-calendar-week-view *ngSwitchCase="'week'" [viewDate]="viewDate" [events]="calendarEvents" 
+  (eventClicked)="eventClicked($event)" (beforeViewRender)="updateCalendarEvents($event)">
 </mwl-calendar-week-view>
+</div>
