@@ -8,12 +8,17 @@ import { dienstKalenderComponent } from './dienst-kalender/dienst-kalender.compo
 import { DienstOverzichtComponent } from './dienst-overzicht/dienst-overzicht.component';
 import { DienstInfoComponent } from './dienst-info/dienst-info.component';
 import { DienstResolver } from './resolvers/dienst.resolver';
+import { DienstToevoegenComponent } from './dienst-toevoegen/dienst-toevoegen.component';
 
 
 const routes: Routes = [
   {
     path: 'dienst-overzicht',
     component: DienstOverzichtComponent,
+  },
+  {
+    path: 'dienst-toevoegen',
+    component: DienstToevoegenComponent,
   },
   {
     path: "dienst-info/:id",

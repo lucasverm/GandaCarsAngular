@@ -14,7 +14,6 @@ export class BusChauffeurDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.busChauffeur);
   }
 
 }

@@ -3,7 +3,7 @@
     <h1>Dienst overzicht:</h1>
   </div>
   <div class="col-4">
-    <a class="float-right btn btn-primary marginTop10" [routerLink]="['/buschauffeur-toevoegen']"
+    <a class="float-right btn btn-primary marginTop10" [routerLink]="['/dienst-toevoegen']"
       id="buschauffeurtoevoegen">
       <i class="fa fa-fw fa-plus-circle"></i>
       <span class="d-none d-sm-inline"> Dienst toevoegen</span></a>
@@ -26,6 +26,7 @@
           <th scope="col">Vanaf</th>
           <th scope="col">Tot</th>
           <th scope="col">Chauffeur</th>
+          <th scope="col">Acties</th>
         </tr>
       </thead>
       <ng-container *ngIf="!loadingDiensten; else loadingItemsError">
@@ -36,6 +37,7 @@
             <td (click)="redirectTo(item)">{{item.startDag.naam }} - {{item.startUur | date: "hh:mm" }}</td>
             <td (click)="redirectTo(item)">{{item.eindDag.naam }} - {{item.eindUur | date: "hh:mm" }}</td>
             <td (click)="redirectTo(item)">{{item.busChauffeur.voornaam}} {{item.busChauffeur.achternaam}}</td>
+            <td>Wijzigen | Verwijderen</td>
           </tr>
         </tbody>
       </ng-container>

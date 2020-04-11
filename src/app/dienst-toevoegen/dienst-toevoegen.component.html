@@ -1,1 +1,61 @@
-<p>dienst-toevoegen works!</p>
+<div class="row">
+  <div class="col-12">
+    <h1>Dienst toevoegen:</h1>
+    <form [formGroup]="dienstToevoegenFormulier" class="row" (ngSubmit)='dienstToevoegen()'>
+      <div class="col-12">
+        <div class="alert alert-success" role="alert" [hidden]="successMessage == null">
+          {{successMessage}}
+        </div>
+        <div class="alert alert-danger" role="alert" [hidden]="errorMessage == null">
+          {{errorMessage}}
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 col-md-4">
+        <label for="naam" class="marginTop10">Naam</label>
+        <input type="text" class="form-control" id="naam" formControlName="naam">
+      </div>
+      <div class="col-12 col-sm-6 col-md-4">
+        <label for="startDag" class="marginTop10">Start dag:</label>
+        <select class="form-control" id="startDag" formControlName="startDag">
+          <option *ngFor="let key of dagenVanDeWeek" [value]="key.value">{{key.naam}}</option>
+        </select>
+      </div>
+      <div class="col-12 col-sm-6 col-md-4">
+        <label for="startUur" class="marginTop10">Start uur:</label>
+        <input type="time" class="form-control" id="startUur" formControlName="startUur">
+      </div>
+      <div class="col-12 col-sm-6 col-md-4">
+        <label for="eindDag" class="marginTop10">Eind dag:</label>
+        <select class="form-control" id="eindDag" formControlName="eindDag">
+          <option *ngFor="let key of dagenVanDeWeek" [value]="key.value">{{key.naam}}</option>
+        </select>
+      </div>
+      <div class="col-12 col-sm-6 col-md-4">
+        <label for="eindUur" class="marginTop10">Eind uur:</label>
+        <input type="time" class="form-control" id="eindUur" formControlName="eindUur">
+      </div>
+      <div class="col-12 col-sm-6 col-md-4">
+        <label for="Buschauffeur" class="marginTop10">Buschauffeur:</label>
+        <select class="form-control" id="Buschauffeur" formControlName="busChauffeur">
+          <option *ngFor="let bc of busChauffeurs" [value]="bc.id">{{bc.voornaam}} {{bc.achternaam}}</option>
+        </select>
+      </div>
+      <!--<div class="col-12 col-sm-6 col-md-4">
+        <label for="uurloon" class="marginTop10">Uurloon:</label>
+        <input type="tel" class="form-control" id="uurloon" formControlName="uurloon">
+      </div>
+      <div class="col-12 col-sm-6">
+        <label for="geboorteDatum" class="marginTop10">Geboorte datum</label>
+        <input type="date" class="form-control" id="geboorteDatum" formControlName="geboorteDatum">
+      </div>
+      <div class="col-12 col-md-6">
+        <label for="email" class="marginTop10">Emailadres</label>
+        <input type="email" class="form-control" id="email" formControlName="email">
+      </div>-->
+      <div class="col-12 text-center">
+        <button type="submit" class="btn btn-primary" [disabled]='!dienstToevoegenFormulier.valid'>Dienst
+          toevoegen!</button>
+      </div>
+    </form>
+  </div>
+</div>

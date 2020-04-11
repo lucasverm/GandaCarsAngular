@@ -11,8 +11,6 @@ export class Dienst {
 	busChauffeur: BusChauffeur;
 
 	static fromJSON(json: any): Dienst {
-console.log(json);
-
 		var item = new Dienst();
 		item.id = json.id;
 		item.naam = json.naam;
