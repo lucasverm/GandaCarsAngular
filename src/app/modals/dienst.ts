@@ -6,17 +6,20 @@ export class Dienst {
 	naam: string;
 	startUur: Date;
 	eindUur: Date;
-	dag: any;
+	startDag: any;
+	eindDag: any;
 	busChauffeur: BusChauffeur;
 
 	static fromJSON(json: any): Dienst {
+console.log(json);
 
 		var item = new Dienst();
 		item.id = json.id;
 		item.naam = json.naam;
 		item.startUur = new Date(json.startUur);
 		item.eindUur = new Date(json.eindUur);
-		item.dag = DagenVanDeWeek.properties[json.dag];
+		item.startDag = DagenVanDeWeek.properties[json.startDag];
+		item.eindDag = DagenVanDeWeek.properties[json.eindDag];
 		item.busChauffeur = json.busChauffeur;
 		return item;
 	}

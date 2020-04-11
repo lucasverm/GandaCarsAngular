@@ -23,9 +23,8 @@
         <tr>
           <th scope="col">#</th>
           <th scope="col">Naam</th>
-          <th scope="col">Start uur</th>
-          <th scope="col">Eind uur</th>
-          <th scope="col">Dag</th>
+          <th scope="col">Vanaf</th>
+          <th scope="col">Tot</th>
           <th scope="col">Chauffeur</th>
         </tr>
       </thead>
@@ -34,9 +33,8 @@
           <tr *ngFor="let item of diensten; let index = index">
             <th (click)="redirectTo(item)">{{index + 1}}</th>
             <td (click)="redirectTo(item)">{{item.naam}}</td>
-            <td (click)="redirectTo(item)">{{item.startUur | date: "hh:mm" }}</td>
-            <td (click)="redirectTo(item)">{{item.eindUur | date: "hh:mm" }}</td>
-            <td (click)="redirectTo(item)">{{item.dag.naam }}</td>
+            <td (click)="redirectTo(item)">{{item.startDag.naam }} - {{item.startUur | date: "hh:mm" }}</td>
+            <td (click)="redirectTo(item)">{{item.eindDag.naam }} - {{item.eindUur | date: "hh:mm" }}</td>
             <td (click)="redirectTo(item)">{{item.busChauffeur.voornaam}} {{item.busChauffeur.achternaam}}</td>
           </tr>
         </tbody>

@@ -12,7 +12,8 @@ import { BusChauffeurDetailsComponent } from './bus-chauffeur-details/bus-chauff
 import { dienstKalenderComponent } from './dienst-kalender/dienst-kalender.component';
 import { DienstOverzichtComponent } from './dienst-overzicht/dienst-overzicht.component';
 import { DienstInfoComponent } from './dienst-info/dienst-info.component';
-
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { DienstToevoegenComponent } from './dienst-toevoegen/dienst-toevoegen.component'; 
 
 @NgModule({
   declarations: [
@@ -24,13 +25,15 @@ import { DienstInfoComponent } from './dienst-info/dienst-info.component';
     BusChauffeurDetailsComponent,
     dienstKalenderComponent,
     DienstOverzichtComponent,
-    DienstInfoComponent
+    DienstInfoComponent,
+    DienstToevoegenComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FullCalendarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

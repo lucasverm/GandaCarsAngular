@@ -5,7 +5,7 @@ export let DagenVanDeWeek = {
 	DONDERDAG: 4,
 	VRIJDAG: 5,
 	ZATERDAG: 6,
-	ZONDAG: 7,
+	ZONDAG: 0,
 	properties: {
 		1: { naam: "Maandag", value: 1 },
 		2: { naam: "Dinsdag", value: 2 },
@@ -13,6 +13,6 @@ export let DagenVanDeWeek = {
 		4: { naam: "Donderdag", value: 4 },
 		5: { naam: "Vrijdag", value: 5 },
 		6: { naam: "Zaterdag", value: 6 },
-		7: { naam: "Zondager", value: 7 }
+		0: { naam: "Zondag", value: 0 }
 	}
 };

@@ -10,9 +10,11 @@ export class BusChauffeurDetailsComponent implements OnInit {
 
   @Input() busChauffeur: BusChauffeur;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
+    console.log(this.busChauffeur);
   }
 
 }
