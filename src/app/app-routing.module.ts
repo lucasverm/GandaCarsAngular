@@ -12,6 +12,7 @@ import { DienstToevoegenComponent } from './dienst-toevoegen/dienst-toevoegen.co
 import { DienstWijzigenComponent } from './dienst-wijzigen/dienst-wijzigen.component';
 import { BusChauffeurWijzigenComponent } from './bus-chauffeur-wijzigen/bus-chauffeur-wijzigen.component';
 import { ToonLoonlijstComponent } from './toon-loonlijst/toon-loonlijst.component';
+import { FeestdagenAanpassenComponent } from './feestdagen-aanpassen/feestdagen-aanpassen.component';
 
 
 const routes: Routes = [
@@ -50,6 +51,10 @@ const routes: Routes = [
     path: 'toon-loonlijst/:id',
     component: ToonLoonlijstComponent,
     resolve: { busChauffeur: BusChauffeurResolver },
+  },
+  {
+    path: 'feestdagen-aanpassen',
+    component: FeestdagenAanpassenComponent
   },
   /*
   {

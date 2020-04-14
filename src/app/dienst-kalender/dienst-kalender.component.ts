@@ -2,6 +2,7 @@ import { ViewChild, Component, Input, ElementRef } from '@angular/core';
 import { Dienst } from '../modals/dienst';
 import { Calendar } from '@fullcalendar/core';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import { FeestdagenService } from '../services/feestdagen.service';
 
 @Component({
   selector: 'app-dienst-kalender',
@@ -15,12 +16,25 @@ export class dienstKalenderComponent {
   @Input() diensten: Dienst[];
 
   calendarPlugins = [timeGridPlugin];
-  constructor(private elementRef: ElementRef) {
-  }
+  constructor(private elementRef: ElementRef, private feestdagenService: FeestdagenService) { }
 
   public eventData = []
 
   ngOnInit() {
+    this.feestdagenService.getAllFeestdagen$().subscribe(
+      val => {
+        if (val) {
+          val.forEach(fd => {
+            this.eventData.push({
+              title: fd.naam,
+              date: this.getDateForInput(fd.dag),
+              color: "#FFA500"
+            })
+          })
+        }
+      }
+    )
+
     this.diensten.forEach(dienst => {
       if (dienst.startDag != dienst.eindDag) {
         this.eventData.push({
@@ -49,6 +63,24 @@ export class dienstKalenderComponent {
       }
     })
 
+
+
+  }
+
+  getDateForInput(date: Date): string {
+    var uitvoer: string = "";
+    uitvoer += date.getFullYear() + "-";
+    if (date.getMonth().toString().length == 1) {
+      uitvoer += "0" + (date.getMonth() + 1) + "-";
+    } else {
+      uitvoer += (date.getMonth() + 1) + "-";
+    }
+    if (date.getDate().toString().length == 1) {
+      uitvoer += "0" + date.getDate();
+    } else {
+      uitvoer += date.getDate();
+    }
+    return uitvoer;
   }
 
 

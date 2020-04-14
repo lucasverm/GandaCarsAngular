@@ -19,9 +19,12 @@ import localeBe from '@angular/common/locales/nl-BE';
 import { DienstWijzigenComponent } from './dienst-wijzigen/dienst-wijzigen.component';
 import { BusChauffeurWijzigenComponent } from './bus-chauffeur-wijzigen/bus-chauffeur-wijzigen.component';
 import { ToonLoonlijstComponent } from './toon-loonlijst/toon-loonlijst.component';
+import { FeestdagenAanpassenComponent } from './feestdagen-aanpassen/feestdagen-aanpassen.component';
+import * as moment from 'moment';
 
 // the second parameter 'fr-FR' is optional
 registerLocaleData(localeBe);
+moment.locale('nl-be');
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,7 +39,8 @@ registerLocaleData(localeBe);
     DienstToevoegenComponent,
     DienstWijzigenComponent,
     BusChauffeurWijzigenComponent,
-    ToonLoonlijstComponent
+    ToonLoonlijstComponent,
+    FeestdagenAanpassenComponent
   ],
   imports: [
     BrowserModule,

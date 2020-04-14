@@ -33,15 +33,16 @@ export class BusChauffeurWijzigenComponent implements OnInit {
       achternaam: [this.busChauffeur.achternaam, [Validators.required]],
       uurloon: [this.busChauffeur.uurloon, [Validators.required]],
       email: [this.busChauffeur.email, [Validators.required, Validators.email]],
-      geboorteDatum: [this.busChauffeur.geboorteDatum.toISOString().substring(0, 10)]
+      geboorteDatum: [this.getDateForInput(this.busChauffeur.geboorteDatum)]
     })
   }
 
-  chauffeurToevoegen() {
+  chauffeurWijzigen() {
+    console.log(this.getDateForInput(this.busChauffeur.geboorteDatum));
     this.busChauffeur.voornaam = this.busChauffeurWijzigenFormulier.value.voornaam;
     this.busChauffeur.achternaam = this.busChauffeurWijzigenFormulier.value.achternaam;
     this.busChauffeur.email = this.busChauffeurWijzigenFormulier.value.email;
-    this.busChauffeur.geboorteDatum = this.busChauffeurWijzigenFormulier.value.geboorteDatum;
+    this.busChauffeur.geboorteDatum = new Date(this.busChauffeurWijzigenFormulier.value.geboorteDatum);
     this.busChauffeur.uurloon = this.busChauffeurWijzigenFormulier.value.uurloon;
     this.busChauffeurService.putBusChauffeur$(this.busChauffeur).subscribe(
       val => {
@@ -54,6 +55,22 @@ export class BusChauffeurWijzigenComponent implements OnInit {
       }
     );
 
+  }
+
+  getDateForInput(date: Date): string {
+    var uitvoer: string = "";
+    uitvoer += date.getFullYear() + "-";
+    if (date.getMonth().toString().length == 1) {
+      uitvoer += "0" + (date.getMonth() + 1) + "-";
+    } else {
+      uitvoer += (date.getMonth() + 1) + "-";
+    }
+    if (date.getDate().toString().length == 1) {
+      uitvoer += "0" + date.getDate();
+    } else {
+      uitvoer += date.getDate();
+    }
+    return uitvoer;
   }
 
 }
