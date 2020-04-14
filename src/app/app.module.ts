@@ -18,6 +18,7 @@ import { registerLocaleData } from '@angular/common';
 import localeBe from '@angular/common/locales/nl-BE';
 import { DienstWijzigenComponent } from './dienst-wijzigen/dienst-wijzigen.component';
 import { BusChauffeurWijzigenComponent } from './bus-chauffeur-wijzigen/bus-chauffeur-wijzigen.component';
+import { ToonLoonlijstComponent } from './toon-loonlijst/toon-loonlijst.component';
 
 // the second parameter 'fr-FR' is optional
 registerLocaleData(localeBe);
@@ -34,7 +35,8 @@ registerLocaleData(localeBe);
     DienstInfoComponent,
     DienstToevoegenComponent,
     DienstWijzigenComponent,
-    BusChauffeurWijzigenComponent
+    BusChauffeurWijzigenComponent,
+    ToonLoonlijstComponent
   ],
   imports: [
     BrowserModule,

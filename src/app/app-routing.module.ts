@@ -11,6 +11,7 @@ import { DienstResolver } from './resolvers/dienst.resolver';
 import { DienstToevoegenComponent } from './dienst-toevoegen/dienst-toevoegen.component';
 import { DienstWijzigenComponent } from './dienst-wijzigen/dienst-wijzigen.component';
 import { BusChauffeurWijzigenComponent } from './bus-chauffeur-wijzigen/bus-chauffeur-wijzigen.component';
+import { ToonLoonlijstComponent } from './toon-loonlijst/toon-loonlijst.component';
 
 
 const routes: Routes = [
@@ -43,6 +44,11 @@ const routes: Routes = [
   {
     path: "buschauffeur-info/:id",
     component: BuschauffeurInfoComponent,
+    resolve: { busChauffeur: BusChauffeurResolver },
+  },
+  {
+    path: 'toon-loonlijst/:id',
+    component: ToonLoonlijstComponent,
     resolve: { busChauffeur: BusChauffeurResolver },
   },
   /*

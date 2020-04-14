@@ -1,0 +1,89 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card marginTop10">
+      <div class="card-header">
+        <h2 class="d-inline"> <i class="fa fa-fw fa-clock"></i><strong> Toon loonlijst</strong></h2>
+        <a class="float-right btn btn-primary marginTop10" (click)="printLoonlijst()" id="printLoonlijst">
+          <i class="fa fa-fw fa-print"></i>
+          <span class="d-none d-sm-inline"> Print loonlijst loonlijst</span></a>
+      </div>
+      <div class="card-body">
+        <div class="col-12">
+          <div class="alert alert-success" role="alert" [hidden]="successMessage == null">
+            {{successMessage}}
+          </div>
+          <div class="alert alert-danger" role="alert" [hidden]="errorMessage == null">
+            {{errorMessage}}
+          </div>
+          <div class="row align-bottom">
+            <div class="col-12">
+              <div class="table-responsive">
+                <table class="table table-bordered loonlijst">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">Dag</th>
+                      <th scope="col">Stelsel</th>
+                      <th scope="col">Rijtijd</th>
+                      <th scope="col">Stat AT</th>
+                      <th scope="col">Stat Rest</th>
+                      <th scope="col">Stat</th>
+                      <th scope="col">Admin</th>
+                      <th scope="col">Andere</th>
+                      <th scope="col">Ampl</th>
+                      <th scope="col">AP/DP</th>
+                      <th scope="col">TotaleAT</th>
+                      <th scope="col">Nacht</th>
+                      <th scope="col">Zat</th>
+                      <th scope="col">Zon</th>
+                      <th scope="col">Ond1</th>
+                      <th scope="col">Ond2</th>
+                      <th scope="col">Ond3</th>
+                      <th scope="col">Onv. Pres.</th>
+                      <th scope="col">AVC</th>
+                    </tr>
+                  </thead>
+                  <ng-container *ngIf="!loadingDiensten; else loadingItemsError">
+                    <tbody>
+                      <tr *ngFor="let item of createRange(31)">
+                        <td>00:00</td>
+                        <td>00:00</td>
+                        <td>00:00</td>
+                        <td>00:00</td>
+                        <td>00:00</td>
+                        <td>00:00</td>
+                        <td>00:00</td>
+                        <td>00:00</td>
+                        <td>00:00</td>
+                        <td>00:00</td>
+                        <td>00:00</td>
+                        <td>00:00</td>
+                        <td>00:00</td>
+                        <td>00:00</td>
+                        <td>00:00</td>
+                        <td>00:00</td>
+                        <td>00:00</td>
+                        <td>00:00</td>
+                        <td>00:00</td>
+                      </tr>
+                    </tbody>
+
+                  </ng-container>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #loadingItemsError>
+  <tr>
+    <td colspan="6" class="text-center">
+      <div class="spinner-border spinner" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </td>
+  </tr>
+</ng-template>

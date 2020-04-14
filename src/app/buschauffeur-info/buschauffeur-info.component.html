@@ -4,6 +4,10 @@
       <div class="card-header">
         <h2 class="d-inline"> <i class="fa fa-fw fa-user-tie"></i><strong> {{busChauffeur.voornaam}}
             {{busChauffeur.achternaam}}</strong></h2>
+        <a class="float-right btn btn-primary marginTop10" [routerLink]="['/toon-loonlijst/', busChauffeur.id]"
+          id="buschauffeurtoevoegen">
+          <i class="fa fa-fw fa-print"></i>
+          <span class="d-none d-sm-inline"> Print loonlijst</span></a>
       </div>
       <div class="card-body">
         <div class="col-12">
@@ -15,7 +19,8 @@
           </div>
           <h3 class="card-title"><i class="fa fa-fw fa-search"></i> Algemene gegevens: </h3>
           <div class="row align-bottom">
-            <div class="col-4">
+
+            <div class="col-12 col-lg-5">
               <app-bus-chauffeur-details [busChauffeur]=busChauffeur></app-bus-chauffeur-details>
             </div>
           </div>
