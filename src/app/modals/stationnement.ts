@@ -2,17 +2,13 @@ import { DagenVanDeWeek } from './dagen-van-de-week.enum';
 
 export class Stationnement {
 	id: String;
-	startUur: Date;
-	eindUur: Date;
-	tarief: number
-	dag: any;
+	aantalMinuten: number;
+	percentage: number;
 	static fromJSON(json: any): Stationnement {
 		var item = new Stationnement();
 		item.id = json.id;
-		item.startUur = new Date(json.startUur);
-		item.eindUur = new Date(json.eindUur);
-		item.tarief = json.tarief;
-		item.dag = DagenVanDeWeek.properties[json.dag];
+		item.percentage = json.percentage;
+		item.aantalMinuten = json.aantalMinuten
 		return item;
 	}
 }

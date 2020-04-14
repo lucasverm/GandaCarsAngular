@@ -78,22 +78,22 @@
                 <div class="row marginBottom1O" *ngFor="let item of stationnementen.controls; let i=index"
                   [formGroupName]="i">
                   <div class="col-12 col-md-6 col-lg-3">
-                    <label for="dag">Dag: </label>
-                    <select class="form-control" id="dag" formControlName="dag">
-                      <option *ngFor="let key of dagenVanDeWeek" [value]="key.value">{{key.naam}}</option>
-                    </select>
+                    <label for="aantalMinuten">Totaal aantal minuten: </label>
+                    <div class="input-group mb-3">
+                      <input type="num" class="form-control" id="aantalMinuten" formControlName="aantalMinuten">
+                      <div class="input-group-append">
+                        <span class="input-group-text">Minuten</span>
+                      </div>
+                    </div>
                   </div>
                   <div class="col-12 col-md-6 col-lg-2">
-                    <label for="startUur">Start uur: </label>
-                    <input type="time" class="form-control" id="startUur" formControlName="startUur">
-                  </div>
-                  <div class="col-12 col-md-6 col-lg-2">
-                    <label for="eindUur">Eind uur: </label>
-                    <input type="time" class="form-control" id="eindUur" formControlName="eindUur">
-                  </div>
-                  <div class="col-12 col-md-6 col-lg-3">
-                    <label for="tarief">Tarief: </label>
-                    <input type="number" class="form-control" id="tartief" formControlName="tarief">
+                    <label for="percentage">Tarief: </label>
+                    <div class="input-group mb-3">
+                      <input type="number" class="form-control" id="percentage" formControlName="percentage">
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
                   </div>
                   <div class="col-12 col-md-6 col-lg-2 align-self-end">
                     <button type="button" class="btn btn-primary"

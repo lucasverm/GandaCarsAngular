@@ -38,19 +38,6 @@ export class dienstKalenderComponent {
             url: `../dienst-wijzigen/${dienst.id}`
           }
         )
-        dienst.stationnementen.forEach(s => {
-          console.log(s.dag);
-          console.log(dienst.startDag);
-          this.eventData.push({
-            title: "stationnment",
-            color: "#ff0000",
-            daysOfWeek: [s.dag.value == dienst.startDag.value ? dienst.startDag.value : dienst.eindDag.value],
-            startTime: s.startUur.toTimeString(),
-            endTime: s.eindUur.toTimeString(),
-            url: `../dienst-wijzigen/${dienst.id}`
-          })
-        })
-
       } else {
         this.eventData.push({
           title: dienst.naam,
@@ -59,17 +46,6 @@ export class dienstKalenderComponent {
           endTime: dienst.eindUur.toTimeString(),
           url: `../dienst-wijzigen/${dienst.id}`
         })
-        dienst.stationnementen.forEach(s => {
-          this.eventData.push({
-            title: "stationnment",
-            color: "#ff0000",
-            daysOfWeek: [dienst.startDag.value],
-            startTime: s.startUur.toTimeString(),
-            endTime: s.eindUur.toTimeString(),
-            url: `../dienst-wijzigen/${dienst.id}`
-          })
-        })
-
       }
     })
 

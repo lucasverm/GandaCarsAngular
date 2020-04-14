@@ -53,7 +53,7 @@ export class DienstWijzigenComponent implements OnInit {
 
   initStationnementen() {
     this.dienst.stationnementen.forEach(s => {
-      this.stationnementen.push(this.fb.group({ id: s.id, startUur: s.startUur.toLocaleTimeString(), dag: s.dag.value, eindUur: s.eindUur.toLocaleTimeString(), tarief: s.tarief }));
+      this.stationnementen.push(this.fb.group({ id: s.id, aantalMinuten: s.aantalMinuten, percentage: s.percentage }));
     })
   }
 
@@ -62,7 +62,7 @@ export class DienstWijzigenComponent implements OnInit {
   }
 
   addstationnementPoint() {
-    this.stationnementen.push(this.fb.group({ id: '', dag: '', startUur: '', eindUur: '', tarief: '' }));
+    this.stationnementen.push(this.fb.group({ id: '', aantalMinuten: '', percentage: '' }));
   }
 
   deletestationnementPoint(index) {
@@ -84,10 +84,8 @@ export class DienstWijzigenComponent implements OnInit {
       } else {
         s.id = ""
       }
-      stass.eindUur = s.eindUur;
-      stass.dag = s.dag;
-      stass.startUur = s.startUur;
-      stass.tarief = s.tarief;
+      stass.aantalMinuten = s.aantalMinuten
+      stass.percentage = s.percentage;
       this.dienst.stationnementen.push(stass);
     })
     this.dienstService.putDienst$(this.dienst).subscribe(

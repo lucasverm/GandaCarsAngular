@@ -53,7 +53,7 @@ export class DienstToevoegenComponent implements OnInit {
   }
 
   addstationnementPoint() {
-    this.stationnementen.push(this.fb.group({ id: '', dag: '', startUur: '', eindUur: '', tarief: '' }));
+    this.stationnementen.push(this.fb.group({ id: '', aantalMinuten: '', percentage: '' }));
   }
 
   deletestationnementPoint(index) {
@@ -65,10 +65,8 @@ export class DienstToevoegenComponent implements OnInit {
     this.dienstToevoegenFormulier.value.stationnementen.forEach(s => {
       let stass = new Stationnement();
       s.id = ""
-      stass.dag = s.dag;
-      stass.eindUur = s.eindUur;
-      stass.startUur = s.startUur;
-      stass.tarief = s.tarief;
+      stass.aantalMinuten = s.aantalMinuten
+      stass.percentage = s.percentage;
       stationnementen.push(stass);
     })
     this.errorMessage = null;
