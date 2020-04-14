@@ -12,6 +12,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class BusChauffeurToevoegenComponent implements OnInit {
 
   public errorMessage: String = null;
+  public successMessage: String = null;
   public busChauffeurToevoegenFormulier: FormGroup;
 
   constructor(public router: Router, private fb: FormBuilder, private busChauffeurService: BusChauffeurService) {
@@ -23,23 +24,27 @@ export class BusChauffeurToevoegenComponent implements OnInit {
       voornaam: ['', [Validators.required]],
       achternaam: ['', [Validators.required]],
       uurloon: ['', [Validators.required]],
-      email: ['', /*[Validators.required, Validators.email]*/],
+      email: ['', [Validators.required, Validators.email]],
       geboorteDatum: ['']
     })
   }
 
   chauffeurToevoegen() {
-    this.busChauffeurService.addBusChauffeur$(this.busChauffeurToevoegenFormulier.value.voornaam, this.busChauffeurToevoegenFormulier.value.achternaam, this.busChauffeurToevoegenFormulier.value.uurloon).subscribe(
-      val => {
-        if (val) {
-          //this.router.navigate([`../buschauffeur/${val.id}`], { state: { successMessage: 'Item toevoegen gelukt!' } });
-       
+    this.busChauffeurService.addBusChauffeur$(
+      this.busChauffeurToevoegenFormulier.value.voornaam,
+      this.busChauffeurToevoegenFormulier.value.achternaam,
+      this.busChauffeurToevoegenFormulier.value.uurloon,
+      this.busChauffeurToevoegenFormulier.value.email,
+      this.busChauffeurToevoegenFormulier.value.geboorteDatum).subscribe(
+        val => {
+          if (val) {
+            this.router.navigate([`../buschauffeur-overzicht`], { state: { successMessage: 'Item toevoegen gelukt!' } });
+          }
+        },
+        (error: HttpErrorResponse) => {
+          this.errorMessage = error.error;
         }
-      },
-      (error: HttpErrorResponse) => {
-        this.errorMessage = error.error;
-      }
-    );
+      );
 
   }
 }

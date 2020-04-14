@@ -20,6 +20,7 @@ export class DienstInfoComponent implements OnInit {
   }
 
   ngOnInit() {
+    
   }
 
   redirectTo(bc: any) {

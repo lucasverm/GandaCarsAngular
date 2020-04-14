@@ -9,6 +9,8 @@ import { DienstOverzichtComponent } from './dienst-overzicht/dienst-overzicht.co
 import { DienstInfoComponent } from './dienst-info/dienst-info.component';
 import { DienstResolver } from './resolvers/dienst.resolver';
 import { DienstToevoegenComponent } from './dienst-toevoegen/dienst-toevoegen.component';
+import { DienstWijzigenComponent } from './dienst-wijzigen/dienst-wijzigen.component';
+import { BusChauffeurWijzigenComponent } from './bus-chauffeur-wijzigen/bus-chauffeur-wijzigen.component';
 
 
 const routes: Routes = [
@@ -21,9 +23,14 @@ const routes: Routes = [
     component: DienstToevoegenComponent,
   },
   {
-    path: "dienst-info/:id",
-    component: DienstInfoComponent,
+    path: "dienst-wijzigen/:id",
+    component: DienstWijzigenComponent,
     resolve: { dienst: DienstResolver },
+  },
+  {
+    path: "buschauffeur-wijzigen/:id",
+    component: BusChauffeurWijzigenComponent,
+    resolve: { busChauffeur: BusChauffeurResolver },
   },
   {
     path: 'buschauffeur-toevoegen',

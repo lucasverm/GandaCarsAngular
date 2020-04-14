@@ -1,5 +1,6 @@
 import { BusChauffeur } from './bus-chauffeur';
 import { DagenVanDeWeek } from './dagen-van-de-week.enum';
+import { Stationnement } from './stationnement';
 
 export class Dienst {
 	id: string;
@@ -9,6 +10,7 @@ export class Dienst {
 	startDag: any;
 	eindDag: any;
 	busChauffeur: BusChauffeur;
+	stationnementen: Stationnement[];
 
 	static fromJSON(json: any): Dienst {
 		var item = new Dienst();
@@ -19,6 +21,7 @@ export class Dienst {
 		item.startDag = DagenVanDeWeek.properties[json.startDag];
 		item.eindDag = DagenVanDeWeek.properties[json.eindDag];
 		item.busChauffeur = json.busChauffeur;
+		item.stationnementen = json.stationnementen.map(Stationnement.fromJSON)
 		return item;
 	}
 }

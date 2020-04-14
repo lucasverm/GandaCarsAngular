@@ -1,9 +1,9 @@
-$breedteSideBar: 50px;
+$breedteSideBar: 60px;
 
 .sidebar {
   height: 100vh !important;
   width: $breedteSideBar;
-  background-color: black;
+  background-color: #343a40 !important;
   position: fixed;
   display: flex;
   flex-wrap: wrap;
@@ -14,8 +14,15 @@ $breedteSideBar: 50px;
     text-align: center;
     color: white !important;
 
+    &:focus {
+
+      border-color: none;
+      box-shadow: none;
+      outline: 0 none;
+    }
+
     &:hover {
-      background-color: grey;
+      background-color: Grey;
     }
   }
 }

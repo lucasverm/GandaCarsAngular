@@ -3,10 +3,10 @@
 
     <div class="card marginTop10">
       <div class="card-header">
-        <h2><i class="fa fa-fw fa-user-tie"></i><strong> Buschauffeur toevoegen</strong></h2>
+        <h2><i class="fa fa-fw fa-user-tie"></i><strong> Buschauffeur wijzigen</strong></h2>
       </div>
       <div class="card-body">
-        <form [formGroup]="busChauffeurToevoegenFormulier" class="row" (ngSubmit)='chauffeurToevoegen()'>
+        <form [formGroup]="busChauffeurWijzigenFormulier" class="row" (ngSubmit)='chauffeurToevoegen()'>
           <div class="col-12">
             <div class="alert alert-success" role="alert" [hidden]="successMessage == null">
               {{successMessage}}
@@ -38,8 +38,8 @@
               </div>
               <div class="col-12 col-md-5 text-left">
                 <button type="submit" class="btn btn-primary width100 marginTop10"
-                  [disabled]='!busChauffeurToevoegenFormulier.valid'>Buschauffeur
-                  toevoegen!</button>
+                  [disabled]='!busChauffeurWijzigenFormulier.valid'>Buschauffeur
+                  opslaan!</button>
               </div>
             </div>
           </div>

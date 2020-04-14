@@ -1,26 +1,32 @@
 <div class="row">
   <div class="col-12">
-    <h1>{{busChauffeur.voornaam}} {{busChauffeur.achternaam}}</h1>
-  </div>
-  <div class="col-12">
-    <div class="alert alert-success marginTop10" role="alert" [hidden]="successMessage == null">
-      {{successMessage}}
+    <div class="card marginTop10">
+      <div class="card-header">
+        <h2 class="d-inline"> <i class="fa fa-fw fa-user-tie"></i><strong> {{busChauffeur.voornaam}}
+            {{busChauffeur.achternaam}}</strong></h2>
+      </div>
+      <div class="card-body">
+        <div class="col-12">
+          <div class="alert alert-success" role="alert" [hidden]="successMessage == null">
+            {{successMessage}}
+          </div>
+          <div class="alert alert-danger" role="alert" [hidden]="errorMessage == null">
+            {{errorMessage}}
+          </div>
+          <h3 class="card-title"><i class="fa fa-fw fa-search"></i> Algemene gegevens: </h3>
+          <div class="row align-bottom">
+            <div class="col-4">
+              <app-bus-chauffeur-details [busChauffeur]=busChauffeur></app-bus-chauffeur-details>
+            </div>
+          </div>
+          <h3 class="card-title marginTop10"><i class="fa fa-fw fa-search"></i> Agenda: </h3>
+          <div class="row align-bottom">
+            <div class="col-12">
+              <app-dienst-kalender [diensten]="busChauffeur.diensten"></app-dienst-kalender>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="alert alert-danger marginTop10" role="alert" [hidden]="errorMessage == null">
-      {{errorMessage}}
-    </div>
-  </div>
-  <div class="col-12">
-    <app-bus-chauffeur-details [busChauffeur]=busChauffeur></app-bus-chauffeur-details>
   </div>
 </div>
-
-<ng-template #loadingItemsError>
-  <tr>
-    <td colspan="6" class="text-center">
-      <div class="spinner-border spinner" role="status">
-        <span class="sr-only">Loading...</span>
-      </div>
-    </td>
-  </tr>
-</ng-template>

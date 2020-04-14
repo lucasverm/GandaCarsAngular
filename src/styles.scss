@@ -14,5 +14,18 @@ th {
   margin-bottom: 10px !important;
 }
 
+.width100 {
+  width: 100%;
+}
+
+.btn-primary {
+  background-color: #343a40 !important;
+  border-color: #343a40 !important;
+}
+
+a:hover {
+  cursor: pointer !important;
+}
+
 @import '~@fullcalendar/core/main.css';
 @import '~@fullcalendar/timegrid/main.css';

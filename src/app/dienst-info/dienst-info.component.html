@@ -18,15 +18,16 @@
       </tr>
       <tr>
         <th>Vanaf:</th>
-        <td>{{dienst.startDag.naam}} - {{dienst.startUur | date: "hh:mm"}}</td>
+        <td>{{dienst.startDag.naam}} - {{dienst.startUur | date: "HH:mm"}}</td>
       </tr>
       <tr>
         <th>Tot:</th>
-        <td>{{dienst.eindDag.naam}} - {{dienst.eindUur | date: "hh:mm"}}</td>
+        <td>{{dienst.eindDag.naam}} - {{dienst.eindUur | date: "HH:mm"}}</td>
       </tr>
       <tr>
         <th>Buschauffeur:</th>
-        <td (click)="redirectTo(dienst.busChauffeur)">{{dienst.busChauffeur.voornaam }} {{dienst.busChauffeur.achternaam }}</td>
+        <td (click)="redirectTo(dienst.busChauffeur)">{{dienst.busChauffeur.voornaam }}
+          {{dienst.busChauffeur.achternaam }}</td>
       </tr>
     </table>
   </div>

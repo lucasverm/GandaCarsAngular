@@ -8,10 +8,16 @@
       <th>Uurloon:</th>
       <td>{{busChauffeur.uurloon}} euro/uur</td>
     </tr>
+    <tr>
+      <th>Geboorte datum:</th>
+      <td>{{busChauffeur.geboorteDatum | date: "dd/MM/yyyy"}}</td>
+    </tr>
+    <tr>
+      <th>Email:</th>
+      <td>{{busChauffeur.email}}</td>
+    </tr>
   </table>
 </ng-container>
-
-<app-dienst-kalender [diensten]="busChauffeur.diensten"></app-dienst-kalender>
 
 <ng-template *ngIf="busChauffeur == null">
   <div class="row">
