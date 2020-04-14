@@ -55,8 +55,17 @@ export class ToonLoonlijstComponent implements OnInit {
     )
   }
 
+  veranderHuidigeMaand(met: number) {
+    if (met < 0) {
+      this.maand.subtract(1, 'months');
+    } else {
+      this.maand.add(1, 'months');
+    }
+
+  }
+
   getHuidigeMaand() {
-    return this.maand.format('MMMM');
+    return this.maand.format('MMMM').charAt(0).toUpperCase() + this.maand.format('MMMM').substring(1);
   }
 
   dagenInHuidigeMaand(): any[] {
@@ -72,13 +81,15 @@ export class ToonLoonlijstComponent implements OnInit {
           nummer: date.getDate(),
           naam: names[0]
         });
+      } else {
+        result.push({
+          jaar: date.getFullYear(),
+          maand: this.maand.format("MMMM"),
+          nummer: date.getDate(),
+          naam: names[date.getDay()]
+        });
       }
-      result.push({
-        jaar: date.getFullYear(),
-        maand: this.maand.format("MMMM"),
-        nummer: date.getDate(),
-        naam: names[date.getDay()]
-      });
+
       date.setDate(date.getDate() + 1);
 
     }
