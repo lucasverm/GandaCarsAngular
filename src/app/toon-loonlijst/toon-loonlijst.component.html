@@ -33,31 +33,33 @@
                   <table class="table table-bordered loonlijst">
                     <thead class="thead-dark">
                       <tr>
-                        <th scope="col">Dag</th>
-                        <th scope="col">Stelsel</th>
+                        <th scope="col">Datum</th>
+                        <th scope="col">Stel.</th>
                         <th scope="col">Rijtijd</th>
-                        <th scope="col">Stat AT</th>
-                        <th scope="col">Stat Rest</th>
-                        <th scope="col">Stat</th>
-                        <th scope="col">Admin</th>
-                        <th scope="col">Andere</th>
-                        <th scope="col">Ampl</th>
+                        <th scope="col">Stat. AT</th>
+                        <th scope="col">Stat. Rest</th>
+                        <th scope="col">Stat 50%</th>
+                        <th scope="col">Admin.</th>
+                        <th scope="col">Ander</th>
+                        <th scope="col">Ampl.</th>
                         <th scope="col">AP/DP</th>
-                        <th scope="col">TotaleAT</th>
+                        <th scope="col">Totaal AT</th>
                         <th scope="col">Nacht</th>
-                        <th scope="col">Zat</th>
-                        <th scope="col">Zon</th>
-                        <th scope="col">Ond1</th>
-                        <th scope="col">Ond2</th>
-                        <th scope="col">Ond3</th>
-                        <th scope="col">Onv. Pres.</th>
+                        <th scope="col">Zaterd.</th>
+                        <th scope="col">Zond.</th>
+                        <th scope="col">Ond. 1</th>
+                        <th scope="col">Ond. 2</th>
+                        <th scope="col">Ond. 3</th>
+                        <th scope="col">Onv. pres.</th>
+                        <th scope="col">Overwerk. AT.</th>
                         <th scope="col">AVC</th>
                       </tr>
                     </thead>
                     <ng-container *ngIf="!loadingDiensten; else loadingItemsError">
                       <tbody>
                         <tr *ngFor="let item of dagenInHuidigeMaand()">
-                          <td>{{item.jaar}} {{item.maand}} {{item.nummer}} {{item.naam}}</td>
+                          <td>{{item.nummer}}-{{item.maand}}-{{item.jaar}} {{item.naam}}</td>
+                          <td>1</td>
                           <td>00:00</td>
                           <td>00:00</td>
                           <td>00:00</td>

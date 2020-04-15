@@ -2,7 +2,13 @@ import { ViewChild, Component, Input, ElementRef } from '@angular/core';
 import { Dienst } from '../modals/dienst';
 import { Calendar } from '@fullcalendar/core';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import bootstrapPlugin from '@fullcalendar/bootstrap';
 import { FeestdagenService } from '../services/feestdagen.service';
+import { FullCalendarComponent } from '@fullcalendar/angular';
+import * as moment from 'moment';
+import { Router } from '@angular/router';
+import { BusChauffeur } from '../modals/bus-chauffeur';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-dienst-kalender',
@@ -11,16 +17,17 @@ import { FeestdagenService } from '../services/feestdagen.service';
 })
 export class dienstKalenderComponent {
 
-  //@ViewChild('calendar', { static: true }) calendarComponent: FullCalendarComponent;
+  @ViewChild('calendar', { static: true }) calendarComponent: FullCalendarComponent;
+  public api;
+  @Input() busChauffeur: BusChauffeur;
+  calendarPlugins = [timeGridPlugin, bootstrapPlugin];
 
-  @Input() diensten: Dienst[];
-
-  calendarPlugins = [timeGridPlugin];
-  constructor(private elementRef: ElementRef, private feestdagenService: FeestdagenService) { }
+  constructor(private router: Router, private feestdagenService: FeestdagenService) { }
 
   public eventData = []
 
   ngOnInit() {
+    //feestdagen in kalender
     this.feestdagenService.getAllFeestdagen$().subscribe(
       val => {
         if (val) {
@@ -35,7 +42,7 @@ export class dienstKalenderComponent {
       }
     )
 
-    this.diensten.forEach(dienst => {
+    this.busChauffeur.diensten.forEach(dienst => {
       if (dienst.startDag != dienst.eindDag) {
         this.eventData.push({
           title: dienst.naam,
@@ -63,8 +70,62 @@ export class dienstKalenderComponent {
       }
     })
 
+  }
 
+  veranderWeek() {
+    //console.log("test");
+  }
 
+  getCustomButtons() {
+    var that = this;
+    return {
+      vorige: {
+        text: "ttt",
+        //bootstrapFontAwesome: "fa-arrow-left",
+        click: function () {
+          // that.veranderWeek();
+          // that.api.prev();
+        }
+      },
+      volgende: {
+        text: "zzz",
+        ///bootstrapFontAwesome: "fa-arrow-right",
+        click: function () {
+          //that.veranderWeek();
+          //that.api.next();
+        }
+      }
+    }
+  }
+  getHeader() {
+    return {
+      left: 'title',
+      center: '',
+      right: 'vorige,volgende'
+      //right: 'today prev,next'
+    }
+  }
+
+  ngAfterViewInit() {
+    this.api = this.calendarComponent.getApi();
+    console.log(this.api);
+
+  }
+
+  bewerkWeek() {
+    this.router.navigate([`../../effectieve-week-wijzigen/${this.getCurrentYear()}/${this.getCurrentWeekNumber()}/${this.busChauffeur.id}`]);
+  }
+
+  getCurrentDate() {
+    return this.api.getDate();
+  }
+
+  getCurrentYear() {
+    return this.api.getFullYear();
+  }
+
+  getCurrentWeekNumber() {
+    return moment(this.getCurrentDate()).week();
   }
 
   getDateForInput(date: Date): string {

@@ -1,0 +1,101 @@
+<div class="row">
+  <div class="col-12">
+
+    <div class="card marginTop10">
+      <div class="card-header">
+        <h2><i class="fa fa-fw fa-clock"></i><strong> Week wijzigen</strong></h2>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="effectieveDienstenAanpassenFormulier" class="row" (ngSubmit)='effectieveDienstenAanpassen()'>
+          <div class="col-12">
+            <div class="alert alert-success" role="alert" [hidden]="successMessage == null">
+              {{successMessage}}
+            </div>
+            <div class="alert alert-danger" role="alert" [hidden]="errorMessage == null">
+              {{errorMessage}}
+            </div>
+          </div>
+          <div class="col-12">
+            <h5 class="card-title"><i class="fa fa-fw fa-search"></i> Diensten: </h5>
+            <div class="row align-bottom">
+              <div class="col-8">
+                <p *ngIf="effectieveDienstenForm.controls.length == 0">Er zijn (nog) geen diensten voor deze week, voor
+                  deze
+                  chauffeur.</p>
+              </div>
+
+              <div class="col-12 marginBottom1O" formArrayName="effectieveDienstenForm">
+                <div class="row marginBottom1O" *ngFor="let item of effectieveDienstenForm.controls; let i=index"
+                  [formGroupName]="i">
+                  <div class="col-12 col-md-6 col-lg-2">
+                    <label for="naam">Naam: </label>
+                    <input type="num" class="form-control" id="naam" formControlName="naam">
+                  </div>
+                  <div class="col-12 col-md-6 col-lg-3">
+                    <label for="startDag">Start: </label>
+                    <input type="datetime-local" class="form-control" id="startDag" formControlName="start">
+                  </div>
+                  <div class="col-12 col-md-6 col-lg-3">
+                    <label for="eindUur">Einde: </label>
+                    <input type="datetime-local" class="form-control" id="eindUur" formControlName="eind">
+                  </div>
+                  <div class="col-12 col-md-6 col-lg-4 align-self-end">
+                    <button type="button" class="btn btn-danger" (click)="deleteEffectieveDienst(i)">Verwijder</button>
+                    <button type="button" class="btn btn-primary"
+                      (click)="changeStationementVisibility(item)">Stationement
+                      aanpassen</button>
+                  </div>
+                  <!-- stationnementen!-->
+                  <div class="col-12 marginBottom1O" formArrayName="stationnementen"
+                    [hidden]="!item.controls.stationnementenVisible.value">
+                    <div class="row marginBottom1O" *ngFor="let stass of stationnementen(i).controls; let stassI=index"
+                      [formGroupName]="stassI">
+                      <div class="col-12 col-md-6 col-lg-3">
+                        <label for="aantalMinuten">Totaal aantal minuten: </label>
+                        <div class="input-group mb-3">
+                          <input type="num" class="form-control" id="aantalMinuten" formControlName="aantalMinuten">
+                          <div class="input-group-append">
+                            <span class="input-group-text">Minuten</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6 col-lg-2">
+                        <label for="percentage">Tarief: </label>
+                        <div class="input-group mb-3">
+                          <input type="number" class="form-control" id="percentage" formControlName="percentage">
+                          <div class="input-group-append">
+                            <span class="input-group-text">%</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-6 col-lg-2 align-self-end">
+                        <button type="button" class="btn btn-danger"
+                          (click)="deleteStationnement(i,stassI)">Verwijder</button>
+                      </div>
+                    </div>
+                    <button type="button" class="btn btn-primary" (click)="addStationnement(i)"><i
+                        class="fa fa-fw fa-plus-circle"></i> stationnement
+                      toevoegen</button>
+                  </div>
+                  <div class="col-12">
+                    <hr />
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-md-5 col-lg-3 text-left">
+                <button type="button" class="btn btn-primary width100" (click)="addEffectieveDienst()"><i
+                    class="fa fa-fw fa-plus-circle"></i> Dienst
+                  toevoegen</button>
+              </div>
+              <div class="col-12 col-md-5 col-lg-2 text-left">
+                <button type="submit" class="btn btn-success width100"
+                  [disabled]='!effectieveDienstenAanpassenFormulier.valid'><i class="fa fa-fw fa-save"></i> Week
+                  opslaan!</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

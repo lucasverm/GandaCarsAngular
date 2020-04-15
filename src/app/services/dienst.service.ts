@@ -19,7 +19,7 @@ export class DienstService {
   getDienstById$(id: string): Observable<Dienst> {
     return this.http.get(`${environment.apiUrl}/Dienst/${id}`).pipe(
       catchError(error => {
-        return of(null);
+        return throwError(error);
       }),
       map((d: any): Dienst => {
         d = Dienst.fromJSON(d);
@@ -87,7 +87,7 @@ export class DienstService {
   getAllDiensten$(): Observable<any[]> {
     return this.http.get(`${environment.apiUrl}/Dienst/getAll`).pipe(
       catchError(error => {
-        return of(null);
+        return throwError(error);
       }),
       map((list: any[]): any[] => {
         list = list.map(Dienst.fromJSON)

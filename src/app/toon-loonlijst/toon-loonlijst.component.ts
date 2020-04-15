@@ -77,14 +77,14 @@ export class ToonLoonlijstComponent implements OnInit {
       if (this.feestdagen.find(t => t.dag.toDateString() == date.toDateString())) {
         result.push({
           jaar: date.getFullYear(),
-          maand: this.maand.format("MMMM"),
+          maand: this.maand.format("MM"),
           nummer: date.getDate(),
           naam: names[0]
         });
       } else {
         result.push({
           jaar: date.getFullYear(),
-          maand: this.maand.format("MMMM"),
+          maand: this.maand.format("MM"),
           nummer: date.getDate(),
           naam: names[date.getDay()]
         });

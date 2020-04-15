@@ -72,7 +72,7 @@ export class FeestdagenAanpassenComponent implements OnInit {
     this.feestdagenService.postAllFeestdagen$(this.feestdagen).subscribe(
       val => {
         if (val) {
-          this.successMessage = "Feestdagen werden aangepast!";
+          this.successMessage = "Feestdag(en) werd(en) aangepast!";
         }
       },
       error => {

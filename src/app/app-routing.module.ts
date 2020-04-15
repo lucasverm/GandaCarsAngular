@@ -13,6 +13,8 @@ import { DienstWijzigenComponent } from './dienst-wijzigen/dienst-wijzigen.compo
 import { BusChauffeurWijzigenComponent } from './bus-chauffeur-wijzigen/bus-chauffeur-wijzigen.component';
 import { ToonLoonlijstComponent } from './toon-loonlijst/toon-loonlijst.component';
 import { FeestdagenAanpassenComponent } from './feestdagen-aanpassen/feestdagen-aanpassen.component';
+import { EffectieveWeekWijzigenComponent } from './effectieve-week-wijzigen/effectieve-week-wijzigen.component';
+import { EffectieveDienstenResolver } from './resolvers/effectieve-diensten.resolver';
 
 
 const routes: Routes = [
@@ -55,6 +57,11 @@ const routes: Routes = [
   {
     path: 'feestdagen-aanpassen',
     component: FeestdagenAanpassenComponent
+  },
+  {
+    path: 'effectieve-week-wijzigen/:jaar/:week/:buschauffeurid',
+    component: EffectieveWeekWijzigenComponent,
+    resolve: { effectieveDiensten: EffectieveDienstenResolver },
   },
   /*
   {
