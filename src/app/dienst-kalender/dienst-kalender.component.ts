@@ -21,6 +21,19 @@ export class dienstKalenderComponent {
   public api;
   @Input() busChauffeur: BusChauffeur;
   calendarPlugins = [timeGridPlugin, bootstrapPlugin];
+  getCustomButtons = {
+    vorige: {
+      //text: "ttt",
+      bootstrapFontAwesome: "fa-arrow-left",
+      click: this.veranderWeekPrev.bind(this)
+    },
+    volgende: {
+      //text: "zzz",
+      bootstrapFontAwesome: "fa-arrow-right",
+      click: this.veranderWeekNext.bind(this)
+    }
+  }
+
 
   constructor(private router: Router, private feestdagenService: FeestdagenService) { }
 
@@ -72,31 +85,14 @@ export class dienstKalenderComponent {
 
   }
 
-  veranderWeek() {
-    //console.log("test");
+  public veranderWeekNext() {
+    this.api.next();
   }
 
-  getCustomButtons() {
-    var that = this;
-    return {
-      vorige: {
-        text: "ttt",
-        //bootstrapFontAwesome: "fa-arrow-left",
-        click: function () {
-          // that.veranderWeek();
-          // that.api.prev();
-        }
-      },
-      volgende: {
-        text: "zzz",
-        ///bootstrapFontAwesome: "fa-arrow-right",
-        click: function () {
-          //that.veranderWeek();
-          //that.api.next();
-        }
-      }
-    }
+  public veranderWeekPrev() {
+    this.api.prev();
   }
+
   getHeader() {
     return {
       left: 'title',

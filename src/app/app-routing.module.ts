@@ -15,6 +15,7 @@ import { ToonLoonlijstComponent } from './toon-loonlijst/toon-loonlijst.componen
 import { FeestdagenAanpassenComponent } from './feestdagen-aanpassen/feestdagen-aanpassen.component';
 import { EffectieveWeekWijzigenComponent } from './effectieve-week-wijzigen/effectieve-week-wijzigen.component';
 import { EffectieveDienstenResolver } from './resolvers/effectieve-diensten.resolver';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
 const routes: Routes = [
@@ -63,6 +64,15 @@ const routes: Routes = [
     component: EffectieveWeekWijzigenComponent,
     resolve: { effectieveDiensten: EffectieveDienstenResolver },
   },
+  {
+    path: '',
+    redirectTo: 'buschauffeur-overzicht',
+    pathMatch: "full"
+  },
+  {
+    path: '**',
+    component: PageNotFoundComponent
+  }
   /*
   {
     path: '',

@@ -22,6 +22,7 @@ import { ToonLoonlijstComponent } from './toon-loonlijst/toon-loonlijst.componen
 import { FeestdagenAanpassenComponent } from './feestdagen-aanpassen/feestdagen-aanpassen.component';
 import * as moment from 'moment';
 import { EffectieveWeekWijzigenComponent } from './effectieve-week-wijzigen/effectieve-week-wijzigen.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 // the second parameter 'fr-FR' is optional
 registerLocaleData(localeBe);
@@ -42,7 +43,8 @@ moment.locale('nl-be');
     BusChauffeurWijzigenComponent,
     ToonLoonlijstComponent,
     FeestdagenAanpassenComponent,
-    EffectieveWeekWijzigenComponent
+    EffectieveWeekWijzigenComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
