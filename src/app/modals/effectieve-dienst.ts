@@ -10,6 +10,8 @@ export class EffectieveDienst {
 	einde: Date;
 	busChauffeurId: BusChauffeur;
 	stationnementen: Stationnement[];
+	gerelateerdeDienst: EffectieveDienst;
+	dagVanToevoegen: Date;
 
 	static fromJSON(json: any): EffectieveDienst {
 		var item = new EffectieveDienst();
@@ -19,6 +21,8 @@ export class EffectieveDienst {
 		item.einde = new Date(json.eind);
 		item.busChauffeurId = json.busChauffeur.id;
 		item.stationnementen = json.stationnementen.map(Stationnement.fromJSON)
+		item.gerelateerdeDienst = json.gerelateerdeDienst;
+		item.dagVanToevoegen = json.dagVanToevoegen;
 		return item;
 	}
 }

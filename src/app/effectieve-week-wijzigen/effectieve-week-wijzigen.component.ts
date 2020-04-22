@@ -18,12 +18,22 @@ import { EffectieveDienstService } from '../services/effectieve-dienst.service';
 export class EffectieveWeekWijzigenComponent implements OnInit {
   public errorMessage: String = null;
   public effectieveDienstenAanpassenFormulier: FormGroup;
-  public effectieveDiensten: EffectieveDienst[];
+  public effectieveDiensten: EffectieveDienst[] = [];
   public busChauffeur: BusChauffeur;
+  public console = console;
 
   constructor(private router: Router, private route: ActivatedRoute, public fb: FormBuilder, private busChauffeurService: BusChauffeurService, private effectieveDienstenService: EffectieveDienstService) {
     this.route.data.subscribe(data => {
-      this.effectieveDiensten = data['effectieveDiensten'];
+      data['effectieveDiensten'].forEach(ed => {
+        if (ed.gerelateerdeDienst != undefined) {
+          if (ed.start < new Date(ed.gerelateerdeDienst.start)) {
+            ed.einde = new Date(ed.gerelateerdeDienst.eind);
+            this.effectieveDiensten.push(ed);
+          }
+        } else {
+          this.effectieveDiensten.push(ed);
+        }
+      });
     });
   }
 
@@ -56,7 +66,10 @@ export class EffectieveWeekWijzigenComponent implements OnInit {
   }
 
   get effectieveDienstenForm() {
-    return this.effectieveDienstenAanpassenFormulier.get('effectieveDienstenForm') as FormArray;
+    let uitvoer = this.effectieveDienstenAanpassenFormulier.get('effectieveDienstenForm') as FormArray;
+    console.log(uitvoer);
+
+    return uitvoer;
   }
 
   stationnementen(i) {
@@ -94,6 +107,19 @@ export class EffectieveWeekWijzigenComponent implements OnInit {
     item.controls.stationnementenVisible.value = !item.controls.stationnementenVisible.value
   }
 
+  reset() {
+    this.effectieveDienstenService.deleteEffectieveDiensten$(this.route.snapshot.params['jaar'], this.route.snapshot.params['week'], this.route.snapshot.params['buschauffeurid']).subscribe(
+      val => {
+        if (val) {
+          this.router.navigate([`../buschauffeur-info/${this.route.snapshot.params['buschauffeurid']}`]);
+        }
+      },
+      (error: HttpErrorResponse) => {
+        this.errorMessage = error.error;
+      }
+    );
+  }
+
   effectieveDienstenAanpassen() {
     let effectieveDienstenToUpload: EffectieveDienst[] = [];
     this.effectieveDienstenAanpassenFormulier.value.effectieveDienstenForm.forEach(ed => {
@@ -119,7 +145,6 @@ export class EffectieveWeekWijzigenComponent implements OnInit {
       val => {
         if (val) {
           this.router.navigate([`../buschauffeur-info/${this.route.snapshot.params['buschauffeurid']}`]);
-
         }
       },
       (error: HttpErrorResponse) => {

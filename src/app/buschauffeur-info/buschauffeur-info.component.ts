@@ -19,7 +19,6 @@ export class BuschauffeurInfoComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
 }

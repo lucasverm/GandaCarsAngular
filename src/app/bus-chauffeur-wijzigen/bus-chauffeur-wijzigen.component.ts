@@ -38,7 +38,6 @@ export class BusChauffeurWijzigenComponent implements OnInit {
   }
 
   chauffeurWijzigen() {
-    console.log(this.getDateForInput(this.busChauffeur.geboorteDatum));
     this.busChauffeur.voornaam = this.busChauffeurWijzigenFormulier.value.voornaam;
     this.busChauffeur.achternaam = this.busChauffeurWijzigenFormulier.value.achternaam;
     this.busChauffeur.email = this.busChauffeurWijzigenFormulier.value.email;

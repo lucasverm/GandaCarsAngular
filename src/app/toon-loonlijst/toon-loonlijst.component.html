@@ -57,10 +57,10 @@
                     </thead>
                     <ng-container *ngIf="!loadingDiensten; else loadingItemsError">
                       <tbody>
-                        <tr *ngFor="let item of dagenInHuidigeMaand()">
+                        <tr *ngFor="let item of data">
                           <td>{{item.nummer}}-{{item.maand}}-{{item.jaar}} {{item.naam}}</td>
                           <td>1</td>
-                          <td>00:00</td>
+                          <td>{{ msToTime(item.rijtijd) }}</td>
                           <td>00:00</td>
                           <td>00:00</td>
                           <td>00:00</td>

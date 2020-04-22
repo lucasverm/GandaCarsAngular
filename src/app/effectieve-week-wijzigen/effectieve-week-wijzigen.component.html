@@ -3,7 +3,10 @@
 
     <div class="card marginTop10">
       <div class="card-header">
-        <h2><i class="fa fa-fw fa-clock"></i><strong> Week wijzigen</strong></h2>
+        <h2 class="d-inline"><i class="fa fa-fw fa-clock"></i><strong> Week wijzigen</strong></h2>
+        <button type="button" class="btn btn-primary float-right d-inline" (click)="addEffectieveDienst()"><i
+            class="fa fa-fw fa-plus-circle"></i> Dienst
+          toevoegen</button>
       </div>
       <div class="card-body">
         <form [formGroup]="effectieveDienstenAanpassenFormulier" class="row" (ngSubmit)='effectieveDienstenAanpassen()'>
@@ -39,11 +42,13 @@
                     <label for="eindUur">Einde: </label>
                     <input type="datetime-local" class="form-control" id="eindUur" formControlName="eind">
                   </div>
-                  <div class="col-12 col-md-6 col-lg-4 align-self-end">
-                    <button type="button" class="btn btn-danger" (click)="deleteEffectieveDienst(i)">Verwijder</button>
-                    <button type="button" class="btn btn-primary"
-                      (click)="changeStationementVisibility(item)">Stationement
-                      aanpassen</button>
+                  <div class="col-12 col-md-6 col-lg-2 align-self-end">
+                    <button type="button" class="btn btn-danger width100"
+                      (click)="deleteEffectieveDienst(i)">Verwijder</button>
+                  </div>
+                  <div class="col-12 col-md-6 col-lg-2 align-self-end">
+                    <button type="button" class="btn btn-primary width100"
+                      (click)="changeStationementVisibility(item)">Stationementen</button>
                   </div>
                   <!-- stationnementen!-->
                   <div class="col-12 marginBottom1O" formArrayName="stationnementen"
@@ -53,7 +58,7 @@
                       <div class="col-12 col-md-6 col-lg-3">
                         <label for="aantalMinuten">Totaal aantal minuten: </label>
                         <div class="input-group mb-3">
-                          <input type="num" class="form-control" id="aantalMinuten" formControlName="aantalMinuten">
+                          <input type="number" class="form-control" id="aantalMinuten" formControlName="aantalMinuten">
                           <div class="input-group-append">
                             <span class="input-group-text">Minuten</span>
                           </div>
@@ -83,14 +88,13 @@
                 </div>
               </div>
               <div class="col-12 col-md-5 col-lg-3 text-left">
-                <button type="button" class="btn btn-primary width100" (click)="addEffectieveDienst()"><i
-                    class="fa fa-fw fa-plus-circle"></i> Dienst
-                  toevoegen</button>
-              </div>
-              <div class="col-12 col-md-5 col-lg-2 text-left">
                 <button type="submit" class="btn btn-success width100"
                   [disabled]='!effectieveDienstenAanpassenFormulier.valid'><i class="fa fa-fw fa-save"></i> Week
                   opslaan!</button>
+              </div>
+              <div class="col-12 col-md-5 col-lg-3 text-left">
+                <button type="button" class="btn btn-danger width100" (click)="reset()"><i
+                    class=" fa fa-fw fa-redo-alt"></i> Reset naar template</button>
               </div>
             </div>
           </div>

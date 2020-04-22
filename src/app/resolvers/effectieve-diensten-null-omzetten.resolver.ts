@@ -10,13 +10,13 @@ import { EffectieveDienstService } from '../services/effectieve-dienst.service';
 @Injectable({
 	providedIn: "root"
 })
-export class EffectieveDienstenResolver implements Resolve<EffectieveDienst[]> {
+export class EffectieveDienstenNullOmzettenResolver implements Resolve<EffectieveDienst[]> {
 	constructor(private effectieveDienstService: EffectieveDienstService) { }
 
 	resolve(
 		route: ActivatedRouteSnapshot,
 		state: RouterStateSnapshot
 	): Observable<EffectieveDienst[]> {
-		return this.effectieveDienstService.getEffectieveDiensten$(route.params["jaar"], route.params["week"], route.params["buschauffeurid"]);
+		return this.effectieveDienstService.getEffectievieDienstenNullDienstenNaarEffectieveDiensten$(route.params["jaar"], route.params["week"], route.params["buschauffeurid"]);
 	}
 }

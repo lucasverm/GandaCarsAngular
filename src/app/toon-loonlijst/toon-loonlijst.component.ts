@@ -5,6 +5,8 @@ import { ExcelService } from '../services/excel.service';
 import * as moment from 'moment';
 import { FeestdagenService } from '../services/feestdagen.service';
 import { Feestdag } from '../modals/feestdag';
+import { EffectieveDienstService } from '../services/effectieve-dienst.service';
+import { EffectieveDienst } from '../modals/effectieve-dienst';
 
 @Component({
   selector: 'app-toon-loonlijst',
@@ -13,8 +15,8 @@ import { Feestdag } from '../modals/feestdag';
 })
 export class ToonLoonlijstComponent implements OnInit {
 
-  //https://medium.com/@madhavmahesh/exporting-an-excel-file-in-angular-927756ac9857
-  public busChauffeur: BusChauffeur;
+  /*//https://medium.com/@madhavmahesh/exporting-an-excel-file-in-angular-927756ac9857
+  
   data: any = [{
     eid: 'e101',
     ename: 'ravi',
@@ -27,17 +29,20 @@ export class ToonLoonlijstComponent implements OnInit {
     eid: 'e103',
     ename: 'rajesh',
     esal: 3000
-  }];
-
+  }];*/
+  public busChauffeur: BusChauffeur;
   public maand: moment.Moment = moment();
   public feestdagen: Feestdag[] = [];
   public errorMessage: string;
   public successMessage: string;
   public loading = true;
+  public effectieveDiensten: EffectieveDienst[];
+  public data: any[];
 
-  constructor(private router: Router, private route: ActivatedRoute, public excelService: ExcelService, public feestdagenService: FeestdagenService) {
+  constructor(private router: Router, private route: ActivatedRoute, public excelService: ExcelService, public feestdagenService: FeestdagenService, public effectieveDienstenService: EffectieveDienstService) {
     this.route.data.subscribe(data => {
       this.busChauffeur = data['busChauffeur'];
+      this.effectieveDiensten = data['effectieveDiensten'];
     });
   }
 
@@ -46,6 +51,7 @@ export class ToonLoonlijstComponent implements OnInit {
       val => {
         if (val) {
           this.feestdagen = val;
+          this.loadLijst();
           this.loading = false;
         }
       },
@@ -56,12 +62,35 @@ export class ToonLoonlijstComponent implements OnInit {
   }
 
   veranderHuidigeMaand(met: number) {
+    this.loading = true;
     if (met < 0) {
       this.maand.subtract(1, 'months');
     } else {
       this.maand.add(1, 'months');
     }
+    this.effectieveDienstenService.getEffectieveDienstenByMonth$(this.maand.year(), this.maand.month(), this.busChauffeur.id).subscribe(
+      val => {
+        if (val) {
+          this.effectieveDiensten = val;
+          this.loading = false;
+          this.loadLijst();
+        }
+      },
+      error => {
+        this.errorMessage = error.error;
+        this.loading = false;
+      }
+    )
+  }
 
+  loadLijst() {
+    var dagenInHuidigeMaand = this.dagenInHuidigeMaand();
+    this.effectieveDiensten.forEach(dienst => {
+      var start = moment(dienst.start)
+      var einde = moment(dienst.einde)
+      dagenInHuidigeMaand[dienst.start.getDate() - 1].rijtijd += einde.diff(start);
+    })
+    this.data = dagenInHuidigeMaand;
   }
 
   getHuidigeMaand() {
@@ -79,35 +108,35 @@ export class ToonLoonlijstComponent implements OnInit {
           jaar: date.getFullYear(),
           maand: this.maand.format("MM"),
           nummer: date.getDate(),
-          naam: names[0]
+          naam: names[0],
+          rijtijd: 0,
         });
       } else {
         result.push({
           jaar: date.getFullYear(),
           maand: this.maand.format("MM"),
           nummer: date.getDate(),
-          naam: names[date.getDay()]
+          naam: names[date.getDay()],
+          rijtijd: 0,
         });
       }
 
       date.setDate(date.getDate() + 1);
 
     }
-
     return result;
   }
 
 
-  createRange(number) {
-    var items: number[] = [];
-    for (var i = 1; i <= number; i++) {
-      items.push(i);
-    }
-    return items;
+  printLoonlijst(): void {
+    // this.excelService.exportAsExcelFile(this.data, 'sample');
   }
 
-  printLoonlijst(): void {
-    this.excelService.exportAsExcelFile(this.data, 'sample');
+  msToTime(duration) {
+    var tijd = moment.duration(duration);
+    var hours = tijd.hours().toString().length == 1 ? 0 + tijd.hours().toString() : tijd.hours().toString();
+    var minutes = tijd.minutes().toString().length == 1 ? 0 + tijd.minutes().toString() : tijd.minutes().toString();
+    return `${hours}:${minutes}`;
   }
 
 }

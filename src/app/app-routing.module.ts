@@ -16,7 +16,8 @@ import { FeestdagenAanpassenComponent } from './feestdagen-aanpassen/feestdagen-
 import { EffectieveWeekWijzigenComponent } from './effectieve-week-wijzigen/effectieve-week-wijzigen.component';
 import { EffectieveDienstenResolver } from './resolvers/effectieve-diensten.resolver';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-
+import { EffectieveDienstenNullOmzettenResolver } from './resolvers/effectieve-diensten-null-omzetten.resolver';
+import { EffectieveDienstenByMonthResolver } from './resolvers/effectieve-diensten-by-month.resolver';
 
 const routes: Routes = [
   {
@@ -53,7 +54,10 @@ const routes: Routes = [
   {
     path: 'toon-loonlijst/:id',
     component: ToonLoonlijstComponent,
-    resolve: { busChauffeur: BusChauffeurResolver },
+    resolve: {
+      busChauffeur: BusChauffeurResolver,
+      effectieveDiensten: EffectieveDienstenByMonthResolver
+    },
   },
   {
     path: 'feestdagen-aanpassen',
@@ -62,7 +66,7 @@ const routes: Routes = [
   {
     path: 'effectieve-week-wijzigen/:jaar/:week/:buschauffeurid',
     component: EffectieveWeekWijzigenComponent,
-    resolve: { effectieveDiensten: EffectieveDienstenResolver },
+    resolve: { effectieveDiensten: EffectieveDienstenNullOmzettenResolver },
   },
   {
     path: '',

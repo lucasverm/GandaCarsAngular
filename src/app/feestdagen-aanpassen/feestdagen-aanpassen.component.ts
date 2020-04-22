@@ -76,8 +76,6 @@ export class FeestdagenAanpassenComponent implements OnInit {
         }
       },
       error => {
-        console.log(error);
-
         this.errorMessage = error.error;
       }
     );
