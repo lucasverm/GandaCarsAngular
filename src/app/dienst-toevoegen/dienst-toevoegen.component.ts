@@ -6,7 +6,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { DagenVanDeWeek } from '../modals/dagen-van-de-week.enum';
 import { BusChauffeur } from '../modals/bus-chauffeur';
 import { DienstService } from '../services/dienst.service';
-import { Stationnement } from '../modals/stationnement';
 
 @Component({
   selector: 'app-dienst-toevoegen',
@@ -33,7 +32,7 @@ export class DienstToevoegenComponent implements OnInit {
       startUur: ['', [Validators.required]],
       eindUur: ['', [Validators.required]],
       busChauffeur: ['', [Validators.required]],
-      stationnementen: this.fb.array([])
+      totaalAantalMinutenStationnement: [0, [Validators.required]]
     })
 
     this.busChauffeurService.getAllBusCheuffeurs$().subscribe(
@@ -48,27 +47,7 @@ export class DienstToevoegenComponent implements OnInit {
     )
   }
 
-  get stationnementen() {
-    return this.dienstToevoegenFormulier.get('stationnementen') as FormArray;
-  }
-
-  addstationnementPoint() {
-    this.stationnementen.push(this.fb.group({ id: '', aantalMinuten: '', percentage: '' }));
-  }
-
-  deletestationnementPoint(index) {
-    this.stationnementen.removeAt(index);
-  }
-
   dienstToevoegen() {
-    let stationnementen = [];
-    this.dienstToevoegenFormulier.value.stationnementen.forEach(s => {
-      let stass = new Stationnement();
-      s.id = ""
-      stass.aantalMinuten = s.aantalMinuten
-      stass.percentage = s.percentage;
-      stationnementen.push(stass);
-    })
     this.errorMessage = null;
     this.dienstService.addDienst$(
       this.dienstToevoegenFormulier.value.naam,
@@ -77,7 +56,7 @@ export class DienstToevoegenComponent implements OnInit {
       this.dienstToevoegenFormulier.value.eindDag,
       this.dienstToevoegenFormulier.value.eindUur,
       this.dienstToevoegenFormulier.value.busChauffeur,
-      stationnementen).subscribe(
+      this.dienstToevoegenFormulier.value.totaalAantalMinutenStationnement).subscribe(
         val => {
           if (val) {
             this.router.navigate([`../dienst-overzicht`]);

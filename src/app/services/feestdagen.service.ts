@@ -6,7 +6,6 @@ import { Feestdag } from '../modals/feestdag';
 import { environment } from 'src/environments/environment';
 import { catchError, map } from 'rxjs/operators';
 import { Dienst } from '../modals/dienst';
-import { Stationnement } from '../modals/stationnement';
 
 @Injectable({
   providedIn: 'root'

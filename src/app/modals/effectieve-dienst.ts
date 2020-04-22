@@ -1,5 +1,4 @@
 import { BusChauffeur } from './bus-chauffeur';
-import { Stationnement } from './stationnement';
 import { Dienst } from './dienst';
 import { DagenVanDeWeek } from './dagen-van-de-week.enum';
 
@@ -9,7 +8,7 @@ export class EffectieveDienst {
 	start: Date;
 	einde: Date;
 	busChauffeurId: BusChauffeur;
-	stationnementen: Stationnement[];
+	totaalAantalMinutenStationnement: number;
 	gerelateerdeDienst: EffectieveDienst;
 	dagVanToevoegen: Date;
 
@@ -20,7 +19,7 @@ export class EffectieveDienst {
 		item.start = new Date(json.start);
 		item.einde = new Date(json.eind);
 		item.busChauffeurId = json.busChauffeur.id;
-		item.stationnementen = json.stationnementen.map(Stationnement.fromJSON)
+		item.totaalAantalMinutenStationnement = json.totaalAantalMinutenStationnement
 		item.gerelateerdeDienst = json.gerelateerdeDienst;
 		item.dagVanToevoegen = json.dagVanToevoegen;
 		return item;

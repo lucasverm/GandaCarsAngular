@@ -26,6 +26,7 @@
                       <th scope="col">Naam</th>
                       <th scope="col">Vanaf</th>
                       <th scope="col">Tot</th>
+                      <th scope="col"># min stationnement</th>
                       <th scope="col">Chauffeur</th>
                       <th scope="col">Acties</th>
                     </tr>
@@ -37,6 +38,7 @@
                         <td (click)="redirectTo(item)">{{item.naam}}</td>
                         <td (click)="redirectTo(item)">{{item.startDag.naam }} - {{item.startUur | date: "HH:mm" }}</td>
                         <td (click)="redirectTo(item)">{{item.eindDag.naam }} - {{item.eindUur | date: "HH:mm" }}</td>
+                        <td (click)="redirectTo(item)">{{item.totaalAantalMinutenStationnement }}</td>
                         <td (click)="redirectTo(item)" *ngIf="item.busChauffeur != null">{{item.busChauffeur.voornaam}}
                           {{item.busChauffeur.achternaam}}</td>
                         <td (click)="redirectTo(item)" *ngIf="item.busChauffeur == null">Geen chauffeur geselecteerd

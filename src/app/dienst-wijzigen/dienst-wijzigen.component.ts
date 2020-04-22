@@ -7,7 +7,6 @@ import { DienstService } from '../services/dienst.service';
 import { BusChauffeurService } from '../services/bus-chauffeur.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Dienst } from '../modals/dienst';
-import { Stationnement } from '../modals/stationnement';
 import { _ } from 'underscore';
 
 @Component({
@@ -36,9 +35,8 @@ export class DienstWijzigenComponent implements OnInit {
       startUur: [this.dienst.startUur.toLocaleTimeString(), [Validators.required]],
       eindUur: [this.dienst.eindUur.toLocaleTimeString(), [Validators.required]],
       busChauffeur: [this.dienst.busChauffeur ? this.dienst.busChauffeur.id : '', [Validators.required]],
-      stationnementen: this.fb.array([])
+      totaalAantalMinutenStationnement: [this.dienst.totaalAantalMinutenStationnement, [Validators.required]]
     })
-    this.initStationnementen();
     this.busChauffeurService.getAllBusCheuffeurs$().subscribe(
       val => {
         if (val) {
@@ -51,24 +49,6 @@ export class DienstWijzigenComponent implements OnInit {
     )
   }
 
-  initStationnementen() {
-    this.dienst.stationnementen.forEach(s => {
-      this.stationnementen.push(this.fb.group({ id: s.id, aantalMinuten: s.aantalMinuten, percentage: s.percentage }));
-    })
-  }
-
-  get stationnementen() {
-    return this.dienstWijzigenFormulier.get('stationnementen') as FormArray;
-  }
-
-  addstationnementPoint() {
-    this.stationnementen.push(this.fb.group({ id: '', aantalMinuten: '', percentage: '' }));
-  }
-
-  deletestationnementPoint(index) {
-    this.stationnementen.removeAt(index);
-  }
-
   dienstWijzigen() {
     this.dienst.naam = this.dienstWijzigenFormulier.value.naam;
     this.dienst.startDag = this.dienstWijzigenFormulier.value.startDag;
@@ -76,18 +56,7 @@ export class DienstWijzigenComponent implements OnInit {
     this.dienst.eindDag = this.dienstWijzigenFormulier.value.eindDag;
     this.dienst.eindUur = this.dienstWijzigenFormulier.value.eindUur;
     this.dienst.busChauffeur = this.busChauffeurs.find(t => t.id == this.dienstWijzigenFormulier.value.busChauffeur);
-    this.dienst.stationnementen = [];
-    this.dienstWijzigenFormulier.value.stationnementen.forEach(s => {
-      let stass = new Stationnement();
-      if (s.id != null) {
-        stass.id = s.id
-      } else {
-        s.id = ""
-      }
-      stass.aantalMinuten = s.aantalMinuten
-      stass.percentage = s.percentage;
-      this.dienst.stationnementen.push(stass);
-    })
+    this.dienst.totaalAantalMinutenStationnement = this.dienstWijzigenFormulier.value.totaalAantalMinutenStationnement;
     this.dienstService.putDienst$(this.dienst).subscribe(
       val => {
         if (val) {

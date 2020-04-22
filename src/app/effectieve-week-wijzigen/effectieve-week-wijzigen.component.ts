@@ -5,7 +5,6 @@ import { FormGroup, Validators, FormArray, FormBuilder } from '@angular/forms';
 import { DagenVanDeWeek } from '../modals/dagen-van-de-week.enum';
 import { BusChauffeur } from '../modals/bus-chauffeur';
 import { Dienst } from '../modals/dienst';
-import { Stationnement } from '../modals/stationnement';
 import { BusChauffeurService } from '../services/bus-chauffeur.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { EffectieveDienstService } from '../services/effectieve-dienst.service';
@@ -51,41 +50,14 @@ export class EffectieveWeekWijzigenComponent implements OnInit {
         start: [this.getDateForInput(s.start), [Validators.required]],
         eind: [this.getDateForInput(s.einde), [Validators.required]],
         naam: [s.naam, [Validators.required]],
-        stationnementen: this.fb.array([]),
-        stationnementenVisible: false
+        totaalAantalMinutenStationnement: [s.totaalAantalMinutenStationnement, [Validators.required]],
       }));
-      var stationnementen = this.effectieveDienstenForm.at(this.effectieveDienstenForm.length - 1).get('stationnementen') as FormArray
-      s.stationnementen.forEach(stat => {
-        stationnementen.push(this.fb.group({
-          id: stat.id,
-          aantalMinuten: [stat.aantalMinuten, [Validators.required]],
-          percentage: [stat.percentage, [Validators.required]]
-        }));
-      })
     })
   }
 
   get effectieveDienstenForm() {
     let uitvoer = this.effectieveDienstenAanpassenFormulier.get('effectieveDienstenForm') as FormArray;
-    console.log(uitvoer);
-
     return uitvoer;
-  }
-
-  stationnementen(i) {
-    return this.effectieveDienstenForm.controls[i].get('stationnementen') as FormArray
-  }
-
-  addStationnement(i) {
-    this.stationnementen(i).push(this.fb.group({
-      id: '',
-      aantalMinuten: ['', [Validators.required]],
-      percentage: ['', [Validators.required]]
-    }));
-  }
-
-  deleteStationnement(i, index) {
-    this.stationnementen(i).removeAt(index);
   }
 
   addEffectieveDienst() {
@@ -94,17 +66,12 @@ export class EffectieveWeekWijzigenComponent implements OnInit {
       start: ['', [Validators.required]],
       eind: ['', [Validators.required]],
       naam: ['', [Validators.required]],
-      stationnementen: this.fb.array([]),
-      stationnementenVisible: false
+      totaalAantalMinutenStationnement: [0, [Validators.required]]
     }));
   }
 
   deleteEffectieveDienst(index) {
     this.effectieveDienstenForm.removeAt(index);
-  }
-
-  changeStationementVisibility(item) {
-    item.controls.stationnementenVisible.value = !item.controls.stationnementenVisible.value
   }
 
   reset() {
@@ -131,14 +98,7 @@ export class EffectieveWeekWijzigenComponent implements OnInit {
       dienst.start = ed.start;
       dienst.einde = ed.eind;
       dienst.busChauffeurId = this.route.snapshot.params['buschauffeurid'];
-      dienst.stationnementen = [];
-      ed.stationnementen.forEach(stass => {
-        let s = new Stationnement();
-        s.id = stass.id;
-        s.aantalMinuten = stass.aantalMinuten;
-        s.percentage = stass.percentage;
-        dienst.stationnementen.push(s);
-      })
+      dienst.totaalAantalMinutenStationnement = ed.totaalAantalMinutenStationnement;
       effectieveDienstenToUpload.push(dienst);
     })
     this.effectieveDienstenService.postEffectieveDiensten$(this.route.snapshot.params['jaar'], this.route.snapshot.params['week'], this.route.snapshot.params['buschauffeurid'], effectieveDienstenToUpload).subscribe(
