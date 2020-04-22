@@ -6,6 +6,7 @@ import { catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { BusChauffeur } from '../modals/bus-chauffeur';
 import { Dienst } from '../modals/dienst';
+import { Onderbreking } from '../modals/onderbreking';
 
 @Injectable({
   providedIn: 'root'
@@ -33,9 +34,9 @@ export class DienstService {
     eindDag: number,
     eindUur: Date,
     busChauffeurId: string,
-    totaalAantalMinutenStationnement: number): Observable<Dienst> {
+    totaalAantalMinutenStationnement: number, onderbrekingen: Onderbreking[]): Observable<Dienst> {
     return this.http.post<Dienst>(`${environment.apiUrl}/Dienst`,
-      { naam, startUur, eindUur, startDag, eindDag, busChauffeurId, totaalAantalMinutenStationnement }, { responseType: 'json' })
+      { naam, startUur, eindUur, startDag, eindDag, busChauffeurId, totaalAantalMinutenStationnement, onderbrekingen }, { responseType: 'json' })
       .pipe(
         catchError(error => {
           return throwError(error);
@@ -69,7 +70,8 @@ export class DienstService {
         eindDag: dienst.eindDag,
         eindUur: dienst.eindUur,
         busChauffeurId: dienst.busChauffeur.id,
-        totaalAantalMinutenStationnement: dienst.totaalAantalMinutenStationnement
+        totaalAantalMinutenStationnement: dienst.totaalAantalMinutenStationnement,
+        onderbrekingen: dienst.onderbrekingen
       }, { responseType: 'json' })
       .pipe(
         catchError(error => {

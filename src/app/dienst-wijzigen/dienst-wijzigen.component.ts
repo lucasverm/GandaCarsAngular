@@ -8,6 +8,7 @@ import { BusChauffeurService } from '../services/bus-chauffeur.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Dienst } from '../modals/dienst';
 import { _ } from 'underscore';
+import { Onderbreking } from '../modals/onderbreking';
 
 @Component({
   selector: 'app-dienst-wijzigen',
@@ -35,8 +36,10 @@ export class DienstWijzigenComponent implements OnInit {
       startUur: [this.dienst.startUur.toLocaleTimeString(), [Validators.required]],
       eindUur: [this.dienst.eindUur.toLocaleTimeString(), [Validators.required]],
       busChauffeur: [this.dienst.busChauffeur ? this.dienst.busChauffeur.id : '', [Validators.required]],
-      totaalAantalMinutenStationnement: [this.dienst.totaalAantalMinutenStationnement, [Validators.required]]
+      totaalAantalMinutenStationnement: [this.dienst.totaalAantalMinutenStationnement, [Validators.required]],
+      onderbrekingen: this.fb.array([])
     })
+    this.initOnderbrekingen();
     this.busChauffeurService.getAllBusCheuffeurs$().subscribe(
       val => {
         if (val) {
@@ -49,6 +52,36 @@ export class DienstWijzigenComponent implements OnInit {
     )
   }
 
+  initOnderbrekingen() {
+    this.dienst.onderbrekingen.forEach(s => {
+      this.onderbrekingen.push(this.fb.group({
+        id: [s.id],
+        startUur: [s.startUur.toLocaleTimeString(), [Validators.required]],
+        eindUur: [s.eindUur.toLocaleTimeString(), [Validators.required]],
+        startDag: [s.startDag.value, [Validators.required]],
+        eindDag: [s.eindDag.value, [Validators.required]]
+      }));
+    })
+  }
+
+  get onderbrekingen() {
+    return this.dienstWijzigenFormulier.get('onderbrekingen') as FormArray;
+  }
+
+  addOnderbreking() {
+    this.onderbrekingen.push(this.fb.group({
+      id: [''],
+      startUur: ['', [Validators.required]],
+      eindUur: ['', [Validators.required]],
+      startDag: ['', [Validators.required]],
+      eindDag: ['', [Validators.required]],
+    }));
+  }
+
+  deleteOnderbreking(index) {
+    this.onderbrekingen.removeAt(index);
+  }
+
   dienstWijzigen() {
     this.dienst.naam = this.dienstWijzigenFormulier.value.naam;
     this.dienst.startDag = this.dienstWijzigenFormulier.value.startDag;
@@ -57,6 +90,21 @@ export class DienstWijzigenComponent implements OnInit {
     this.dienst.eindUur = this.dienstWijzigenFormulier.value.eindUur;
     this.dienst.busChauffeur = this.busChauffeurs.find(t => t.id == this.dienstWijzigenFormulier.value.busChauffeur);
     this.dienst.totaalAantalMinutenStationnement = this.dienstWijzigenFormulier.value.totaalAantalMinutenStationnement;
+    this.dienst.onderbrekingen = [];
+    this.dienstWijzigenFormulier.value.onderbrekingen.forEach(s => {
+      let ond = new Onderbreking();
+      if (s.id != null) {
+        ond.id = s.id
+      } else {
+        s.id = ""
+      }
+      ond.startUur = s.startUur;
+      ond.eindUur = s.eindUur;
+      ond.startDag = s.startDag;
+      ond.eindDag = s.eindDag;
+      this.dienst.onderbrekingen.push(ond);
+    })
+
     this.dienstService.putDienst$(this.dienst).subscribe(
       val => {
         if (val) {

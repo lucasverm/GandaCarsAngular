@@ -3,7 +3,7 @@
 
     <div class="card marginTop10">
       <div class="card-header">
-        <h2><i class="fa fa-fw fa-user-tie"></i><strong> Buschauffeur wijzigen</strong></h2>
+        <h2 class="d-inline"><i class="fa fa-fw fa-user-tie"></i><strong> Buschauffeur wijzigen</strong></h2>
       </div>
       <div class="card-body">
         <form [formGroup]="busChauffeurWijzigenFormulier" class="row" (ngSubmit)='chauffeurWijzigen()'>
@@ -14,7 +14,7 @@
             <div class="alert alert-danger" role="alert" [hidden]="errorMessage == null">
               {{errorMessage}}
             </div>
-            <h5 class="card-title"><i class="fa fa-fw fa-search"></i> Algemeen: </h5>
+            <h5 class="card-title"><i class="fa fa-fw fa-globe"></i> Algemeen: </h5>
             <div class="row align-bottom">
               <div class="col-12 col-sm-6 col-md-4">
                 <label for="voornaam" class="marginTop10">Voornaam</label>

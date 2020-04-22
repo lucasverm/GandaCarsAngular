@@ -1,12 +1,13 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { BusChauffeur } from '../modals/bus-chauffeur';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ExcelService } from '../services/excel.service';
 import * as moment from 'moment';
 import { FeestdagenService } from '../services/feestdagen.service';
 import { Feestdag } from '../modals/feestdag';
 import { EffectieveDienstService } from '../services/effectieve-dienst.service';
 import { EffectieveDienst } from '../modals/effectieve-dienst';
+import { Instellingen } from '../modals/instellingen';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-toon-loonlijst',
@@ -38,11 +39,13 @@ export class ToonLoonlijstComponent implements OnInit {
   public loading = true;
   public effectieveDiensten: EffectieveDienst[];
   public data: any[];
+  public instellingen: Instellingen;
 
-  constructor(private router: Router, private route: ActivatedRoute, public excelService: ExcelService, public feestdagenService: FeestdagenService, public effectieveDienstenService: EffectieveDienstService) {
+  constructor(private router: Router, private route: ActivatedRoute, public feestdagenService: FeestdagenService, public effectieveDienstenService: EffectieveDienstService) {
     this.route.data.subscribe(data => {
       this.busChauffeur = data['busChauffeur'];
       this.effectieveDiensten = data['effectieveDiensten'];
+      this.instellingen = data['instellingen'];
     });
   }
 
@@ -88,7 +91,30 @@ export class ToonLoonlijstComponent implements OnInit {
     this.effectieveDiensten.forEach(dienst => {
       var start = moment(dienst.start)
       var einde = moment(dienst.einde)
+      var aantalMinutenStationnement = dienst.totaalAantalMinutenStationnement;
+      let statAT = aantalMinutenStationnement > 15 ? 15 : aantalMinutenStationnement;
+      let statRest = (aantalMinutenStationnement - 15) > 30 ? 30 : Math.max(0, (aantalMinutenStationnement - 15));
+      var totaalAT = (einde.diff(start) / 60000) + statAT + this.instellingen.aantalMinutenAdministratieveTijdVoorDienst + dienst.andereMinuten;
+      var nacht = moment(dienst.start).diff(moment(new Date(dienst.start.getFullYear(), dienst.start.getMonth(), dienst.start.getDate(), 0, 0)));
+      var zat = dienst.start.getDay() == 6 ? totaalAT + statRest : 0;
+      var zon = dienst.start.getDay() == 0 ? totaalAT + statRest : 0;
+      dagenInHuidigeMaand[dienst.start.getDate() - 1].ond1 = dienst.onderbrekingen.length >= 1 ? 1 : 0;
       dagenInHuidigeMaand[dienst.start.getDate() - 1].rijtijd += einde.diff(start);
+      dagenInHuidigeMaand[dienst.start.getDate() - 1].statAT = statAT;
+      dagenInHuidigeMaand[dienst.start.getDate() - 1].statRest = statRest
+      dagenInHuidigeMaand[dienst.start.getDate() - 1].stat50 = Math.max(0, (aantalMinutenStationnement - 45));
+      dagenInHuidigeMaand[dienst.start.getDate() - 1].admin = this.instellingen.aantalMinutenAdministratieveTijdVoorDienst;
+      dagenInHuidigeMaand[dienst.start.getDate() - 1].ander = dienst.andereMinuten;
+      dagenInHuidigeMaand[dienst.start.getDate() - 1].ampl = Math.max(0, (einde.diff(start) - 36000000));
+      dagenInHuidigeMaand[dienst.start.getDate() - 1].apdp = Math.max(0, (240 - totaalAT));
+      dagenInHuidigeMaand[dienst.start.getDate() - 1].totaalAT = totaalAT;
+      dagenInHuidigeMaand[dienst.start.getDate() - 1].nacht = totaalAT;
+      dagenInHuidigeMaand[dienst.start.getDate() - 1].zat = zat;
+      dagenInHuidigeMaand[dienst.start.getDate() - 1].zon = zon;
+      dagenInHuidigeMaand[dienst.start.getDate() - 1].ond2 = dienst.onderbrekingen.length >= 2 ? 1 : 0;
+      dagenInHuidigeMaand[dienst.start.getDate() - 1].ond3 = dienst.onderbrekingen.length >= 3 ? 1 : 0;
+      dagenInHuidigeMaand[dienst.start.getDate() - 1].onvPres = 0;
+      dagenInHuidigeMaand[dienst.start.getDate() - 1].overuren = Math.max(0, totaalAT - 600);
     })
     this.data = dagenInHuidigeMaand;
   }
@@ -109,7 +135,24 @@ export class ToonLoonlijstComponent implements OnInit {
           maand: this.maand.format("MM"),
           nummer: date.getDate(),
           naam: names[0],
+          feestdag: true,
           rijtijd: 0,
+          statAT: 0,
+          statRest: 0,
+          stat50: 0,
+          admin: 0,
+          ander: 0,
+          ampl: 0,
+          apdp: 0,
+          totaalAT: 0,
+          nacht: 0,
+          zat: 0,
+          zon: 0,
+          ond1: 0,
+          ond2: 0,
+          ond3: 0,
+          onvPres: 0,
+          overuren: 0
         });
       } else {
         result.push({
@@ -117,7 +160,24 @@ export class ToonLoonlijstComponent implements OnInit {
           maand: this.maand.format("MM"),
           nummer: date.getDate(),
           naam: names[date.getDay()],
+          feestdag: false,
           rijtijd: 0,
+          statAT: 0,
+          statRest: 0,
+          stat50: 0,
+          admin: 0,
+          ander: 0,
+          ampl: 0,
+          apdp: 0,
+          totaalAT: 0,
+          nacht: 0,
+          zat: 0,
+          zon: 0,
+          ond1: 0,
+          ond2: 0,
+          ond3: 0,
+          onvPres: 0,
+          overuren: 0
         });
       }
 
@@ -128,8 +188,13 @@ export class ToonLoonlijstComponent implements OnInit {
   }
 
 
-  printLoonlijst(): void {
-    // this.excelService.exportAsExcelFile(this.data, 'sample');
+  printLoonlijst() {
+    //this.excelService.exportAsExcelFile(this.data, 'sample');   
+    let element = document.getElementById('afdrukken');
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    XLSX.writeFile(wb, `${this.busChauffeur.voornaam}_${this.busChauffeur.achternaam}_${this.getHuidigeMaand()}.xlsx`);
   }
 
   msToTime(duration) {
@@ -137,6 +202,14 @@ export class ToonLoonlijstComponent implements OnInit {
     var hours = tijd.hours().toString().length == 1 ? 0 + tijd.hours().toString() : tijd.hours().toString();
     var minutes = tijd.minutes().toString().length == 1 ? 0 + tijd.minutes().toString() : tijd.minutes().toString();
     return `${hours}:${minutes}`;
+  }
+
+  minutesToTime(value: number): string {
+    var hours = Math.floor(((value * 60) / 3600));
+    var minutes = value % 60;
+    var hoursUitvoer = hours.toString().length == 1 ? 0 + hours.toString() : hours.toString();
+    var minutesUitvoer = minutes.toString().length == 1 ? 0 + minutes.toString() : minutes.toString();
+    return hoursUitvoer + ':' + minutesUitvoer;
   }
 
 }

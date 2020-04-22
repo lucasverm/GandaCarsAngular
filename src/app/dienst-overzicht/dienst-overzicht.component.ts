@@ -22,7 +22,7 @@ export class DienstOverzichtComponent implements OnInit {
     this.dienstService.getAllDiensten$().subscribe(
       val => {
         if (val) {
-          this.diensten = val;
+          this.diensten = val; 
           this.loadingDiensten = false;
         }
       },

@@ -3,10 +3,10 @@
     <div class="col-12">
       <div class="card marginTop10">
         <div class="card-header">
-          <h2 class="d-inline"> <i class="fa fa-fw fa-clock"></i><strong> Toon loonlijst</strong></h2>
-          <a class="float-right btn btn-primary marginTop10" (click)="printLoonlijst()" id="printLoonlijst">
+          <h2 class="d-inline"> <i class="fa fa-fw fa-file-invoice"></i><strong> Toon loonlijst</strong></h2>
+          <button class="float-right btn btn-primary" (click)="printLoonlijst()" id="printLoonlijst">
             <i class="fa fa-fw fa-print"></i>
-            <span class="d-none d-sm-inline"> Print loonlijst loonlijst</span></a>
+            <span class="d-none d-sm-inline"> Afdrukken</span></button>
         </div>
         <div class="card-body">
           <div class="col-12">
@@ -30,7 +30,7 @@
               </div>
               <div class="col-12">
                 <div class="table-responsive">
-                  <table class="table table-bordered loonlijst">
+                  <table class="table table-bordered loonlijst" id="afdrukken">
                     <thead class="thead-dark">
                       <tr>
                         <th scope="col">Datum</th>
@@ -47,11 +47,11 @@
                         <th scope="col">Nacht</th>
                         <th scope="col">Zaterd.</th>
                         <th scope="col">Zond.</th>
-                        <th scope="col">Ond. 1</th>
-                        <th scope="col">Ond. 2</th>
-                        <th scope="col">Ond. 3</th>
-                        <th scope="col">Onv. pres.</th>
-                        <th scope="col">Overwerk. AT.</th>
+                        <th scope="col">Ond.1</th>
+                        <th scope="col">Ond.2</th>
+                        <th scope="col">Ond.3</th>
+                        <th scope="col">Onv.pres.</th>
+                        <th scope="col">Overwerk.AT</th>
                         <th scope="col">AVC</th>
                       </tr>
                     </thead>
@@ -59,24 +59,24 @@
                       <tbody>
                         <tr *ngFor="let item of data">
                           <td>{{item.nummer}}-{{item.maand}}-{{item.jaar}} {{item.naam}}</td>
-                          <td>1</td>
+                          <td>{{ instellingen.stelsel }}</td>
                           <td>{{ msToTime(item.rijtijd) }}</td>
-                          <td>00:00</td>
-                          <td>00:00</td>
-                          <td>00:00</td>
-                          <td>00:00</td>
-                          <td>00:00</td>
-                          <td>00:00</td>
-                          <td>00:00</td>
-                          <td>00:00</td>
-                          <td>00:00</td>
-                          <td>00:00</td>
-                          <td>00:00</td>
-                          <td>00:00</td>
-                          <td>00:00</td>
-                          <td>00:00</td>
-                          <td>00:00</td>
-                          <td>00:00</td>
+                          <td>{{ minutesToTime(item.statAT) }}</td>
+                          <td>{{ minutesToTime(item.statRest) }}</td>
+                          <td>{{ minutesToTime(item.stat50) }}</td>
+                          <td>{{ minutesToTime(item.admin) }}</td>
+                          <td>{{ minutesToTime(item.ander) }}</td>
+                          <td>{{ msToTime(item.ampl) }}</td>
+                          <td>{{ minutesToTime(item.apdp) }}</td>
+                          <td>{{ minutesToTime(item.totaalAT) }}</td>
+                          <td>{{ minutesToTime(item.nacht) }}</td>
+                          <td>{{ minutesToTime(item.zat) }}</td>
+                          <td>{{ minutesToTime(item.zon) }}</td>
+                          <td>{{item.ond1}}</td>
+                          <td>{{item.ond2}}</td>
+                          <td>{{item.ond3}}</td>
+                          <td>{{ minutesToTime(item.onvPres) }}</td>
+                          <td>{{ minutesToTime(item.overuren) }}</td>
                           <td>00:00</td>
                         </tr>
                       </tbody>

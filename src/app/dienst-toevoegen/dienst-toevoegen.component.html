@@ -3,7 +3,7 @@
 
     <div class="card marginTop10">
       <div class="card-header">
-        <h2><i class="fa fa-fw fa-clock"></i><strong> Dienst toevoegen</strong></h2>
+        <h2 class="d-inline"><i class="fa fa-fw fa-clock"></i><strong> Dienst toevoegen</strong></h2>
       </div>
       <div class="card-body">
         <form [formGroup]="dienstToevoegenFormulier" class="row" (ngSubmit)='dienstToevoegen()'>
@@ -14,7 +14,7 @@
             <div class="alert alert-danger" role="alert" [hidden]="errorMessage == null">
               {{errorMessage}}
             </div>
-            <h5 class="card-title"><i class="fa fa-fw fa-search"></i> Algemeen: </h5>
+            <h5 class="card-title"><i class="fa fa-fw fa-globe"></i> Algemeen: </h5>
             <div class="row align-bottom">
               <div class="col-12 col-sm-6 col-md-4">
                 <div class="form-group">
@@ -72,10 +72,61 @@
               </div>
             </div>
           </div>
+
           <div class="col-12">
-            <div class="col-12 col-md-5 col-lg-4 text-left">
-              <button type="submit" class="btn btn-primary width100" [disabled]='!dienstToevoegenFormulier.valid'>Dienst
-                opslaan!</button>
+            <h5 class="card-title"><i class="fa fa-fw fa-globe"></i> Onderbrekingen: </h5>
+            <div class="row align-bottom">
+              <div class="col-8">
+                <p *ngIf="onderbrekingen.controls.length == 0">Er zijn (nog) geen onderbrekingen voor deze dienst.
+                </p>
+              </div>
+              <div class="col-4 text-right">
+                <button type="button" class="btn btn-primary" (click)="addOnderbreking()"><i
+                    class="fa fa-fw fa-plus-circle"></i> onderbrekingen
+                  toevoegen</button>
+              </div>
+
+              <div class="col-12 marginBottom1O" formArrayName="onderbrekingen">
+                <div class="row marginBottom1O" *ngFor="let item of onderbrekingen.controls; let i=index"
+                  [formGroupName]="i">
+                  <div class="col-12 col-sm-6 col-md-4">
+                    <div class="form-group">
+                      <label for="startDag" class="marginTop10">Start dag:</label>
+                      <select class="form-control" id="startDag" formControlName="startDag">
+                        <option *ngFor="let key of dagenVanDeWeek" [value]="key.value">{{key.naam}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4">
+                    <div class="form-group">
+                      <label for="startUur" class="marginTop10">Start uur:</label>
+                      <input type="time" class="form-control" id="startUur" formControlName="startUur">
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4">
+                    <div class="form-group">
+                      <label for="eindDag" class="marginTop10">Eind dag:</label>
+                      <select class="form-control" id="eindDag" formControlName="eindDag">
+                        <option *ngFor="let key of dagenVanDeWeek" [value]="key.value">{{key.naam}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4">
+                    <div class="form-group">
+                      <label for="eindUur" class="marginTop10">Eind uur:</label>
+                      <input type="time" class="form-control" id="eindUur" formControlName="eindUur">
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6 col-lg-2 align-self-end">
+                    <button type="button" class="btn btn-danger" (click)="deleteOnderbreking(i)">Verwijder</button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-md-5 col-lg-4 text-left">
+                <button type="submit" class="btn btn-primary width100"
+                  [disabled]='!dienstToevoegenFormulier.valid'>Dienst
+                  opslaan!</button>
+              </div>
             </div>
           </div>
         </form>

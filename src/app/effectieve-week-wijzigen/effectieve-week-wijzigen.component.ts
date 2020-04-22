@@ -8,6 +8,7 @@ import { Dienst } from '../modals/dienst';
 import { BusChauffeurService } from '../services/bus-chauffeur.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { EffectieveDienstService } from '../services/effectieve-dienst.service';
+import { Onderbreking } from '../modals/onderbreking';
 
 @Component({
   selector: 'app-effectieve-week-wijzigen',
@@ -19,7 +20,6 @@ export class EffectieveWeekWijzigenComponent implements OnInit {
   public effectieveDienstenAanpassenFormulier: FormGroup;
   public effectieveDiensten: EffectieveDienst[] = [];
   public busChauffeur: BusChauffeur;
-  public console = console;
 
   constructor(private router: Router, private route: ActivatedRoute, public fb: FormBuilder, private busChauffeurService: BusChauffeurService, private effectieveDienstenService: EffectieveDienstService) {
     this.route.data.subscribe(data => {
@@ -50,15 +50,42 @@ export class EffectieveWeekWijzigenComponent implements OnInit {
         start: [this.getDateForInput(s.start), [Validators.required]],
         eind: [this.getDateForInput(s.einde), [Validators.required]],
         naam: [s.naam, [Validators.required]],
+        andereMinuten: [s.andereMinuten, [Validators.required]],
         totaalAantalMinutenStationnement: [s.totaalAantalMinutenStationnement, [Validators.required]],
+        onderbrekingen: this.fb.array([]),
+        onderbrekingVisible: false
       }));
+      var onderbrekingen = this.effectieveDienstenForm.at(this.effectieveDienstenForm.length - 1).get('onderbrekingen') as FormArray
+      s.onderbrekingen.forEach(ond => {
+        onderbrekingen.push(this.fb.group({
+          id: ond.id,
+          effectieveStart: [this.getDateForInput(ond.effectieveStart), [Validators.required]],
+          effectiefEinde: [this.getDateForInput(ond.effectiefEinde), [Validators.required]]
+        }));
+      })
     })
   }
 
   get effectieveDienstenForm() {
-    let uitvoer = this.effectieveDienstenAanpassenFormulier.get('effectieveDienstenForm') as FormArray;
-    return uitvoer;
+    return this.effectieveDienstenAanpassenFormulier.get('effectieveDienstenForm') as FormArray;
   }
+
+  onderbrekingen(i) {
+    return this.effectieveDienstenForm.controls[i].get('onderbrekingen') as FormArray
+  }
+
+  addOnderbreking(i) {
+    this.onderbrekingen(i).push(this.fb.group({
+      id: '',
+      effectieveStart: ['', [Validators.required]],
+      effectiefEinde: ['', [Validators.required]]
+    }));
+  }
+
+  deleteOnderbreking(i, index) {
+    this.onderbrekingen(i).removeAt(index);
+  }
+
 
   addEffectieveDienst() {
     this.effectieveDienstenForm.push(this.fb.group({
@@ -66,12 +93,19 @@ export class EffectieveWeekWijzigenComponent implements OnInit {
       start: ['', [Validators.required]],
       eind: ['', [Validators.required]],
       naam: ['', [Validators.required]],
-      totaalAantalMinutenStationnement: [0, [Validators.required]]
+      andereMinuten: [0, [Validators.required]],
+      totaalAantalMinutenStationnement: [0, [Validators.required]],
+      onderbrekingen: this.fb.array([]),
+      onderbrekingVisible: false
     }));
   }
 
   deleteEffectieveDienst(index) {
     this.effectieveDienstenForm.removeAt(index);
+  }
+
+  changeOnderbrekingVisibility(item) {
+    item.controls.onderbrekingVisible.value = !item.controls.onderbrekingVisible.value
   }
 
   reset() {
@@ -95,10 +129,19 @@ export class EffectieveWeekWijzigenComponent implements OnInit {
         dienst = new EffectieveDienst();
       }
       dienst.naam = ed.naam;
+      dienst.andereMinuten = ed.andereMinuten;
       dienst.start = ed.start;
       dienst.einde = ed.eind;
       dienst.busChauffeurId = this.route.snapshot.params['buschauffeurid'];
       dienst.totaalAantalMinutenStationnement = ed.totaalAantalMinutenStationnement;
+      dienst.onderbrekingen = [];
+      ed.onderbrekingen.forEach(stass => {
+        let o = new Onderbreking();
+        o.id = stass.id;
+        o.effectieveStart = stass.effectieveStart;
+        o.effectiefEinde = stass.effectiefEinde;
+        dienst.onderbrekingen.push(o);
+      })
       effectieveDienstenToUpload.push(dienst);
     })
     this.effectieveDienstenService.postEffectieveDiensten$(this.route.snapshot.params['jaar'], this.route.snapshot.params['week'], this.route.snapshot.params['buschauffeurid'], effectieveDienstenToUpload).subscribe(

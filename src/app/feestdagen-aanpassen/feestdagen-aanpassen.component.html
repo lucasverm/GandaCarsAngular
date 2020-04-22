@@ -3,7 +3,11 @@
 
     <div class="card marginTop10">
       <div class="card-header">
-        <h2><i class="fa fa-fw fa-birthday-cake"></i><strong> Feestdagen aanpassen</strong></h2>
+        <h2 class="d-inline"><i class="fa fa-fw fa-birthday-cake"></i><strong> Feestdagen aanpassen</strong>
+        </h2>
+        <button class="float-right btn btn-primary" (click)="addFeestdag()">
+          <i class="fa fa-fw fa-plus-circle"></i>
+          <span class="d-none d-md-inline"> Feestdag toevoegen</span></button>
       </div>
       <div class="card-body">
         <form [formGroup]="feestdagenAanpassenFormulier" class="row" (ngSubmit)='feestdagenAanpassen()'>
@@ -18,11 +22,6 @@
             <div class="row align-bottom">
               <div class="col-12 col-sm-6">
                 <p *ngIf="feestdagenForm.controls.length == 0">Er zijn (nog) geen feestdagen.</p>
-              </div>
-              <div class="col-12 col-sm-6 offset-md-2 col-md-4 offset-lg-3 col-lg-3 text-right">
-                <button type="button" class="btn btn-primary width100" (click)="addFeestdag()"><i
-                    class="fa fa-fw fa-plus-circle"></i> feestdag
-                  toevoegen</button>
               </div>
 
               <div class="col-12 marginBottom1O" formArrayName="feestdagenForm">

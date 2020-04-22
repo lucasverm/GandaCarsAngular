@@ -19,7 +19,7 @@
             </div>
           </div>
           <div class="col-12">
-            <h5 class="card-title"><i class="fa fa-fw fa-search"></i> Diensten: </h5>
+            <h5 class="card-title"><i class="fa fa-fw fa-globe"></i> Diensten: </h5>
             <div class="row align-bottom">
               <div class="col-8">
                 <p *ngIf="effectieveDienstenForm.controls.length == 0">Er zijn (nog) geen diensten voor deze week, voor
@@ -44,14 +44,58 @@
                   </div>
                   <div class="col-12 col-md-6 col-lg-3">
                     <label for="totaalAantalMinutenStationnement">Totaal aantal minuten stationnement: </label>
-                    <input type="number" class="form-control" id="totaalAantalMinutenStationnement"
-                      formControlName="totaalAantalMinutenStationnement">
+                    <div class="input-group">
+                      <input type="number" class="form-control" id="totaalAantalMinutenStationnement"
+                        formControlName="totaalAantalMinutenStationnement">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupPrepend">Min</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6 col-lg-2">
+                    <label for="andereMinuten">Andere: </label>
+                    <div class="input-group">
+                      <input type="number" class="form-control" id="andereMinuten" formControlName="andereMinuten">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupPrepend">Min</span>
+                      </div>
+                    </div>
                   </div>
                   <div class="col-12 col-md-6 col-lg-2 align-self-end">
                     <button type="button" class="btn btn-danger width100"
                       (click)="deleteEffectieveDienst(i)">Verwijder</button>
                   </div>
+                  <div class="col-12 col-md-6 col-lg-2 align-self-end">
+                    <button type="button" class="btn btn-primary width100"
+                      (click)="changeOnderbrekingVisibility(item)">Onderbrekingen</button>
+                  </div>
+                  <!-- onderbrekingen!-->
 
+                  <div class="col-12 marginBottom1O" formArrayName="onderbrekingen"
+                    [hidden]="!item.controls.onderbrekingVisible.value">
+                    <h5 class="card-title marginTop20"><i class="fa fa-fw fa-globe"></i> Onderbrekingen: </h5>
+                    <div class="row marginBottom1O" *ngFor="let stass of onderbrekingen(i).controls; let stassI=index"
+                      [formGroupName]="stassI">
+
+                      <div class="col-12 col-md-6 col-lg-3">
+                        <label for="effectieveStart">Start: </label>
+                        <input type="datetime-local" class="form-control" id="effectieveStart"
+                          formControlName="effectieveStart">
+                      </div>
+                      <div class="col-12 col-md-6 col-lg-3">
+                        <label for="effectiefEinde">Einde: </label>
+                        <input type="datetime-local" class="form-control" id="effectiefEinde"
+                          formControlName="effectiefEinde">
+                      </div>
+                      <div class="col-12 col-md-6 col-lg-2 align-self-end">
+                        <button type="button" class="btn btn-danger"
+                          (click)="deleteOnderbreking(i,stassI)">Verwijder</button>
+                      </div>
+                    </div>
+                    <button type="button" class="btn btn-primary" (click)="addOnderbreking(i)"><i
+                        class="fa fa-fw fa-plus-circle"></i> Onderbreking
+                      toevoegen</button>
+                  </div>
                   <div class="col-12">
                     <hr />
                   </div>

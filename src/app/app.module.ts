@@ -23,6 +23,7 @@ import { FeestdagenAanpassenComponent } from './feestdagen-aanpassen/feestdagen-
 import * as moment from 'moment';
 import { EffectieveWeekWijzigenComponent } from './effectieve-week-wijzigen/effectieve-week-wijzigen.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { InstellingenAanpassenComponent } from './instellingen-aanpassen/instellingen-aanpassen.component';
 
 // the second parameter 'fr-FR' is optional
 registerLocaleData(localeBe);
@@ -44,7 +45,8 @@ moment.locale('nl-be');
     ToonLoonlijstComponent,
     FeestdagenAanpassenComponent,
     EffectieveWeekWijzigenComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    InstellingenAanpassenComponent
   ],
   imports: [
     BrowserModule,

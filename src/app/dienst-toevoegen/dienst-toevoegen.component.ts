@@ -6,6 +6,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { DagenVanDeWeek } from '../modals/dagen-van-de-week.enum';
 import { BusChauffeur } from '../modals/bus-chauffeur';
 import { DienstService } from '../services/dienst.service';
+import { Onderbreking } from '../modals/onderbreking';
 
 @Component({
   selector: 'app-dienst-toevoegen',
@@ -32,7 +33,8 @@ export class DienstToevoegenComponent implements OnInit {
       startUur: ['', [Validators.required]],
       eindUur: ['', [Validators.required]],
       busChauffeur: ['', [Validators.required]],
-      totaalAantalMinutenStationnement: [0, [Validators.required]]
+      totaalAantalMinutenStationnement: [0, [Validators.required]],
+      onderbrekingen: this.fb.array([])
     })
 
     this.busChauffeurService.getAllBusCheuffeurs$().subscribe(
@@ -47,8 +49,41 @@ export class DienstToevoegenComponent implements OnInit {
     )
   }
 
+  get onderbrekingen() {
+    return this.dienstToevoegenFormulier.get('onderbrekingen') as FormArray;
+  }
+
+  addOnderbreking() {
+    this.onderbrekingen.push(this.fb.group({
+      id: [''],
+      startUur: ['', [Validators.required]],
+      eindUur: ['', [Validators.required]],
+      startDag: ['', [Validators.required]],
+      eindDag: ['', [Validators.required]],
+    }));
+  }
+
+  deleteOnderbreking(index) {
+    this.onderbrekingen.removeAt(index);
+  }
+
   dienstToevoegen() {
     this.errorMessage = null;
+    let onderbrekingen = [];
+    this.dienstToevoegenFormulier.value.onderbrekingen.forEach(s => {
+      let ond = new Onderbreking();
+      if (s.id != null) {
+        ond.id = s.id
+      } else {
+        s.id = ""
+      }
+      ond.startUur = s.startUur;
+      ond.eindUur = s.eindUur;
+      ond.startDag = s.startDag;
+      ond.eindDag = s.eindDag;
+      onderbrekingen.push(ond);
+    })
+    
     this.dienstService.addDienst$(
       this.dienstToevoegenFormulier.value.naam,
       this.dienstToevoegenFormulier.value.startDag,
@@ -56,7 +91,7 @@ export class DienstToevoegenComponent implements OnInit {
       this.dienstToevoegenFormulier.value.eindDag,
       this.dienstToevoegenFormulier.value.eindUur,
       this.dienstToevoegenFormulier.value.busChauffeur,
-      this.dienstToevoegenFormulier.value.totaalAantalMinutenStationnement).subscribe(
+      this.dienstToevoegenFormulier.value.totaalAantalMinutenStationnement, onderbrekingen).subscribe(
         val => {
           if (val) {
             this.router.navigate([`../dienst-overzicht`]);

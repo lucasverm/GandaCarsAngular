@@ -14,18 +14,24 @@ th {
   margin-bottom: 10px !important;
 }
 
+.marginTop20 {
+  margin-top: 20px;
+}
+
 .width100 {
   width: 100%;
 }
 
+
 .btn-primary {
   background-color: #343a40 !important;
   border-color: #343a40 !important;
-  color:white !important;
+  color: white !important;
 }
 
 a:hover {
   cursor: pointer !important;
+  text-decoration: underline !important;
 }
 
 @import '~@fullcalendar/core/main.css';

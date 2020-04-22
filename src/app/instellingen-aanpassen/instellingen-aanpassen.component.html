@@ -1,0 +1,45 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card marginTop10">
+      <div class="card-header">
+        <h2 class="d-md-inline"><i class="fa fa-fw fa-cogs"></i><strong> Instellingen aanpassen</strong></h2>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="instellingenAanpassenFormulier" class="row" (ngSubmit)='instellingenOpslaan()'>
+          <div class="col-12">
+            <div class="alert alert-success" role="alert" [hidden]="successMessage == null">
+              {{successMessage}}
+            </div>
+            <div class="alert alert-danger" role="alert" [hidden]="errorMessage == null">
+              {{errorMessage}}
+            </div>
+            <h5 class="card-title"><i class="fa fa-fw fa-globe"></i> Instellingen: </h5>
+            <div class="row align-bottom">
+              <div class="col-12 col-md-6 col-lg-4">
+                <div class="form-group">
+                  <label for="aantalMinutenAdministratieveTijdVoorDienst" class="marginTop10">Totaal aantal
+                    administratieve minuten per dienst:</label>
+                  <input type="number" class="form-control" id="aantalMinutenAdministratieveTijdVoorDienst"
+                    formControlName="aantalMinutenAdministratieveTijdVoorDienst">
+                </div>
+              </div>
+              <div class="col-12 col-md-6 col-lg-2">
+                <div class="form-group">
+                  <label for="stelsel" class="marginTop10">Stelsel</label>
+                  <input type="number" class="form-control" id="stelsel"
+                    formControlName="stelsel">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-md-6 col-lg-4 text-left">
+                <button type="submit" class="btn btn-primary width100"
+                  [disabled]='!instellingenAanpassenFormulier.valid'>Instellingen opslaan!</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
