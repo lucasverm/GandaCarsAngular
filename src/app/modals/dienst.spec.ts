@@ -1,7 +1,7 @@
-import { Dienst } from './dienst';
+import { Dienst } from "./dienst";
 
-describe('Dienst', () => {
-  it('should create an instance', () => {
+describe("Dienst", () => {
+  it("should create an instance", () => {
     expect(new Dienst()).toBeTruthy();
   });
 });

@@ -1,7 +1,7 @@
-import { Feestdag } from './feestdag';
+import { Feestdag } from "./feestdag";
 
-describe('Feestdag', () => {
-  it('should create an instance', () => {
+describe("Feestdag", () => {
+  it("should create an instance", () => {
     expect(new Feestdag()).toBeTruthy();
   });
 });

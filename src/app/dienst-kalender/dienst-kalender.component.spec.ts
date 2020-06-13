@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { dienstKalenderComponent } from './dienst-kalender.component';
+import { dienstKalenderComponent } from "./dienst-kalender.component";
 
-describe('dienstKalenderComponent', () => {
+describe("dienstKalenderComponent", () => {
   let component: dienstKalenderComponent;
   let fixture: ComponentFixture<dienstKalenderComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [dienstKalenderComponent]
-    })
-      .compileComponents();
+      declarations: [dienstKalenderComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('dienstKalenderComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

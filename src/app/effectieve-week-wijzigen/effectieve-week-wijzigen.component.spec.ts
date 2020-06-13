@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { EffectieveWeekWijzigenComponent } from './effectieve-week-wijzigen.component';
+import { EffectieveWeekWijzigenComponent } from "./effectieve-week-wijzigen.component";
 
-describe('EffectieveWeekWijzigenComponent', () => {
+describe("EffectieveWeekWijzigenComponent", () => {
   let component: EffectieveWeekWijzigenComponent;
   let fixture: ComponentFixture<EffectieveWeekWijzigenComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EffectieveWeekWijzigenComponent ]
-    })
-    .compileComponents();
+      declarations: [EffectieveWeekWijzigenComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('EffectieveWeekWijzigenComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { ToonLoonlijstComponent } from './toon-loonlijst.component';
+import { ToonLoonlijstComponent } from "./toon-loonlijst.component";
 
-describe('ToonLoonlijstComponent', () => {
+describe("ToonLoonlijstComponent", () => {
   let component: ToonLoonlijstComponent;
   let fixture: ComponentFixture<ToonLoonlijstComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ToonLoonlijstComponent ]
-    })
-    .compileComponents();
+      declarations: [ToonLoonlijstComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('ToonLoonlijstComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

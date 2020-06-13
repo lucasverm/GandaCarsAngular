@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { FeestdagenAanpassenComponent } from './feestdagen-aanpassen.component';
+import { FeestdagenAanpassenComponent } from "./feestdagen-aanpassen.component";
 
-describe('FeestdagenAanpassenComponent', () => {
+describe("FeestdagenAanpassenComponent", () => {
   let component: FeestdagenAanpassenComponent;
   let fixture: ComponentFixture<FeestdagenAanpassenComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FeestdagenAanpassenComponent ]
-    })
-    .compileComponents();
+      declarations: [FeestdagenAanpassenComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('FeestdagenAanpassenComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

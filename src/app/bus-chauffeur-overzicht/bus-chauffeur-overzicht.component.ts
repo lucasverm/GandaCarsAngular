@@ -1,35 +1,37 @@
-import { Component, OnInit } from '@angular/core';
-import { BusChauffeurService } from '../services/bus-chauffeur.service';
-import { BusChauffeur } from '../modals/bus-chauffeur';
-import { Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
+import { Component, OnInit } from "@angular/core";
+import { BusChauffeurService } from "../services/bus-chauffeur.service";
+import { BusChauffeur } from "../modals/bus-chauffeur";
+import { Router } from "@angular/router";
+import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
-  selector: 'app-bus-chauffeur-overzicht',
-  templateUrl: './bus-chauffeur-overzicht.component.html',
-  styleUrls: ['./bus-chauffeur-overzicht.component.scss']
+  selector: "app-bus-chauffeur-overzicht",
+  templateUrl: "./bus-chauffeur-overzicht.component.html",
+  styleUrls: ["./bus-chauffeur-overzicht.component.scss"],
 })
 export class BusChauffeurOverzichtComponent implements OnInit {
-
   public loadingBusChauffeurs = true;
   public busChauffeurs: BusChauffeur[];
   public errorMessage: String = null;
   public successMessage: String = null;
 
-  constructor(private router: Router, private busChauffeurService: BusChauffeurService) { }
+  constructor(
+    private router: Router,
+    private busChauffeurService: BusChauffeurService
+  ) {}
 
   ngOnInit() {
     this.busChauffeurService.getAllBusCheuffeurs$().subscribe(
-      val => {
+      (val) => {
         if (val) {
           this.busChauffeurs = val;
           this.loadingBusChauffeurs = false;
         }
       },
-      error => {
+      (error) => {
         this.errorMessage = error.error;
       }
-    )
+    );
   }
 
   redirectTo(voorvoegsel: string, bc: any) {
@@ -38,9 +40,9 @@ export class BusChauffeurOverzichtComponent implements OnInit {
 
   busChauffeurVerwijderen(bc: BusChauffeur) {
     this.busChauffeurService.deleteBusChauffeur$(bc).subscribe(
-      val => {
+      (val) => {
         if (val) {
-          this.busChauffeurs = this.busChauffeurs.filter(t => t.id !== bc.id);
+          this.busChauffeurs = this.busChauffeurs.filter((t) => t.id !== bc.id);
           this.successMessage = `Buschauffeur "${bc.voornaam} ${bc.achternaam}" werd verwijderd!`;
         }
       },
@@ -49,5 +51,4 @@ export class BusChauffeurOverzichtComponent implements OnInit {
       }
     );
   }
-
 }

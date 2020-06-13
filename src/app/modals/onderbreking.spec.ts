@@ -1,7 +1,7 @@
-import { Onderbreking } from './onderbreking';
+import { Onderbreking } from "./onderbreking";
 
-describe('Onderbreking', () => {
-  it('should create an instance', () => {
+describe("Onderbreking", () => {
+  it("should create an instance", () => {
     expect(new Onderbreking()).toBeTruthy();
   });
 });
