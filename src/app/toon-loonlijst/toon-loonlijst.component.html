@@ -56,10 +56,10 @@
                         <th scope="col">AVC</th>
                       </tr>
                     </thead>
-                    <ng-container *ngIf="!loadingDiensten; else loadingItemsError">
+                    <ng-container *ngIf="!loading; else loadingItemsError">
                       <tbody>
                         <tr *ngFor="let item of data">
-                          <td>{{item.nummer}}-{{item.maand}}-{{item.jaar}} {{item.naam}}</td>
+                          <td>{{item.nummer}}/{{item.maand}}/{{item.jaar}} {{item.naam}}</td>
                           <td>
                             <span *ngFor="let naam of item.dienst; let i=index">{{naam}}
                               <span *ngIf="(i + 1) != item.dienst.length"> + </span>
@@ -86,8 +86,30 @@
                           <td>{{ minutesToTime(item.overuren) }}</td>
                           <td>00:00</td>
                         </tr>
+                        <tr class="totaal">
+                          <td>Totaal:</td>
+                          <td></td>
+                          <td></td>
+                          <td>{{ msToTime(totaal().rijtijd) }}</td>
+                          <td>{{ minutesToTime(totaal().statAT) }}</td>
+                          <td>{{ minutesToTime(totaal().statRest) }}</td>
+                          <td>{{ minutesToTime(totaal().stat50) }}</td>
+                          <td>{{ minutesToTime(totaal().admin) }}</td>
+                          <td>{{ minutesToTime(totaal().ander) }}</td>
+                          <td>{{ msToTime(totaal().ampl) }}</td>
+                          <td></td>
+                          <td>{{ minutesToTime(totaal().totaalAT) }}</td>
+                          <td>x</td>
+                          <td>{{ msToTime(totaal().zat) }}</td>
+                          <td>{{ msToTime(totaal().zon) }}</td>
+                          <td>{{totaal().ond1}}</td>
+                          <td>{{totaal().ond2}}</td>
+                          <td>{{totaal().ond3}}</td>
+                          <td>{{ minutesToTime(totaal().onvPres) }}</td>
+                          <td>{{ minutesToTime(totaal().overuren) }}</td>
+                          <td></td>
+                        </tr>
                       </tbody>
-
                     </ng-container>
                   </table>
                 </div>

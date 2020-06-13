@@ -40,6 +40,7 @@ export class ToonLoonlijstComponent implements OnInit {
   public effectieveDiensten: EffectieveDienst[];
   public data: any[];
   public instellingen: Instellingen;
+  public dataTotaal: any[];
 
   constructor(private router: Router, private route: ActivatedRoute, public feestdagenService: FeestdagenService, public effectieveDienstenService: EffectieveDienstService) {
     this.route.data.subscribe(data => {
@@ -89,14 +90,10 @@ export class ToonLoonlijstComponent implements OnInit {
   loadLijst() {
     var dagenInHuidigeMaand = this.dagenInHuidigeMaand();
     this.effectieveDiensten.forEach(dienst => {
-      if ((dienst.gerelateerdeDienst == null || dienst.start < new Date(dienst.gerelateerdeDienst.start)) && dienst.naam == "dienst1") {
+      if ((dienst.gerelateerdeDienst == null || dienst.start < new Date(dienst.gerelateerdeDienst.start))) {
+        console.log(dienst);
         var start = moment(dienst.start)
-
-        console.log(new Date(dienst.gerelateerdeDienst.einde));
-        
         var einde = moment(dienst.gerelateerdeDienst != null ? new Date(dienst.gerelateerdeDienst.einde) : dienst.einde)
-        console.log(einde);
-
         var aantalMinutenStationnement = dienst.totaalAantalMinutenStationnement;
         let statAT = aantalMinutenStationnement > 15 ? 15 : aantalMinutenStationnement;
         let statRest = (aantalMinutenStationnement - 15) > 30 ? 30 : Math.max(0, (aantalMinutenStationnement - 15));
@@ -107,13 +104,12 @@ export class ToonLoonlijstComponent implements OnInit {
         dagenInHuidigeMaand[dienst.start.getDate() - 1].dienst.push(dienst.naam);
         dagenInHuidigeMaand[dienst.start.getDate() - 1].ond1 = dienst.onderbrekingen.length >= 1 ? 1 : 0;
         dagenInHuidigeMaand[dienst.start.getDate() - 1].rijtijd += einde.diff(start);
-        
         dagenInHuidigeMaand[dienst.start.getDate() - 1].statAT = statAT;
         dagenInHuidigeMaand[dienst.start.getDate() - 1].statRest = statRest
         dagenInHuidigeMaand[dienst.start.getDate() - 1].stat50 = Math.max(0, (aantalMinutenStationnement - 45));
         dagenInHuidigeMaand[dienst.start.getDate() - 1].admin = this.instellingen.aantalMinutenAdministratieveTijdVoorDienst;
         dagenInHuidigeMaand[dienst.start.getDate() - 1].ander = dienst.andereMinuten;
-        dagenInHuidigeMaand[dienst.start.getDate() - 1].ampl = Math.max(0, (einde.diff(start) - 43200000));
+        dagenInHuidigeMaand[dienst.start.getDate() - 1].ampl = Math.max(0, (dagenInHuidigeMaand[dienst.start.getDate() - 1].rijtijd - 43200000));
         dagenInHuidigeMaand[dienst.start.getDate() - 1].apdp = Math.max(0, (240 - totaalAT));
         dagenInHuidigeMaand[dienst.start.getDate() - 1].totaalAT += totaalAT;
         dagenInHuidigeMaand[dienst.start.getDate() - 1].nacht = totaalAT;
@@ -126,6 +122,21 @@ export class ToonLoonlijstComponent implements OnInit {
       }
     })
     this.data = dagenInHuidigeMaand;
+    this.totaal();
+  }
+
+  totaal():any {
+    const result = {};
+    this.data.forEach(basket => {
+      for (let [key, value] of Object.entries(basket)) {
+        if (result[key]) {
+          result[key] += value;
+        } else {
+          result[key] = value;
+        }
+      }
+    });
+    return result;
   }
 
   geefUrenOp(dagNummer: number, dienst: EffectieveDienst) {

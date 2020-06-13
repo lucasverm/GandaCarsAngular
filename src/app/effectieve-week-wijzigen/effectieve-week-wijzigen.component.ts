@@ -17,6 +17,7 @@ import { Onderbreking } from '../modals/onderbreking';
 })
 export class EffectieveWeekWijzigenComponent implements OnInit {
   public errorMessage: String = null;
+  public successMessage: String = null;
   public effectieveDienstenAanpassenFormulier: FormGroup;
   public effectieveDiensten: EffectieveDienst[] = [];
   public busChauffeur: BusChauffeur;
