@@ -19,7 +19,7 @@ export class EffectieveDienst {
 		item.id = json.id;
 		item.naam = json.naam;
 		item.start = new Date(json.start);
-		item.einde = new Date(json.eind);
+		item.einde = new Date(json.einde);
 		item.busChauffeurId = json.busChauffeur.id;
 		item.totaalAantalMinutenStationnement = json.totaalAantalMinutenStationnement
 		item.gerelateerdeDienst = json.gerelateerdeDienst;

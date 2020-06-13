@@ -85,16 +85,7 @@ const routes: Routes = [
     path: '**',
     component: PageNotFoundComponent
   }
-  /*
-  {
-    path: '',
-    redirectTo: 'overview',
-    pathMatch: "full"
-  },
-  {
-    path: '**',
-    component: PageNotFoundComponent
-  }*/
+
 ];
 
 @NgModule({

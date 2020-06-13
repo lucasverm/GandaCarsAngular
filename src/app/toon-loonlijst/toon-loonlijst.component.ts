@@ -89,34 +89,63 @@ export class ToonLoonlijstComponent implements OnInit {
   loadLijst() {
     var dagenInHuidigeMaand = this.dagenInHuidigeMaand();
     this.effectieveDiensten.forEach(dienst => {
-      var start = moment(dienst.start)
-      var einde = moment(dienst.einde)
-      var aantalMinutenStationnement = dienst.totaalAantalMinutenStationnement;
-      let statAT = aantalMinutenStationnement > 15 ? 15 : aantalMinutenStationnement;
-      let statRest = (aantalMinutenStationnement - 15) > 30 ? 30 : Math.max(0, (aantalMinutenStationnement - 15));
-      var totaalAT = (einde.diff(start) / 60000) + statAT + this.instellingen.aantalMinutenAdministratieveTijdVoorDienst + dienst.andereMinuten;
-      var nacht = moment(dienst.start).diff(moment(new Date(dienst.start.getFullYear(), dienst.start.getMonth(), dienst.start.getDate(), 0, 0)));
-      var zat = dienst.start.getDay() == 6 ? totaalAT + statRest : 0;
-      var zon = dienst.start.getDay() == 0 ? totaalAT + statRest : 0;
-      dagenInHuidigeMaand[dienst.start.getDate() - 1].ond1 = dienst.onderbrekingen.length >= 1 ? 1 : 0;
-      dagenInHuidigeMaand[dienst.start.getDate() - 1].rijtijd += einde.diff(start);
-      dagenInHuidigeMaand[dienst.start.getDate() - 1].statAT = statAT;
-      dagenInHuidigeMaand[dienst.start.getDate() - 1].statRest = statRest
-      dagenInHuidigeMaand[dienst.start.getDate() - 1].stat50 = Math.max(0, (aantalMinutenStationnement - 45));
-      dagenInHuidigeMaand[dienst.start.getDate() - 1].admin = this.instellingen.aantalMinutenAdministratieveTijdVoorDienst;
-      dagenInHuidigeMaand[dienst.start.getDate() - 1].ander = dienst.andereMinuten;
-      dagenInHuidigeMaand[dienst.start.getDate() - 1].ampl = Math.max(0, (einde.diff(start) - 36000000));
-      dagenInHuidigeMaand[dienst.start.getDate() - 1].apdp = Math.max(0, (240 - totaalAT));
-      dagenInHuidigeMaand[dienst.start.getDate() - 1].totaalAT = totaalAT;
-      dagenInHuidigeMaand[dienst.start.getDate() - 1].nacht = totaalAT;
-      dagenInHuidigeMaand[dienst.start.getDate() - 1].zat = zat;
-      dagenInHuidigeMaand[dienst.start.getDate() - 1].zon = zon;
-      dagenInHuidigeMaand[dienst.start.getDate() - 1].ond2 = dienst.onderbrekingen.length >= 2 ? 1 : 0;
-      dagenInHuidigeMaand[dienst.start.getDate() - 1].ond3 = dienst.onderbrekingen.length >= 3 ? 1 : 0;
-      dagenInHuidigeMaand[dienst.start.getDate() - 1].onvPres = 0;
-      dagenInHuidigeMaand[dienst.start.getDate() - 1].overuren = Math.max(0, totaalAT - 600);
+      if ((dienst.gerelateerdeDienst == null || dienst.start < new Date(dienst.gerelateerdeDienst.start)) && dienst.naam == "dienst1") {
+        var start = moment(dienst.start)
+
+        console.log(new Date(dienst.gerelateerdeDienst.einde));
+        
+        var einde = moment(dienst.gerelateerdeDienst != null ? new Date(dienst.gerelateerdeDienst.einde) : dienst.einde)
+        console.log(einde);
+
+        var aantalMinutenStationnement = dienst.totaalAantalMinutenStationnement;
+        let statAT = aantalMinutenStationnement > 15 ? 15 : aantalMinutenStationnement;
+        let statRest = (aantalMinutenStationnement - 15) > 30 ? 30 : Math.max(0, (aantalMinutenStationnement - 15));
+        var totaalAT = (einde.diff(start) / 60000) + statAT + this.instellingen.aantalMinutenAdministratieveTijdVoorDienst + dienst.andereMinuten;
+        var nacht = moment(dienst.start).diff(moment(new Date(dienst.start.getFullYear(), dienst.start.getMonth(), dienst.start.getDate(), 0, 0)));
+        var zat = this.geefUrenOp(6, dienst);
+        var zon = this.geefUrenOp(0, dienst);
+        dagenInHuidigeMaand[dienst.start.getDate() - 1].dienst.push(dienst.naam);
+        dagenInHuidigeMaand[dienst.start.getDate() - 1].ond1 = dienst.onderbrekingen.length >= 1 ? 1 : 0;
+        dagenInHuidigeMaand[dienst.start.getDate() - 1].rijtijd += einde.diff(start);
+        
+        dagenInHuidigeMaand[dienst.start.getDate() - 1].statAT = statAT;
+        dagenInHuidigeMaand[dienst.start.getDate() - 1].statRest = statRest
+        dagenInHuidigeMaand[dienst.start.getDate() - 1].stat50 = Math.max(0, (aantalMinutenStationnement - 45));
+        dagenInHuidigeMaand[dienst.start.getDate() - 1].admin = this.instellingen.aantalMinutenAdministratieveTijdVoorDienst;
+        dagenInHuidigeMaand[dienst.start.getDate() - 1].ander = dienst.andereMinuten;
+        dagenInHuidigeMaand[dienst.start.getDate() - 1].ampl = Math.max(0, (einde.diff(start) - 43200000));
+        dagenInHuidigeMaand[dienst.start.getDate() - 1].apdp = Math.max(0, (240 - totaalAT));
+        dagenInHuidigeMaand[dienst.start.getDate() - 1].totaalAT += totaalAT;
+        dagenInHuidigeMaand[dienst.start.getDate() - 1].nacht = totaalAT;
+        dagenInHuidigeMaand[dienst.start.getDate() - 1].zat += zat;
+        dagenInHuidigeMaand[dienst.start.getDate() - 1].zon += zon;
+        dagenInHuidigeMaand[dienst.start.getDate() - 1].ond2 = dienst.onderbrekingen.length >= 2 ? 1 : 0;
+        dagenInHuidigeMaand[dienst.start.getDate() - 1].ond3 = dienst.onderbrekingen.length >= 3 ? 1 : 0;
+        dagenInHuidigeMaand[dienst.start.getDate() - 1].onvPres = 0;
+        dagenInHuidigeMaand[dienst.start.getDate() - 1].overuren = Math.max(0, totaalAT - 600);
+      }
     })
     this.data = dagenInHuidigeMaand;
+  }
+
+  geefUrenOp(dagNummer: number, dienst: EffectieveDienst) {
+    if (dienst.gerelateerdeDienst == null) {
+      var start = moment(dienst.start)
+      var einde = moment(dienst.einde)
+      return dienst.start.getDay() == dagNummer ? einde.diff(start) : 0;
+    } else {
+      if (dienst.start.getDay() == dagNummer) {
+        var start = moment(dienst.start)
+        var einde = moment(dienst.einde)
+        return einde.diff(start);
+      } else if (new Date(dienst.gerelateerdeDienst.start).getDay() == dagNummer) {
+        var start = moment(new Date(dienst.gerelateerdeDienst.start));
+        var einde = moment(new Date(dienst.gerelateerdeDienst.einde));
+        return einde.diff(start);
+      } else {
+        return 0;
+      }
+    }
   }
 
   getHuidigeMaand() {
@@ -136,6 +165,7 @@ export class ToonLoonlijstComponent implements OnInit {
           nummer: date.getDate(),
           naam: names[0],
           feestdag: true,
+          dienst: [],
           rijtijd: 0,
           statAT: 0,
           statRest: 0,
@@ -161,6 +191,7 @@ export class ToonLoonlijstComponent implements OnInit {
           nummer: date.getDate(),
           naam: names[date.getDay()],
           feestdag: false,
+          dienst: [],
           rijtijd: 0,
           statAT: 0,
           statRest: 0,

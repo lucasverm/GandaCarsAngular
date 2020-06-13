@@ -26,7 +26,7 @@ export class EffectieveWeekWijzigenComponent implements OnInit {
       data['effectieveDiensten'].forEach(ed => {
         if (ed.gerelateerdeDienst != undefined) {
           if (ed.start < new Date(ed.gerelateerdeDienst.start)) {
-            ed.einde = new Date(ed.gerelateerdeDienst.eind);
+            ed.einde = new Date(ed.gerelateerdeDienst.einde);
             this.effectieveDiensten.push(ed);
           }
         } else {
@@ -48,7 +48,7 @@ export class EffectieveWeekWijzigenComponent implements OnInit {
       this.effectieveDienstenForm.push(this.fb.group({
         id: s.id,
         start: [this.getDateForInput(s.start), [Validators.required]],
-        eind: [this.getDateForInput(s.einde), [Validators.required]],
+        einde: [this.getDateForInput(s.einde), [Validators.required]],
         naam: [s.naam, [Validators.required]],
         andereMinuten: [s.andereMinuten, [Validators.required]],
         totaalAantalMinutenStationnement: [s.totaalAantalMinutenStationnement, [Validators.required]],
@@ -91,7 +91,7 @@ export class EffectieveWeekWijzigenComponent implements OnInit {
     this.effectieveDienstenForm.push(this.fb.group({
       id: '',
       start: ['', [Validators.required]],
-      eind: ['', [Validators.required]],
+      einde: ['', [Validators.required]],
       naam: ['', [Validators.required]],
       andereMinuten: [0, [Validators.required]],
       totaalAantalMinutenStationnement: [0, [Validators.required]],
@@ -131,7 +131,7 @@ export class EffectieveWeekWijzigenComponent implements OnInit {
       dienst.naam = ed.naam;
       dienst.andereMinuten = ed.andereMinuten;
       dienst.start = ed.start;
-      dienst.einde = ed.eind;
+      dienst.einde = ed.einde;
       dienst.busChauffeurId = this.route.snapshot.params['buschauffeurid'];
       dienst.totaalAantalMinutenStationnement = ed.totaalAantalMinutenStationnement;
       dienst.onderbrekingen = [];

@@ -4,6 +4,11 @@ td {
   padding: 10px;
 }
 
+tr:hover {
+  background-color: red !important;
+  color: white;
+}
+
 .table td,
 .table th {
   white-space: nowrap;

@@ -34,6 +34,7 @@
                     <thead class="thead-dark">
                       <tr>
                         <th scope="col">Datum</th>
+                        <th scope="col">Dienst</th>
                         <th scope="col">Stel.</th>
                         <th scope="col">Rijtijd</th>
                         <th scope="col">Stat. AT</th>
@@ -59,6 +60,12 @@
                       <tbody>
                         <tr *ngFor="let item of data">
                           <td>{{item.nummer}}-{{item.maand}}-{{item.jaar}} {{item.naam}}</td>
+                          <td>
+                            <span *ngFor="let naam of item.dienst; let i=index">{{naam}}
+                              <span *ngIf="(i + 1) != item.dienst.length"> + </span>
+                            </span>
+                            <span *ngIf="item.dienst.length == 0">r</span>
+                          </td>
                           <td>{{ instellingen.stelsel }}</td>
                           <td>{{ msToTime(item.rijtijd) }}</td>
                           <td>{{ minutesToTime(item.statAT) }}</td>
@@ -69,9 +76,9 @@
                           <td>{{ msToTime(item.ampl) }}</td>
                           <td>{{ minutesToTime(item.apdp) }}</td>
                           <td>{{ minutesToTime(item.totaalAT) }}</td>
-                          <td>{{ minutesToTime(item.nacht) }}</td>
-                          <td>{{ minutesToTime(item.zat) }}</td>
-                          <td>{{ minutesToTime(item.zon) }}</td>
+                          <td>x</td>
+                          <td>{{ msToTime(item.zat) }}</td>
+                          <td>{{ msToTime(item.zon) }}</td>
                           <td>{{item.ond1}}</td>
                           <td>{{item.ond2}}</td>
                           <td>{{item.ond3}}</td>
