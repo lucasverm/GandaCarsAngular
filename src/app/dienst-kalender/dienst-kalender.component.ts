@@ -143,6 +143,24 @@ export class dienstKalenderComponent {
                   start: this.getDateForInputMetTijd(ed.start),
                   end: this.getDateForInputMetTijd(ed.einde),
                   color: "#FF0000",
+                  url: `../../effectieve-week-wijzigen/${this.getCurrentYear()}/${this.getCurrentWeekNumber()}/${
+                    this.busChauffeur.id
+                  }`,
+                });
+                ed.onderbrekingen.forEach((onderbreking, index) => {
+                  this.eventData.push({
+                    title: "onderbreking " + index,
+                    start: this.getDateForInputMetTijd(
+                      onderbreking.effectieveStart
+                    ),
+                    end: this.getDateForInputMetTijd(
+                      onderbreking.effectiefEinde
+                    ),
+                    color: "#FF00F0",
+                    url: `../../effectieve-week-wijzigen/${this.getCurrentYear()}/${this.getCurrentWeekNumber()}/${
+                      this.busChauffeur.id
+                    }`,
+                  });
                 });
               });
             }

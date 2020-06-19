@@ -41,12 +41,7 @@ export class ToonLoonlijstComponent implements OnInit {
   public instellingen: Instellingen;
   public dataTotaal: any[];
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    public feestdagenService: FeestdagenService,
-    public effectieveDienstenService: EffectieveDienstService
-  ) {
+  constructor(private router: Router, private route: ActivatedRoute, public feestdagenService: FeestdagenService, public effectieveDienstenService: EffectieveDienstService) {
     this.route.data.subscribe((data) => {
       this.busChauffeur = data["busChauffeur"];
       this.effectieveDiensten = data["effectieveDiensten"];
@@ -76,107 +71,56 @@ export class ToonLoonlijstComponent implements OnInit {
     } else {
       this.maand.add(1, "months");
     }
-    this.effectieveDienstenService
-      .getEffectieveDienstenByMonth$(
-        this.maand.year(),
-        this.maand.month(),
-        this.busChauffeur.id
-      )
-      .subscribe(
-        (val) => {
-          if (val) {
-            this.effectieveDiensten = val;
-            this.loading = false;
-            this.loadLijst();
-          }
-        },
-        (error) => {
-          this.errorMessage = error.error;
+    this.effectieveDienstenService.getEffectieveDienstenByMonth$(this.maand.year(), this.maand.month(), this.busChauffeur.id).subscribe(
+      (val) => {
+        if (val) {
+          this.effectieveDiensten = val;
           this.loading = false;
+          this.loadLijst();
         }
-      );
+      },
+      (error) => {
+        this.errorMessage = error.error;
+        this.loading = false;
+      }
+    );
   }
 
   loadLijst() {
     var dagenInHuidigeMaand = this.dagenInHuidigeMaand();
     this.effectieveDiensten.forEach((dienst) => {
-      if (
-        dienst.gerelateerdeDienst == null ||
-        dienst.start < new Date(dienst.gerelateerdeDienst.start)
-      ) {
-        console.log(dienst);
+      if (dienst.gerelateerdeDienst == null || dienst.start < new Date(dienst.gerelateerdeDienst.start)) {
         var start = moment(dienst.start);
-        var einde = moment(
-          dienst.gerelateerdeDienst != null
-            ? new Date(dienst.gerelateerdeDienst.einde)
-            : dienst.einde
-        );
-        var aantalMinutenStationnement =
-          dienst.totaalAantalMinutenStationnement;
-        let statAT =
-          aantalMinutenStationnement > 15 ? 15 : aantalMinutenStationnement;
-        let statRest =
-          aantalMinutenStationnement - 15 > 30
-            ? 30
-            : Math.max(0, aantalMinutenStationnement - 15);
-        var totaalAT =
-          einde.diff(start) / 60000 +
-          statAT +
-          this.instellingen.aantalMinutenAdministratieveTijdVoorDienst +
-          dienst.andereMinuten;
-        var nacht = moment(dienst.start).diff(
-          moment(
-            new Date(
-              dienst.start.getFullYear(),
-              dienst.start.getMonth(),
-              dienst.start.getDate(),
-              0,
-              0
-            )
-          )
-        );
-        var zat = this.geefUrenOp(6, dienst);
-        var zon = this.geefUrenOp(0, dienst);
-        dagenInHuidigeMaand[dienst.start.getDate() - 1].dienst.push(
-          dienst.naam
-        );
-        dagenInHuidigeMaand[dienst.start.getDate() - 1].ond1 =
-          dienst.onderbrekingen.length >= 1 ? 1 : 0;
-        dagenInHuidigeMaand[dienst.start.getDate() - 1].rijtijd += einde.diff(
-          start
-        );
+        var einde = moment(dienst.gerelateerdeDienst != null ? new Date(dienst.gerelateerdeDienst.einde) : dienst.einde);
+        var aantalMinutenStationnement = dienst.totaalAantalMinutenStationnement;
+        let statAT = aantalMinutenStationnement > 15 ? 15 : aantalMinutenStationnement;
+        var totaleTijdOnderbrekingen = 0;
+        dienst.onderbrekingen.forEach((onderbreking) => {
+          totaleTijdOnderbrekingen += moment(onderbreking.effectiefEinde).diff(moment(onderbreking.effectieveStart));
+        });
+        let statRest = aantalMinutenStationnement - 15 > 30 ? 30 : Math.max(0, aantalMinutenStationnement - 15);
+        var totaalAT = einde.diff(start) - totaleTijdOnderbrekingen / 60000 + statAT + this.instellingen.aantalMinutenAdministratieveTijdVoorDienst + dienst.andereMinuten;
+        var nacht = moment(dienst.start).diff(moment(new Date(dienst.start.getFullYear(), dienst.start.getMonth(), dienst.start.getDate(), 0, 0)));
+        var zat = this.geefUrenOp(6, dienst, totaleTijdOnderbrekingen);
+        var zon = this.geefUrenOp(0, dienst, totaleTijdOnderbrekingen);
+        dagenInHuidigeMaand[dienst.start.getDate() - 1].dienst.push(dienst.naam);
+        dagenInHuidigeMaand[dienst.start.getDate() - 1].rijtijd += einde.diff(start) - totaleTijdOnderbrekingen;
         dagenInHuidigeMaand[dienst.start.getDate() - 1].statAT = statAT;
         dagenInHuidigeMaand[dienst.start.getDate() - 1].statRest = statRest;
-        dagenInHuidigeMaand[dienst.start.getDate() - 1].stat50 = Math.max(
-          0,
-          aantalMinutenStationnement - 45
-        );
-        dagenInHuidigeMaand[
-          dienst.start.getDate() - 1
-        ].admin = this.instellingen.aantalMinutenAdministratieveTijdVoorDienst;
-        dagenInHuidigeMaand[dienst.start.getDate() - 1].ander =
-          dienst.andereMinuten;
-        dagenInHuidigeMaand[dienst.start.getDate() - 1].ampl = Math.max(
-          0,
-          dagenInHuidigeMaand[dienst.start.getDate() - 1].rijtijd - 43200000
-        );
-        dagenInHuidigeMaand[dienst.start.getDate() - 1].apdp = Math.max(
-          0,
-          240 - totaalAT
-        );
+        dagenInHuidigeMaand[dienst.start.getDate() - 1].stat50 = Math.max(0, aantalMinutenStationnement - 45);
+        dagenInHuidigeMaand[dienst.start.getDate() - 1].admin = this.instellingen.aantalMinutenAdministratieveTijdVoorDienst;
+        dagenInHuidigeMaand[dienst.start.getDate() - 1].ander = dienst.andereMinuten;
+        dagenInHuidigeMaand[dienst.start.getDate() - 1].ampl = Math.max(0, dagenInHuidigeMaand[dienst.start.getDate() - 1].rijtijd - 43200000);
+        dagenInHuidigeMaand[dienst.start.getDate() - 1].apdp = Math.max(0, 240 - totaalAT);
         dagenInHuidigeMaand[dienst.start.getDate() - 1].totaalAT += totaalAT;
         dagenInHuidigeMaand[dienst.start.getDate() - 1].nacht = totaalAT;
         dagenInHuidigeMaand[dienst.start.getDate() - 1].zat += zat;
         dagenInHuidigeMaand[dienst.start.getDate() - 1].zon += zon;
-        dagenInHuidigeMaand[dienst.start.getDate() - 1].ond2 =
-          dienst.onderbrekingen.length >= 2 ? 1 : 0;
-        dagenInHuidigeMaand[dienst.start.getDate() - 1].ond3 =
-          dienst.onderbrekingen.length >= 3 ? 1 : 0;
+        dagenInHuidigeMaand[dienst.start.getDate() - 1].ond1 = dienst.onderbrekingen.length >= 1 ? 1 : 0;
+        dagenInHuidigeMaand[dienst.start.getDate() - 1].ond2 = dienst.onderbrekingen.length >= 2 ? 1 : 0;
+        dagenInHuidigeMaand[dienst.start.getDate() - 1].ond3 = dienst.onderbrekingen.length >= 3 ? 1 : 0;
         dagenInHuidigeMaand[dienst.start.getDate() - 1].onvPres = 0;
-        dagenInHuidigeMaand[dienst.start.getDate() - 1].overuren = Math.max(
-          0,
-          totaalAT - 600
-        );
+        dagenInHuidigeMaand[dienst.start.getDate() - 1].overuren = Math.max(0, totaalAT - 600);
       }
     });
     this.data = dagenInHuidigeMaand;
@@ -197,22 +141,20 @@ export class ToonLoonlijstComponent implements OnInit {
     return result;
   }
 
-  geefUrenOp(dagNummer: number, dienst: EffectieveDienst) {
+  geefUrenOp(dagNummer: number, dienst: EffectieveDienst, urenOnderbreking: number) {
     if (dienst.gerelateerdeDienst == null) {
       var start = moment(dienst.start);
       var einde = moment(dienst.einde);
-      return dienst.start.getDay() == dagNummer ? einde.diff(start) : 0;
+      return dienst.start.getDay() == dagNummer ? einde.diff(start) - urenOnderbreking : 0;
     } else {
       if (dienst.start.getDay() == dagNummer) {
         var start = moment(dienst.start);
         var einde = moment(dienst.einde);
-        return einde.diff(start);
-      } else if (
-        new Date(dienst.gerelateerdeDienst.start).getDay() == dagNummer
-      ) {
+        return einde.diff(start) - urenOnderbreking;
+      } else if (new Date(dienst.gerelateerdeDienst.start).getDay() == dagNummer) {
         var start = moment(new Date(dienst.gerelateerdeDienst.start));
         var einde = moment(new Date(dienst.gerelateerdeDienst.einde));
-        return einde.diff(start);
+        return einde.diff(start) - urenOnderbreking;
       } else {
         return 0;
       }
@@ -220,10 +162,7 @@ export class ToonLoonlijstComponent implements OnInit {
   }
 
   getHuidigeMaand() {
-    return (
-      this.maand.format("MMMM").charAt(0).toUpperCase() +
-      this.maand.format("MMMM").substring(1)
-    );
+    return this.maand.format("MMMM").charAt(0).toUpperCase() + this.maand.format("MMMM").substring(1);
   }
 
   dagenInHuidigeMaand(): any[] {
@@ -232,9 +171,7 @@ export class ToonLoonlijstComponent implements OnInit {
     var date = new Date(moment().year(), monthIndex, 1);
     var result = [];
     while (date.getMonth() == monthIndex) {
-      if (
-        this.feestdagen.find((t) => t.dag.toDateString() == date.toDateString())
-      ) {
+      if (this.feestdagen.find((t) => t.dag.toDateString() == date.toDateString())) {
         result.push({
           jaar: date.getFullYear(),
           maand: this.maand.format("MM"),
@@ -299,36 +236,21 @@ export class ToonLoonlijstComponent implements OnInit {
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-    XLSX.writeFile(
-      wb,
-      `${this.busChauffeur.voornaam}_${
-        this.busChauffeur.achternaam
-      }_${this.getHuidigeMaand()}.xlsx`
-    );
+    XLSX.writeFile(wb, `${this.busChauffeur.voornaam}_${this.busChauffeur.achternaam}_${this.getHuidigeMaand()}.xlsx`);
   }
 
   msToTime(duration) {
     var tijd = moment.duration(duration);
-    var hours =
-      tijd.hours().toString().length == 1
-        ? 0 + tijd.hours().toString()
-        : tijd.hours().toString();
-    var minutes =
-      tijd.minutes().toString().length == 1
-        ? 0 + tijd.minutes().toString()
-        : tijd.minutes().toString();
+    var hours = tijd.hours().toString().length == 1 ? 0 + tijd.hours().toString() : tijd.hours().toString();
+    var minutes = tijd.minutes().toString().length == 1 ? 0 + tijd.minutes().toString() : tijd.minutes().toString();
     return `${hours}:${minutes}`;
   }
 
   minutesToTime(value: number): string {
     var hours = Math.floor((value * 60) / 3600);
     var minutes = value % 60;
-    var hoursUitvoer =
-      hours.toString().length == 1 ? 0 + hours.toString() : hours.toString();
-    var minutesUitvoer =
-      minutes.toString().length == 1
-        ? 0 + minutes.toString()
-        : minutes.toString();
+    var hoursUitvoer = hours.toString().length == 1 ? 0 + hours.toString() : hours.toString();
+    var minutesUitvoer = minutes.toString().length == 1 ? 0 + minutes.toString() : minutes.toString();
     return hoursUitvoer + ":" + minutesUitvoer;
   }
 }
