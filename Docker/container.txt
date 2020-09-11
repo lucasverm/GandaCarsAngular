@@ -1,0 +1,4 @@
+cd Documents/GandaCars/GandaCarsAngular
+docker build -t lucas/gandacars -f ./Docker/Dockerfile .
+docker run -d -p 80:80 --name gandacarsAPI lucas/gandacars
+docker run -it -p 80:80 --rm angular:build
