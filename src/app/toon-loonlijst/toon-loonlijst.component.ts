@@ -1,13 +1,13 @@
-import { Component, OnInit, Input } from "@angular/core";
-import { BusChauffeur } from "../modals/bus-chauffeur";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
 import * as moment from "moment";
-import { FeestdagenService } from "../services/feestdagen.service";
-import { Feestdag } from "../modals/feestdag";
-import { EffectieveDienstService } from "../services/effectieve-dienst.service";
-import { EffectieveDienst } from "../modals/effectieve-dienst";
-import { Instellingen } from "../modals/instellingen";
 import * as XLSX from "xlsx";
+import { BusChauffeur } from "../modals/bus-chauffeur";
+import { EffectieveDienst } from "../modals/effectieve-dienst";
+import { Feestdag } from "../modals/feestdag";
+import { Instellingen } from "../modals/instellingen";
+import { EffectieveDienstService } from "../services/effectieve-dienst.service";
+import { FeestdagenService } from "../services/feestdagen.service";
 
 @Component({
   selector: "app-toon-loonlijst",
@@ -89,9 +89,9 @@ export class ToonLoonlijstComponent implements OnInit {
   loadLijst() {
     var dagenInHuidigeMaand = this.dagenInHuidigeMaand();
     this.effectieveDiensten.forEach((dienst) => {
-      if (dienst.gerelateerdeDienst == null || dienst.start < new Date(dienst.gerelateerdeDienst.start)) {
+      if (dienst.gerelateerdeDienst === undefined || dienst.start < new Date(dienst.gerelateerdeDienst.start)) {
         var start = moment(dienst.start);
-        var einde = moment(dienst.gerelateerdeDienst != null ? new Date(dienst.gerelateerdeDienst.einde) : dienst.einde);
+        var einde = moment(dienst.gerelateerdeDienst !== undefined ? new Date(dienst.gerelateerdeDienst.einde) : dienst.einde);
         var aantalMinutenStationnement = dienst.totaalAantalMinutenStationnement;
         let statAT = aantalMinutenStationnement > 15 ? 15 : aantalMinutenStationnement;
         var totaleTijdOnderbrekingen = 0;
@@ -142,16 +142,16 @@ export class ToonLoonlijstComponent implements OnInit {
   }
 
   geefUrenOp(dagNummer: number, dienst: EffectieveDienst, urenOnderbreking: number) {
-    if (dienst.gerelateerdeDienst == null) {
+    if (dienst.gerelateerdeDienst === undefined) {
       var start = moment(dienst.start);
       var einde = moment(dienst.einde);
-      return dienst.start.getDay() == dagNummer ? einde.diff(start) - urenOnderbreking : 0;
+      return dienst.start.getDay() === dagNummer ? einde.diff(start) - urenOnderbreking : 0;
     } else {
-      if (dienst.start.getDay() == dagNummer) {
+      if (dienst.start.getDay() === dagNummer) {
         var start = moment(dienst.start);
         var einde = moment(dienst.einde);
         return einde.diff(start) - urenOnderbreking;
-      } else if (new Date(dienst.gerelateerdeDienst.start).getDay() == dagNummer) {
+      } else if (new Date(dienst.gerelateerdeDienst.start).getDay() === dagNummer) {
         var start = moment(new Date(dienst.gerelateerdeDienst.start));
         var einde = moment(new Date(dienst.gerelateerdeDienst.einde));
         return einde.diff(start) - urenOnderbreking;
@@ -170,8 +170,8 @@ export class ToonLoonlijstComponent implements OnInit {
     var names = ["Zo", "Ma", "Di", "Woe", "Do", "Vrij", "Za"];
     var date = new Date(moment().year(), monthIndex, 1);
     var result = [];
-    while (date.getMonth() == monthIndex) {
-      if (this.feestdagen.find((t) => t.dag.toDateString() == date.toDateString())) {
+    while (date.getMonth() === monthIndex) {
+      if (this.feestdagen.find((t) => t.dag.toDateString() === date.toDateString())) {
         result.push({
           jaar: date.getFullYear(),
           maand: this.maand.format("MM"),
@@ -241,16 +241,16 @@ export class ToonLoonlijstComponent implements OnInit {
 
   msToTime(duration) {
     var tijd = moment.duration(duration);
-    var hours = tijd.hours().toString().length == 1 ? 0 + tijd.hours().toString() : tijd.hours().toString();
-    var minutes = tijd.minutes().toString().length == 1 ? 0 + tijd.minutes().toString() : tijd.minutes().toString();
+    var hours = tijd.hours().toString().length === 1 ? 0 + tijd.hours().toString() : tijd.hours().toString();
+    var minutes = tijd.minutes().toString().length === 1 ? 0 + tijd.minutes().toString() : tijd.minutes().toString();
     return `${hours}:${minutes}`;
   }
 
   minutesToTime(value: number): string {
     var hours = Math.floor((value * 60) / 3600);
     var minutes = value % 60;
-    var hoursUitvoer = hours.toString().length == 1 ? 0 + hours.toString() : hours.toString();
-    var minutesUitvoer = minutes.toString().length == 1 ? 0 + minutes.toString() : minutes.toString();
+    var hoursUitvoer = hours.toString().length === 1 ? 0 + hours.toString() : hours.toString();
+    var minutesUitvoer = minutes.toString().length === 1 ? 0 + minutes.toString() : minutes.toString();
     return hoursUitvoer + ":" + minutesUitvoer;
   }
 }

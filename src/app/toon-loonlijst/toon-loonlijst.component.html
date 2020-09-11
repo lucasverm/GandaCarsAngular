@@ -3,41 +3,23 @@
     <div class="col-12">
       <div class="card marginTop10">
         <div class="card-header">
-          <h2 class="d-inline">
-            <i class="fa fa-fw fa-file-invoice"></i
-            ><strong> Toon loonlijst</strong>
-          </h2>
-          <button
-            class="float-right btn btn-primary"
-            (click)="printLoonlijst()"
-            id="printLoonlijst"
-          >
+          <h2 class="d-inline"><i class="fa fa-fw fa-file-invoice"></i><strong> Toon loonlijst</strong></h2>
+          <button class="float-right btn btn-primary" (click)="printLoonlijst()" id="printLoonlijst">
             <i class="fa fa-fw fa-print"></i>
             <span class="d-none d-sm-inline"> Afdrukken</span>
           </button>
         </div>
         <div class="card-body">
           <div class="col-12">
-            <div
-              class="alert alert-success"
-              role="alert"
-              [hidden]="successMessage == null"
-            >
+            <div class="alert alert-success" role="alert" [hidden]="successMessage === undefined">
               {{ successMessage }}
             </div>
-            <div
-              class="alert alert-danger"
-              role="alert"
-              [hidden]="errorMessage == null"
-            >
+            <div class="alert alert-danger" role="alert" [hidden]="errorMessage === undefined">
               {{ errorMessage }}
             </div>
             <div class="row align-bottom">
               <div class="col-1 text-left">
-                <button
-                  class="btn btn-primary marginBottom1O"
-                  (click)="veranderHuidigeMaand(-1)"
-                >
+                <button class="btn btn-primary marginBottom1O" (click)="veranderHuidigeMaand(-1)">
                   <i class="fa fa-fw fa-arrow-left"></i>
                 </button>
               </div>
@@ -45,10 +27,7 @@
                 <h2 class="d-inline">{{ getHuidigeMaand() }}</h2>
               </div>
               <div class="col-1 text-right">
-                <button
-                  class="btn btn-primary marginBottom1O"
-                  (click)="veranderHuidigeMaand(1)"
-                >
+                <button class="btn btn-primary marginBottom1O" (click)="veranderHuidigeMaand(1)">
                   <i class="fa fa-fw fa-arrow-right"></i>
                 </button>
               </div>
@@ -88,14 +67,11 @@
                             {{ item.naam }}
                           </td>
                           <td>
-                            <span
-                              *ngFor="let naam of item.dienst; let i = index"
+                            <span *ngFor="let naam of item.dienst; let i = index"
                               >{{ naam }}
-                              <span *ngIf="i + 1 != item.dienst.length">
-                                +
-                              </span>
+                              <span *ngIf="i + 1 !== item.dienst.length"> + </span>
                             </span>
-                            <span *ngIf="item.dienst.length == 0">r</span>
+                            <span *ngIf="item.dienst.length === 0">r</span>
                           </td>
                           <td>{{ instellingen.stelsel }}</td>
                           <td>{{ msToTime(item.rijtijd) }}</td>

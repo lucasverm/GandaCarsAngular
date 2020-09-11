@@ -1,12 +1,12 @@
-import { Component, OnInit } from "@angular/core";
-import { FormGroup, FormBuilder, Validators, FormArray } from "@angular/forms";
-import { Router } from "@angular/router";
-import { BusChauffeurService } from "../services/bus-chauffeur.service";
 import { HttpErrorResponse } from "@angular/common/http";
-import { DagenVanDeWeek } from "../modals/dagen-van-de-week.enum";
+import { Component, OnInit } from "@angular/core";
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
 import { BusChauffeur } from "../modals/bus-chauffeur";
-import { DienstService } from "../services/dienst.service";
+import { DagenVanDeWeek } from "../modals/dagen-van-de-week.enum";
 import { Onderbreking } from "../modals/onderbreking";
+import { BusChauffeurService } from "../services/bus-chauffeur.service";
+import { DienstService } from "../services/dienst.service";
 
 @Component({
   selector: "app-dienst-toevoegen",
@@ -14,18 +14,13 @@ import { Onderbreking } from "../modals/onderbreking";
   styleUrls: ["./dienst-toevoegen.component.scss"],
 })
 export class DienstToevoegenComponent implements OnInit {
-  public errorMessage: String = null;
-  public successMessage: String = null;
+  public errorMessage: String = undefined;
+  public successMessage: String = undefined;
   public dienstToevoegenFormulier: FormGroup;
   public dagenVanDeWeek = Object.values(DagenVanDeWeek.properties);
   public busChauffeurs: BusChauffeur[];
 
-  constructor(
-    public router: Router,
-    private fb: FormBuilder,
-    private dienstService: DienstService,
-    private busChauffeurService: BusChauffeurService
-  ) {}
+  constructor(public router: Router, private fb: FormBuilder, private dienstService: DienstService, private busChauffeurService: BusChauffeurService) {}
 
   ngOnInit() {
     this.dienstToevoegenFormulier = this.fb.group({
@@ -72,11 +67,11 @@ export class DienstToevoegenComponent implements OnInit {
   }
 
   dienstToevoegen() {
-    this.errorMessage = null;
+    this.errorMessage = undefined;
     let onderbrekingen = [];
     this.dienstToevoegenFormulier.value.onderbrekingen.forEach((s) => {
       let ond = new Onderbreking();
-      if (s.id != null) {
+      if (s.id !== undefined) {
         ond.id = s.id;
       } else {
         s.id = "";

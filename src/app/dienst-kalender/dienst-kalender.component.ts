@@ -1,17 +1,13 @@
-import { ViewChild, Component, Input, ElementRef } from "@angular/core";
-import { Dienst } from "../modals/dienst";
-import { Calendar } from "@fullcalendar/core";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import bootstrapPlugin from "@fullcalendar/bootstrap";
-import { FeestdagenService } from "../services/feestdagen.service";
-import { FullCalendarComponent } from "@fullcalendar/angular";
-import * as moment from "moment";
-import { Router } from "@angular/router";
-import { BusChauffeur } from "../modals/bus-chauffeur";
-import { BehaviorSubject } from "rxjs";
-import { EffectieveDienstService } from "../services/effectieve-dienst.service";
 import { HttpErrorResponse } from "@angular/common/http";
-import { element } from "protractor";
+import { Component, Input, ViewChild } from "@angular/core";
+import { Router } from "@angular/router";
+import { FullCalendarComponent } from "@fullcalendar/angular";
+import bootstrapPlugin from "@fullcalendar/bootstrap";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import * as moment from "moment";
+import { BusChauffeur } from "../modals/bus-chauffeur";
+import { EffectieveDienstService } from "../services/effectieve-dienst.service";
+import { FeestdagenService } from "../services/feestdagen.service";
 
 @Component({
   selector: "app-dienst-kalender",
@@ -46,20 +42,16 @@ export class dienstKalenderComponent {
   };
 
   public eventData = [];
-  public recurringEvents = null;
-  public feestdagen = null;
+  public recurringEvents = undefined;
+  public feestdagen = undefined;
   public apiCall;
-  constructor(
-    private router: Router,
-    private feestdagenService: FeestdagenService,
-    private effectieveDienstService: EffectieveDienstService
-  ) {}
+  constructor(private router: Router, private feestdagenService: FeestdagenService, private effectieveDienstService: EffectieveDienstService) {}
 
   loadRecurrentEvents() {
-    if (this.recurringEvents == null) {
+    if (this.recurringEvents === undefined) {
       this.recurringEvents = [];
       this.busChauffeur.diensten.forEach((dienst) => {
-        if (dienst.startDag != dienst.eindDag) {
+        if (dienst.startDag !== dienst.eindDag) {
           this.recurringEvents.push(
             {
               title: dienst.naam,
@@ -91,7 +83,7 @@ export class dienstKalenderComponent {
   }
 
   loadFeestdagen() {
-    if (this.feestdagen == null) {
+    if (this.feestdagen === undefined) {
       this.feestdagen = [];
       this.feestdagenService.getAllFeestdagen$().subscribe((val) => {
         if (val) {
@@ -123,53 +115,39 @@ export class dienstKalenderComponent {
   }
 
   loadCalenderVoorWeek() {
-    this.effectieveDienstService
-      .getEffectieveDiensten$(
-        this.getCurrentYear(),
-        this.getCurrentWeekNumber().toString(),
-        this.busChauffeur.id
-      )
-      .subscribe(
-        (val) => {
-          if (val) {
-            this.eventData = [];
-            this.loadFeestdagen();
-            if (val.length == 0) {
-              this.loadRecurrentEvents();
-            } else {
-              val.forEach((ed) => {
+    this.effectieveDienstService.getEffectieveDiensten$(this.getCurrentYear(), this.getCurrentWeekNumber().toString(), this.busChauffeur.id).subscribe(
+      (val) => {
+        if (val) {
+          this.eventData = [];
+          this.loadFeestdagen();
+          if (val.length === 0) {
+            this.loadRecurrentEvents();
+          } else {
+            val.forEach((ed) => {
+              this.eventData.push({
+                title: ed.naam,
+                start: this.getDateForInputMetTijd(ed.start),
+                end: this.getDateForInputMetTijd(ed.einde),
+                color: "#FF0000",
+                url: `../../effectieve-week-wijzigen/${this.getCurrentYear()}/${this.getCurrentWeekNumber()}/${this.busChauffeur.id}`,
+              });
+              ed.onderbrekingen.forEach((onderbreking, index) => {
                 this.eventData.push({
-                  title: ed.naam,
-                  start: this.getDateForInputMetTijd(ed.start),
-                  end: this.getDateForInputMetTijd(ed.einde),
-                  color: "#FF0000",
-                  url: `../../effectieve-week-wijzigen/${this.getCurrentYear()}/${this.getCurrentWeekNumber()}/${
-                    this.busChauffeur.id
-                  }`,
-                });
-                ed.onderbrekingen.forEach((onderbreking, index) => {
-                  this.eventData.push({
-                    title: "onderbreking " + index,
-                    start: this.getDateForInputMetTijd(
-                      onderbreking.effectieveStart
-                    ),
-                    end: this.getDateForInputMetTijd(
-                      onderbreking.effectiefEinde
-                    ),
-                    color: "#FF00F0",
-                    url: `../../effectieve-week-wijzigen/${this.getCurrentYear()}/${this.getCurrentWeekNumber()}/${
-                      this.busChauffeur.id
-                    }`,
-                  });
+                  title: "onderbreking " + index,
+                  start: this.getDateForInputMetTijd(onderbreking.effectieveStart),
+                  end: this.getDateForInputMetTijd(onderbreking.effectiefEinde),
+                  color: "#FF00F0",
+                  url: `../../effectieve-week-wijzigen/${this.getCurrentYear()}/${this.getCurrentWeekNumber()}/${this.busChauffeur.id}`,
                 });
               });
-            }
+            });
           }
-        },
-        (error: HttpErrorResponse) => {
-          this.errorMessage = error.error;
         }
-      );
+      },
+      (error: HttpErrorResponse) => {
+        this.errorMessage = error.error;
+      }
+    );
   }
 
   public veranderWeekNext() {
@@ -203,11 +181,7 @@ export class dienstKalenderComponent {
   }
 
   bewerkWeek() {
-    this.router.navigate([
-      `../../effectieve-week-wijzigen/${this.getCurrentYear()}/${this.getCurrentWeekNumber()}/${
-        this.busChauffeur.id
-      }`,
-    ]);
+    this.router.navigate([`../../effectieve-week-wijzigen/${this.getCurrentYear()}/${this.getCurrentWeekNumber()}/${this.busChauffeur.id}`]);
   }
 
   getCurrentDate() {
@@ -225,12 +199,12 @@ export class dienstKalenderComponent {
   getDateForInput(date: Date): string {
     var uitvoer: string = "";
     uitvoer += date.getFullYear() + "-";
-    if (date.getMonth().toString().length == 1) {
+    if (date.getMonth().toString().length === 1) {
       uitvoer += "0" + (date.getMonth() + 1) + "-";
     } else {
       uitvoer += date.getMonth() + 1 + "-";
     }
-    if (date.getDate().toString().length == 1) {
+    if (date.getDate().toString().length === 1) {
       uitvoer += "0" + date.getDate();
     } else {
       uitvoer += date.getDate();
@@ -241,12 +215,12 @@ export class dienstKalenderComponent {
   getDateForInputMetTijd(date: Date): string {
     var uitvoer: string = "";
     uitvoer += date.getFullYear() + "-";
-    if (date.getMonth().toString().length == 1) {
+    if (date.getMonth().toString().length === 1) {
       uitvoer += "0" + (date.getMonth() + 1) + "-";
     } else {
       uitvoer += date.getMonth() + 1 + "-";
     }
-    if (date.getDate().toString().length == 1) {
+    if (date.getDate().toString().length === 1) {
       uitvoer += "0" + date.getDate();
     } else {
       uitvoer += date.getDate();

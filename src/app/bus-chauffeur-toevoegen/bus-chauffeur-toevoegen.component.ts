@@ -1,8 +1,8 @@
-import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { BusChauffeurService } from "../services/bus-chauffeur.service";
 import { HttpErrorResponse } from "@angular/common/http";
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
+import { BusChauffeurService } from "../services/bus-chauffeur.service";
 
 @Component({
   selector: "app-bus-chauffeur-toevoegen",
@@ -10,15 +10,11 @@ import { HttpErrorResponse } from "@angular/common/http";
   styleUrls: ["./bus-chauffeur-toevoegen.component.scss"],
 })
 export class BusChauffeurToevoegenComponent implements OnInit {
-  public errorMessage: String = null;
-  public successMessage: String = null;
+  public errorMessage: String = undefined;
+  public successMessage: String = undefined;
   public busChauffeurToevoegenFormulier: FormGroup;
 
-  constructor(
-    public router: Router,
-    private fb: FormBuilder,
-    private busChauffeurService: BusChauffeurService
-  ) {}
+  constructor(public router: Router, private fb: FormBuilder, private busChauffeurService: BusChauffeurService) {}
 
   ngOnInit() {
     this.busChauffeurToevoegenFormulier = this.fb.group({

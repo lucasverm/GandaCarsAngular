@@ -1,8 +1,8 @@
+import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { Dienst } from "../modals/dienst";
 import { DienstService } from "../services/dienst.service";
-import { Router } from "@angular/router";
-import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
   selector: "app-dienst-overzicht",
@@ -12,8 +12,8 @@ import { HttpErrorResponse } from "@angular/common/http";
 export class DienstOverzichtComponent implements OnInit {
   public loadingDiensten = true;
   public diensten: Dienst[];
-  public errorMessage: String = null;
-  public successMessage: String = null;
+  public errorMessage: String = undefined;
+  public successMessage: String = undefined;
 
   constructor(private dienstService: DienstService, private router: Router) {}
 

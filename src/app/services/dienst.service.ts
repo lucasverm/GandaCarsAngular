@@ -1,29 +1,29 @@
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
-import { BusChauffeur } from '../modals/bus-chauffeur';
-import { Dienst } from '../modals/dienst';
-import { Onderbreking } from '../modals/onderbreking';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
+import { Observable, throwError } from "rxjs";
+import { catchError, map } from "rxjs/operators";
+import { environment } from "src/environments/environment";
+import { Dienst } from "../modals/dienst";
+import { Onderbreking } from "../modals/onderbreking";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class DienstService {
-
-  constructor(private router: Router, private http: HttpClient) { }
+  constructor(private router: Router, private http: HttpClient) {}
 
   getDienstById$(id: string): Observable<Dienst> {
     return this.http.get(`${environment.apiUrl}/Dienst/${id}`).pipe(
-      catchError(error => {
+      catchError((error) => {
         return throwError(error);
       }),
-      map((d: any): Dienst => {
-        d = Dienst.fromJSON(d);
-        return d;
-      })
+      map(
+        (d: any): Dienst => {
+          d = Dienst.fromJSON(d);
+          return d;
+        }
+      )
     );
   }
 
@@ -34,63 +34,79 @@ export class DienstService {
     eindDag: number,
     eindUur: Date,
     busChauffeurId: string,
-    totaalAantalMinutenStationnement: number, onderbrekingen: Onderbreking[]): Observable<Dienst> {
-    return this.http.post<Dienst>(`${environment.apiUrl}/Dienst`,
-      { naam, startUur, eindUur, startDag, eindDag, busChauffeurId, totaalAantalMinutenStationnement, onderbrekingen }, { responseType: 'json' })
+    totaalAantalMinutenStationnement: number,
+    onderbrekingen: Onderbreking[]
+  ): Observable<Dienst> {
+    return this.http
+      .post<Dienst>(
+        `${environment.apiUrl}/Dienst`,
+        { naam, startUur, eindUur, startDag, eindDag, busChauffeurId, totaalAantalMinutenStationnement, onderbrekingen },
+        { responseType: "json" }
+      )
       .pipe(
-        catchError(error => {
+        catchError((error) => {
           return throwError(error);
         }),
-        map((d: any): Dienst => {
-          d = Dienst.fromJSON(d);
-          return d;
-        })
+        map(
+          (d: any): Dienst => {
+            d = Dienst.fromJSON(d);
+            return d;
+          }
+        )
       );
   }
 
   deleteDienst$(d: Dienst): Observable<Dienst> {
     return this.http.delete<Dienst>(`${environment.apiUrl}/Dienst/${d.id}`).pipe(
-      catchError(error => {
-        return throwError(error)
+      catchError((error) => {
+        return throwError(error);
       }),
-      map((item: any): Dienst => {
-        item = Dienst.fromJSON(item);
-        return item;
-      })
+      map(
+        (item: any): Dienst => {
+          item = Dienst.fromJSON(item);
+          return item;
+        }
+      )
     );
   }
 
   putDienst$(dienst: Dienst): Observable<Dienst> {
-    return this.http.put<Dienst>(`${environment.apiUrl}/Dienst/${dienst.id}`,
-      {
-        id: dienst.id,
-        naam: dienst.naam,
-        startDag: dienst.startDag,
-        startUur: dienst.startUur,
-        eindDag: dienst.eindDag,
-        eindUur: dienst.eindUur,
-        busChauffeurId: dienst.busChauffeur.id,
-        totaalAantalMinutenStationnement: dienst.totaalAantalMinutenStationnement,
-        onderbrekingen: dienst.onderbrekingen
-      }, { responseType: 'json' })
+    return this.http
+      .put<Dienst>(
+        `${environment.apiUrl}/Dienst/${dienst.id}`,
+        {
+          id: dienst.id,
+          naam: dienst.naam,
+          startDag: dienst.startDag,
+          startUur: dienst.startUur,
+          eindDag: dienst.eindDag,
+          eindUur: dienst.eindUur,
+          busChauffeurId: dienst.busChauffeur.id,
+          totaalAantalMinutenStationnement: dienst.totaalAantalMinutenStationnement,
+          onderbrekingen: dienst.onderbrekingen,
+        },
+        { responseType: "json" }
+      )
       .pipe(
-        catchError(error => {
+        catchError((error) => {
           return throwError(error);
         }),
-        map((item: any): Dienst => {
-          item = Dienst.fromJSON(item);
-          return item;
-        })
+        map(
+          (item: any): Dienst => {
+            item = Dienst.fromJSON(item);
+            return item;
+          }
+        )
       );
   }
 
   getAllDiensten$(): Observable<any[]> {
     return this.http.get(`${environment.apiUrl}/Dienst/getAll`).pipe(
-      catchError(error => {
+      catchError((error) => {
         return throwError(error);
       }),
       map((list: any[]): any[] => {
-        list = list.map(Dienst.fromJSON)
+        list = list.map(Dienst.fromJSON);
         return list;
       })
     );

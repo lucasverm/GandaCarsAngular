@@ -1,13 +1,8 @@
 import { Component, OnInit } from "@angular/core";
-import { FormGroup, FormBuilder, Validators, FormArray } from "@angular/forms";
-import { DagenVanDeWeek } from "../modals/dagen-van-de-week.enum";
-import { BusChauffeur } from "../modals/bus-chauffeur";
-import { Dienst } from "../modals/dienst";
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-import { DienstService } from "../services/dienst.service";
-import { BusChauffeurService } from "../services/bus-chauffeur.service";
-import { FeestdagenService } from "../services/feestdagen.service";
 import { Feestdag } from "../modals/feestdag";
+import { FeestdagenService } from "../services/feestdagen.service";
 
 @Component({
   selector: "app-feestdagen-aanpassen",
@@ -15,17 +10,12 @@ import { Feestdag } from "../modals/feestdag";
   styleUrls: ["./feestdagen-aanpassen.component.scss"],
 })
 export class FeestdagenAanpassenComponent implements OnInit {
-  public successMessage: String = null;
-  public errorMessage: String = null;
+  public successMessage: String = undefined;
+  public errorMessage: String = undefined;
   public feestdagenAanpassenFormulier: FormGroup;
   public feestdagen: Feestdag[];
 
-  constructor(
-    public route: ActivatedRoute,
-    public router: Router,
-    private fb: FormBuilder,
-    private feestdagenService: FeestdagenService
-  ) {}
+  constructor(public route: ActivatedRoute, public router: Router, private fb: FormBuilder, private feestdagenService: FeestdagenService) {}
 
   ngOnInit() {
     this.feestdagenService.getAllFeestdagen$().subscribe(
@@ -96,12 +86,12 @@ export class FeestdagenAanpassenComponent implements OnInit {
   getDateForInput(date: Date): string {
     var uitvoer: string = "";
     uitvoer += date.getFullYear() + "-";
-    if (date.getMonth().toString().length == 1) {
+    if (date.getMonth().toString().length === 1) {
       uitvoer += "0" + (date.getMonth() + 1) + "-";
     } else {
       uitvoer += date.getMonth() + 1 + "-";
     }
-    if (date.getDate().toString().length == 1) {
+    if (date.getDate().toString().length === 1) {
       uitvoer += "0" + date.getDate();
     } else {
       uitvoer += date.getDate();

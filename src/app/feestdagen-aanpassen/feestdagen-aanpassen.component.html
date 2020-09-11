@@ -1,49 +1,45 @@
 <div class="row">
   <div class="col-12">
-
     <div class="card marginTop10">
       <div class="card-header">
-        <h2 class="d-inline"><i class="fa fa-fw fa-birthday-cake"></i><strong> Feestdagen aanpassen</strong>
-        </h2>
+        <h2 class="d-inline"><i class="fa fa-fw fa-birthday-cake"></i><strong> Feestdagen aanpassen</strong></h2>
         <button class="float-right btn btn-primary" (click)="addFeestdag()">
           <i class="fa fa-fw fa-plus-circle"></i>
-          <span class="d-none d-md-inline"> Feestdag toevoegen</span></button>
+          <span class="d-none d-md-inline"> Feestdag toevoegen</span>
+        </button>
       </div>
       <div class="card-body">
-        <form [formGroup]="feestdagenAanpassenFormulier" class="row" (ngSubmit)='feestdagenAanpassen()'>
+        <form [formGroup]="feestdagenAanpassenFormulier" class="row" (ngSubmit)="feestdagenAanpassen()">
           <div class="col-12">
-            <div class="alert alert-success" role="alert" [hidden]="successMessage == null">
-              {{successMessage}}
+            <div class="alert alert-success" role="alert" [hidden]="successMessage === undefined">
+              {{ successMessage }}
             </div>
-            <div class="alert alert-danger" role="alert" [hidden]="errorMessage == null">
-              {{errorMessage}}
+            <div class="alert alert-danger" role="alert" [hidden]="errorMessage === undefined">
+              {{ errorMessage }}
             </div>
-            <h5 class="card-title"><i class="fa fa-fw fa-globe"></i> Feestdagen: </h5>
+            <h5 class="card-title"><i class="fa fa-fw fa-globe"></i> Feestdagen:</h5>
             <div class="row align-bottom">
               <div class="col-12 col-sm-6">
-                <p *ngIf="feestdagenForm.controls.length == 0">Er zijn (nog) geen feestdagen.</p>
+                <p *ngIf="feestdagenForm.controls.length === 0">Er zijn (nog) geen feestdagen.</p>
               </div>
 
               <div class="col-12 marginBottom1O" formArrayName="feestdagenForm">
-                <div class="row marginBottom1O" *ngFor="let item of feestdagenForm.controls; let i=index"
-                  [formGroupName]="i">
+                <div class="row marginBottom1O" *ngFor="let item of feestdagenForm.controls; let i = index" [formGroupName]="i">
                   <div class="col-12 col-md-5 col-lg-3 margin">
                     <label for="naam">Naam: </label>
-                    <input type="text" class="form-control" id="naam" formControlName="naam">
+                    <input type="text" class="form-control" id="naam" formControlName="naam" />
                   </div>
                   <div class="col-12 col-md-5 col-lg-3">
                     <label for="dag">Datum: </label>
-                    <input type="date" class="form-control" id="dag" formControlName="dag">
+                    <input type="date" class="form-control" id="dag" formControlName="dag" />
                   </div>
                   <div class="col-12 col-md-2 col-lg-1 align-self-end">
-                    <button type="button" class="btn btn-danger width100 marginTop10" (click)="deleteFeestdag(i)"><i
-                        class="fa fa-fw fa-times"></i></button>
+                    <button type="button" class="btn btn-danger width100 marginTop10" (click)="deleteFeestdag(i)"><i class="fa fa-fw fa-times"></i></button>
                   </div>
                 </div>
               </div>
               <div class="col-12 col-md-5 col-lg-4 text-left">
-                <button type="submit" class="btn btn-primary width100"
-                  [disabled]='!feestdagenAanpassenFormulier.valid'>Feestdag(en) opslaan!</button>
+                <button type="submit" class="btn btn-primary width100" [disabled]="!feestdagenAanpassenFormulier.valid">Feestdag(en) opslaan!</button>
               </div>
             </div>
           </div>

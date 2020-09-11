@@ -5,8 +5,7 @@ export class Instellingen {
   static fromJSON(json: any): Instellingen {
     var item = new Instellingen();
     item.id = json.id;
-    item.aantalMinutenAdministratieveTijdVoorDienst =
-      json.aantalMinutenAdministratieveTijdVoorDienst;
+    item.aantalMinutenAdministratieveTijdVoorDienst = json.aantalMinutenAdministratieveTijdVoorDienst;
     item.stelsel = json.stelsel;
     return item;
   }

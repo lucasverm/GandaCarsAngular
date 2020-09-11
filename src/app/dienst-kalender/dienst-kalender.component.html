@@ -1,8 +1,20 @@
 <div class="row">
   <div class="col-12">
-    <full-calendar #calendar themeSystem='bootstrap' defaultView="timeGridWeek" [plugins]="calendarPlugins"
-      contentHeight=auto slotDuration="01:00:00" deepChangeDetection="true" [weekends]="true" [events]="eventData"
-      locale="be" [firstDay]=1 [header]="getHeader()" [customButtons]="getCustomButtons">
+    <full-calendar
+      #calendar
+      themeSystem="bootstrap"
+      defaultView="timeGridWeek"
+      [plugins]="calendarPlugins"
+      contentHeight="auto"
+      slotDuration="01:00:00"
+      deepChangeDetection="true"
+      [weekends]="true"
+      [events]="eventData"
+      locale="be"
+      [firstDay]="1"
+      [header]="getHeader()"
+      [customButtons]="getCustomButtons"
+    >
     </full-calendar>
   </div>
 </div>

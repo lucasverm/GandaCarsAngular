@@ -3,48 +3,42 @@
     <div class="card marginTop10">
       <div class="card-header">
         <h2 class="d-inline"><i class="fa fa-fw fa-clock"></i><strong> Week wijzigen</strong></h2>
-        <button type="button" class="btn btn-primary float-right d-inline" (click)="addEffectieveDienst()"><i
-            class="fa fa-fw fa-plus-circle"></i> Dienst
-          toevoegen</button>
+        <button type="button" class="btn btn-primary float-right d-inline" (click)="addEffectieveDienst()"><i class="fa fa-fw fa-plus-circle"></i> Dienst toevoegen</button>
       </div>
       <div class="card-body">
-        <form [formGroup]="effectieveDienstenAanpassenFormulier" class="row" (ngSubmit)='effectieveDienstenAanpassen()'>
+        <form [formGroup]="effectieveDienstenAanpassenFormulier" class="row" (ngSubmit)="effectieveDienstenAanpassen()">
           <div class="col-12">
-            <div class="alert alert-success" role="alert" [hidden]="successMessage == null">
-              {{successMessage}}
+            <div class="alert alert-success" role="alert" [hidden]="successMessage === undefined">
+              {{ successMessage }}
             </div>
-            <div class="alert alert-danger" role="alert" [hidden]="errorMessage == null">
-              {{errorMessage}}
+            <div class="alert alert-danger" role="alert" [hidden]="errorMessage === undefined">
+              {{ errorMessage }}
             </div>
           </div>
           <div class="col-12">
-            <h5 class="card-title"><i class="fa fa-fw fa-globe"></i> Diensten: </h5>
+            <h5 class="card-title"><i class="fa fa-fw fa-globe"></i> Diensten:</h5>
             <div class="row align-bottom">
               <div class="col-8">
-                <p *ngIf="effectieveDienstenForm.controls.length == 0">Er zijn (nog) geen diensten voor deze week, voor
-                  deze
-                  chauffeur.</p>
+                <p *ngIf="effectieveDienstenForm.controls.length === 0">Er zijn (nog) geen diensten voor deze week, voor deze chauffeur.</p>
               </div>
               <div class="col-12 marginBottom1O" formArrayName="effectieveDienstenForm">
-                <div class="row marginBottom1O"
-                  *ngFor="let item of effectieveDienstenForm.controls as FormGroup; let i=index" [formGroupName]="i">
+                <div class="row marginBottom1O" *ngFor="let item of effectieveDienstenForm.controls as FormGroup; let i = index" [formGroupName]="i">
                   <div class="col-12 col-md-6 col-lg-2">
                     <label for="naam">Naam: </label>
-                    <input type="num" class="form-control" id="naam" formControlName="naam">
+                    <input type="num" class="form-control" id="naam" formControlName="naam" />
                   </div>
                   <div class="col-12 col-md-6 col-lg-3">
                     <label for="startDag">Start: </label>
-                    <input type="datetime-local" class="form-control" id="startDag" formControlName="start">
+                    <input type="datetime-local" class="form-control" id="startDag" formControlName="start" />
                   </div>
                   <div class="col-12 col-md-6 col-lg-3">
                     <label for="eindUur">Einde: </label>
-                    <input type="datetime-local" class="form-control" id="eindUur" formControlName="einde">
+                    <input type="datetime-local" class="form-control" id="eindUur" formControlName="einde" />
                   </div>
                   <div class="col-12 col-md-6 col-lg-3">
                     <label for="totaalAantalMinutenStationnement">Totaal aantal minuten stationnement: </label>
                     <div class="input-group">
-                      <input type="number" class="form-control" id="totaalAantalMinutenStationnement"
-                        formControlName="totaalAantalMinutenStationnement">
+                      <input type="number" class="form-control" id="totaalAantalMinutenStationnement" formControlName="totaalAantalMinutenStationnement" />
                       <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroupPrepend">Min</span>
                       </div>
@@ -53,44 +47,37 @@
                   <div class="col-12 col-md-6 col-lg-2">
                     <label for="andereMinuten">Andere: </label>
                     <div class="input-group">
-                      <input type="number" class="form-control" id="andereMinuten" formControlName="andereMinuten">
+                      <input type="number" class="form-control" id="andereMinuten" formControlName="andereMinuten" />
                       <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroupPrepend">Min</span>
                       </div>
                     </div>
                   </div>
                   <div class="col-12 col-md-6 col-lg-2 align-self-end">
-                    <button type="button" class="btn btn-danger width100"
-                      (click)="deleteEffectieveDienst(i)">Verwijder</button>
+                    <button type="button" class="btn btn-danger width100" (click)="deleteEffectieveDienst(i)">Verwijder</button>
                   </div>
                   <div class="col-12 col-md-6 col-lg-2 align-self-end">
-                    <button type="button" class="btn btn-primary width100"
-                      (click)="changeOnderbrekingVisibility(item)">Onderbrekingen ({{onderbrekingen(i).controls.length}})</button>
+                    <button type="button" class="btn btn-primary width100" (click)="changeOnderbrekingVisibility(item)">
+                      Onderbrekingen ({{ onderbrekingen(i).controls.length }})
+                    </button>
                   </div>
                   <!-- onderbrekingen!-->
-                  <div class="col-12 marginBottom1O" formArrayName="onderbrekingen"
-                    [hidden]="!item.get('onderbrekingVisible').value">
-                    <h5 class="card-title marginTop20"><i class="fa fa-fw fa-globe"></i> Onderbrekingen: </h5>
-                    <div class="row marginBottom1O" *ngFor="let stass of onderbrekingen(i).controls; let stassI=index"
-                      [formGroupName]="stassI">
+                  <div class="col-12 marginBottom1O" formArrayName="onderbrekingen" [hidden]="!item.get('onderbrekingVisible').value">
+                    <h5 class="card-title marginTop20"><i class="fa fa-fw fa-globe"></i> Onderbrekingen:</h5>
+                    <div class="row marginBottom1O" *ngFor="let stass of onderbrekingen(i).controls; let stassI = index" [formGroupName]="stassI">
                       <div class="col-12 col-md-6 col-lg-3">
                         <label for="effectieveStart">Start: </label>
-                        <input type="datetime-local" class="form-control" id="effectieveStart"
-                          formControlName="effectieveStart">
+                        <input type="datetime-local" class="form-control" id="effectieveStart" formControlName="effectieveStart" />
                       </div>
                       <div class="col-12 col-md-6 col-lg-3">
                         <label for="effectiefEinde">Einde: </label>
-                        <input type="datetime-local" class="form-control" id="effectiefEinde"
-                          formControlName="effectiefEinde">
+                        <input type="datetime-local" class="form-control" id="effectiefEinde" formControlName="effectiefEinde" />
                       </div>
                       <div class="col-12 col-md-6 col-lg-2 align-self-end">
-                        <button type="button" class="btn btn-danger"
-                          (click)="deleteOnderbreking(i,stassI)">Verwijder</button>
+                        <button type="button" class="btn btn-danger" (click)="deleteOnderbreking(i, stassI)">Verwijder</button>
                       </div>
                     </div>
-                    <button type="button" class="btn btn-primary" (click)="addOnderbreking(i)"><i
-                        class="fa fa-fw fa-plus-circle"></i> Onderbreking
-                      toevoegen</button>
+                    <button type="button" class="btn btn-primary" (click)="addOnderbreking(i)"><i class="fa fa-fw fa-plus-circle"></i> Onderbreking toevoegen</button>
                   </div>
                   <div class="col-12">
                     <hr />
@@ -98,13 +85,12 @@
                 </div>
               </div>
               <div class="col-12 col-md-5 col-lg-3 text-left">
-                <button type="submit" class="btn btn-success width100"
-                  [disabled]='!effectieveDienstenAanpassenFormulier.valid'><i class="fa fa-fw fa-save"></i> Week
-                  opslaan!</button>
+                <button type="submit" class="btn btn-success width100" [disabled]="!effectieveDienstenAanpassenFormulier.valid">
+                  <i class="fa fa-fw fa-save"></i> Week opslaan!
+                </button>
               </div>
               <div class="col-12 col-md-5 col-lg-3 text-left">
-                <button type="button" class="btn btn-danger width100" (click)="reset()"><i
-                    class=" fa fa-fw fa-redo-alt"></i> Reset naar template</button>
+                <button type="button" class="btn btn-danger width100" (click)="reset()"><i class="fa fa-fw fa-redo-alt"></i> Reset naar template</button>
               </div>
             </div>
           </div>

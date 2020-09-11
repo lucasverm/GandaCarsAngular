@@ -1,14 +1,12 @@
 import { Component, OnInit } from "@angular/core";
-import { FormGroup, FormBuilder, Validators, FormArray } from "@angular/forms";
-import { DagenVanDeWeek } from "../modals/dagen-van-de-week.enum";
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
 import { BusChauffeur } from "../modals/bus-chauffeur";
-import { Router, ActivatedRoute } from "@angular/router";
-import { DienstService } from "../services/dienst.service";
-import { BusChauffeurService } from "../services/bus-chauffeur.service";
-import { HttpErrorResponse } from "@angular/common/http";
+import { DagenVanDeWeek } from "../modals/dagen-van-de-week.enum";
 import { Dienst } from "../modals/dienst";
-import { _ } from "underscore";
 import { Onderbreking } from "../modals/onderbreking";
+import { BusChauffeurService } from "../services/bus-chauffeur.service";
+import { DienstService } from "../services/dienst.service";
 
 @Component({
   selector: "app-dienst-wijzigen",
@@ -16,8 +14,8 @@ import { Onderbreking } from "../modals/onderbreking";
   styleUrls: ["./dienst-wijzigen.component.scss"],
 })
 export class DienstWijzigenComponent implements OnInit {
-  public errorMessage: String = null;
-  public successMessage: String = null;
+  public errorMessage: String = undefined;
+  public successMessage: String = undefined;
   public dienstWijzigenFormulier: FormGroup;
   public dagenVanDeWeek = Object.values(DagenVanDeWeek.properties);
   public busChauffeurs: BusChauffeur[];
@@ -40,22 +38,10 @@ export class DienstWijzigenComponent implements OnInit {
       naam: [this.dienst.naam, [Validators.required]],
       startDag: [this.dienst.startDag.value, [Validators.required]],
       eindDag: [this.dienst.eindDag.value, [Validators.required]],
-      startUur: [
-        this.dienst.startUur.toLocaleTimeString(),
-        [Validators.required],
-      ],
-      eindUur: [
-        this.dienst.eindUur.toLocaleTimeString(),
-        [Validators.required],
-      ],
-      busChauffeur: [
-        this.dienst.busChauffeur ? this.dienst.busChauffeur.id : "",
-        [Validators.required],
-      ],
-      totaalAantalMinutenStationnement: [
-        this.dienst.totaalAantalMinutenStationnement,
-        [Validators.required],
-      ],
+      startUur: [this.dienst.startUur.toLocaleTimeString(), [Validators.required]],
+      eindUur: [this.dienst.eindUur.toLocaleTimeString(), [Validators.required]],
+      busChauffeur: [this.dienst.busChauffeur ? this.dienst.busChauffeur.id : "", [Validators.required]],
+      totaalAantalMinutenStationnement: [this.dienst.totaalAantalMinutenStationnement, [Validators.required]],
       onderbrekingen: this.fb.array([]),
     });
     this.initOnderbrekingen();
@@ -111,14 +97,12 @@ export class DienstWijzigenComponent implements OnInit {
     this.dienst.startUur = this.dienstWijzigenFormulier.value.startUur;
     this.dienst.eindDag = this.dienstWijzigenFormulier.value.eindDag;
     this.dienst.eindUur = this.dienstWijzigenFormulier.value.eindUur;
-    this.dienst.busChauffeur = this.busChauffeurs.find(
-      (t) => t.id == this.dienstWijzigenFormulier.value.busChauffeur
-    );
+    this.dienst.busChauffeur = this.busChauffeurs.find((t) => t.id === this.dienstWijzigenFormulier.value.busChauffeur);
     this.dienst.totaalAantalMinutenStationnement = this.dienstWijzigenFormulier.value.totaalAantalMinutenStationnement;
     this.dienst.onderbrekingen = [];
     this.dienstWijzigenFormulier.value.onderbrekingen.forEach((s) => {
       let ond = new Onderbreking();
-      if (s.id != null) {
+      if (s.id !== undefined) {
         ond.id = s.id;
       } else {
         s.id = "";

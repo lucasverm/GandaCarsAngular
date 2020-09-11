@@ -22,8 +22,7 @@ export class Dienst {
     item.startDag = DagenVanDeWeek.properties[json.startDag];
     item.eindDag = DagenVanDeWeek.properties[json.eindDag];
     item.busChauffeur = json.busChauffeur;
-    item.totaalAantalMinutenStationnement =
-      json.totaalAantalMinutenStationnement;
+    item.totaalAantalMinutenStationnement = json.totaalAantalMinutenStationnement;
     item.onderbrekingen = json.onderbrekingen.map(Onderbreking.fromJSON);
     return item;
   }

@@ -1,8 +1,8 @@
-import { Component, OnInit } from "@angular/core";
-import { BusChauffeurService } from "../services/bus-chauffeur.service";
-import { BusChauffeur } from "../modals/bus-chauffeur";
-import { Router } from "@angular/router";
 import { HttpErrorResponse } from "@angular/common/http";
+import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { BusChauffeur } from "../modals/bus-chauffeur";
+import { BusChauffeurService } from "../services/bus-chauffeur.service";
 
 @Component({
   selector: "app-bus-chauffeur-overzicht",
@@ -12,13 +12,10 @@ import { HttpErrorResponse } from "@angular/common/http";
 export class BusChauffeurOverzichtComponent implements OnInit {
   public loadingBusChauffeurs = true;
   public busChauffeurs: BusChauffeur[];
-  public errorMessage: String = null;
-  public successMessage: String = null;
+  public errorMessage: String = undefined;
+  public successMessage: String = undefined;
 
-  constructor(
-    private router: Router,
-    private busChauffeurService: BusChauffeurService
-  ) {}
+  constructor(private router: Router, private busChauffeurService: BusChauffeurService) {}
 
   ngOnInit() {
     this.busChauffeurService.getAllBusCheuffeurs$().subscribe(

@@ -1,10 +1,8 @@
 import { Component, OnInit } from "@angular/core";
-import { FormGroup, FormBuilder, Validators, FormArray } from "@angular/forms";
-import { Feestdag } from "../modals/feestdag";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-import { FeestdagenService } from "../services/feestdagen.service";
-import { InstellingenService } from "../services/instellingen.service";
 import { Instellingen } from "../modals/instellingen";
+import { InstellingenService } from "../services/instellingen.service";
 
 @Component({
   selector: "app-instellingen-aanpassen",
@@ -12,17 +10,12 @@ import { Instellingen } from "../modals/instellingen";
   styleUrls: ["./instellingen-aanpassen.component.scss"],
 })
 export class InstellingenAanpassenComponent implements OnInit {
-  public successMessage: String = null;
-  public errorMessage: String = null;
+  public successMessage: String = undefined;
+  public errorMessage: String = undefined;
   public instellingenAanpassenFormulier: FormGroup;
   public instellingen: Instellingen;
 
-  constructor(
-    public route: ActivatedRoute,
-    public router: Router,
-    private fb: FormBuilder,
-    private instellingenService: InstellingenService
-  ) {
+  constructor(public route: ActivatedRoute, public router: Router, private fb: FormBuilder, private instellingenService: InstellingenService) {
     this.route.data.subscribe((data) => {
       this.instellingen = data["instellingen"];
     });
@@ -30,10 +23,7 @@ export class InstellingenAanpassenComponent implements OnInit {
 
   ngOnInit() {
     this.instellingenAanpassenFormulier = this.fb.group({
-      aantalMinutenAdministratieveTijdVoorDienst: [
-        this.instellingen.aantalMinutenAdministratieveTijdVoorDienst,
-        [Validators.required],
-      ],
+      aantalMinutenAdministratieveTijdVoorDienst: [this.instellingen.aantalMinutenAdministratieveTijdVoorDienst, [Validators.required]],
       stelsel: [this.instellingen.stelsel, [Validators.required]],
     });
   }

@@ -2,30 +2,30 @@
   <div class="col-12">
     <div class="card marginTop10">
       <div class="card-header">
-        <h2 class="d-inline"> <i class="fa fa-fw fa-user-tie"></i><strong> {{busChauffeur.voornaam}}
-            {{busChauffeur.achternaam}}</strong></h2>
-        <button class="float-right btn btn-primary" [routerLink]="['/toon-loonlijst/', busChauffeur.id]"
-          id="buschauffeurtoevoegen">
+        <h2 class="d-inline">
+          <i class="fa fa-fw fa-user-tie"></i><strong> {{ busChauffeur.voornaam }} {{ busChauffeur.achternaam }}</strong>
+        </h2>
+        <button class="float-right btn btn-primary" [routerLink]="['/toon-loonlijst/', busChauffeur.id]" id="buschauffeurtoevoegen">
           <i class="fa fa-fw fa-file-invoice"></i>
-          <span class="d-none d-sm-inline"> Toon loonlijst</span></button>
+          <span class="d-none d-sm-inline"> Toon loonlijst</span>
+        </button>
       </div>
       <div class="card-body">
         <div class="col-12">
-          <div class="alert alert-success" role="alert" [hidden]="successMessage == null">
-            {{successMessage}}
+          <div class="alert alert-success" role="alert" [hidden]="successMessage === undefined">
+            {{ successMessage }}
           </div>
-          <div class="alert alert-danger" role="alert" [hidden]="errorMessage == null">
-            {{errorMessage}}
+          <div class="alert alert-danger" role="alert" [hidden]="errorMessage === undefined">
+            {{ errorMessage }}
           </div>
-          <h3 class="card-title"><i class="fa fa-fw fa-globe"></i> Algemene gegevens: </h3>
+          <h3 class="card-title"><i class="fa fa-fw fa-globe"></i> Algemene gegevens:</h3>
           <div class="row align-bottom">
-
             <div class="col-12 col-lg-5">
-              <app-bus-chauffeur-details [busChauffeur]=busChauffeur></app-bus-chauffeur-details>
+              <app-bus-chauffeur-details [busChauffeur]="busChauffeur"></app-bus-chauffeur-details>
             </div>
           </div>
           <hr />
-          <h3 class="card-title marginTop10"><i class="fa fa-fw fa-globe"></i> Agenda: </h3>
+          <h3 class="card-title marginTop10"><i class="fa fa-fw fa-globe"></i> Agenda:</h3>
           <div class="row align-bottom">
             <div class="col-12">
               <app-dienst-kalender [busChauffeur]="busChauffeur"></app-dienst-kalender>

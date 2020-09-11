@@ -2,19 +2,19 @@
   <div class="col-12">
     <div class="card marginTop10">
       <div class="card-header">
-        <h2 class="d-inline"> <i class="fa fa-fw fa-user-tie"></i><strong> Buschauffeur overzicht</strong></h2>
-        <button class="float-right btn btn-primary" [routerLink]="['/buschauffeur-toevoegen']"
-          id="buschauffeurtoevoegen">
+        <h2 class="d-inline"><i class="fa fa-fw fa-user-tie"></i><strong> Buschauffeur overzicht</strong></h2>
+        <button class="float-right btn btn-primary" [routerLink]="['/buschauffeur-toevoegen']" id="buschauffeurtoevoegen">
           <i class="fa fa-fw fa-plus-circle"></i>
-          <span class="d-none d-sm-inline"> Buschauffeur toevoegen</span></button>
+          <span class="d-none d-sm-inline"> Buschauffeur toevoegen</span>
+        </button>
       </div>
       <div class="card-body">
         <div class="col-12">
-          <div class="alert alert-success" role="alert" [hidden]="successMessage == null">
-            {{successMessage}}
+          <div class="alert alert-success" role="alert" [hidden]="successMessage === undefined">
+            {{ successMessage }}
           </div>
-          <div class="alert alert-danger" role="alert" [hidden]="errorMessage == null">
-            {{errorMessage}}
+          <div class="alert alert-danger" role="alert" [hidden]="errorMessage === undefined">
+            {{ errorMessage }}
           </div>
           <div class="row align-bottom">
             <div class="col-12">
@@ -33,14 +33,12 @@
                   <ng-container *ngIf="!loadingBusChauffeurs; else loadingItemsError">
                     <tbody>
                       <tr *ngFor="let item of busChauffeurs; let index = index">
-                        <th (click)="redirectTo('buschauffeur-info', item)">{{index + 1}}</th>
-                        <td (click)="redirectTo('buschauffeur-info', item)">{{item.voornaam}} {{item.achternaam}}</td>
-                        <td (click)="redirectTo('buschauffeur-info', item)">{{item.uurloon }} euro/uur</td>
-                        <td (click)="redirectTo('buschauffeur-info', item)">{{item.geboorteDatum | date: "dd/MM/yyyy" }}
-                        </td>
-                        <td (click)="redirectTo('buschauffeur-info', item)">{{item.email}}</td>
-                        <td><a (click)="redirectTo('buschauffeur-wijzigen', item)">Wijzigen</a> | <a
-                            (click)="busChauffeurVerwijderen(item)">Verwijderen</a></td>
+                        <th (click)="redirectTo('buschauffeur-info', item)">{{ index + 1 }}</th>
+                        <td (click)="redirectTo('buschauffeur-info', item)">{{ item.voornaam }} {{ item.achternaam }}</td>
+                        <td (click)="redirectTo('buschauffeur-info', item)">{{ item.uurloon }} euro/uur</td>
+                        <td (click)="redirectTo('buschauffeur-info', item)">{{ item.geboorteDatum | date: "dd/MM/yyyy" }}</td>
+                        <td (click)="redirectTo('buschauffeur-info', item)">{{ item.email }}</td>
+                        <td><a (click)="redirectTo('buschauffeur-wijzigen', item)">Wijzigen</a> | <a (click)="busChauffeurVerwijderen(item)">Verwijderen</a></td>
                       </tr>
                     </tbody>
                   </ng-container>

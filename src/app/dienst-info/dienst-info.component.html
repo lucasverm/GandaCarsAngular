@@ -1,33 +1,32 @@
 <div class="row">
   <div class="col-12">
-    <h1>{{dienst.naam}}</h1>
+    <h1>{{ dienst.naam }}</h1>
   </div>
   <div class="col-12">
-    <div class="alert alert-success marginTop10" role="alert" [hidden]="successMessage == null">
-      {{successMessage}}
+    <div class="alert alert-success marginTop10" role="alert" [hidden]="successMessage === undefined">
+      {{ successMessage }}
     </div>
-    <div class="alert alert-danger marginTop10" role="alert" [hidden]="errorMessage == null">
-      {{errorMessage}}
+    <div class="alert alert-danger marginTop10" role="alert" [hidden]="errorMessage === undefined">
+      {{ errorMessage }}
     </div>
   </div>
   <div class="col-12">
     <table class="table-bordered marginTop10 marginBottom1O">
       <tr>
         <th>Naam:</th>
-        <td>{{dienst.naam}}</td>
+        <td>{{ dienst.naam }}</td>
       </tr>
       <tr>
         <th>Vanaf:</th>
-        <td>{{dienst.startDag.naam}} - {{dienst.startUur | date: "HH:mm"}}</td>
+        <td>{{ dienst.startDag.naam }} - {{ dienst.startUur | date: "HH:mm" }}</td>
       </tr>
       <tr>
         <th>Tot:</th>
-        <td>{{dienst.eindDag.naam}} - {{dienst.eindUur | date: "HH:mm"}}</td>
+        <td>{{ dienst.eindDag.naam }} - {{ dienst.eindUur | date: "HH:mm" }}</td>
       </tr>
       <tr>
         <th>Buschauffeur:</th>
-        <td (click)="redirectTo(dienst.busChauffeur)">{{dienst.busChauffeur.voornaam }}
-          {{dienst.busChauffeur.achternaam }}</td>
+        <td (click)="redirectTo(dienst.busChauffeur)">{{ dienst.busChauffeur.voornaam }} {{ dienst.busChauffeur.achternaam }}</td>
       </tr>
     </table>
   </div>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Dienst } from "../modals/dienst";
-import { Router, ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-dienst-info",
@@ -9,8 +9,8 @@ import { Router, ActivatedRoute } from "@angular/router";
 })
 export class DienstInfoComponent implements OnInit {
   public dienst: Dienst;
-  public errorMessage: String = null;
-  public successMessage: String = null;
+  public errorMessage: String = undefined;
+  public successMessage: String = undefined;
 
   constructor(private router: Router, private route: ActivatedRoute) {
     this.route.data.subscribe((data) => {

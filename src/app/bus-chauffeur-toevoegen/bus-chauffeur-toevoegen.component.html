@@ -1,45 +1,42 @@
 <div class="row">
   <div class="col-12">
-
     <div class="card marginTop10">
       <div class="card-header">
         <h2 class="d-inline"><i class="fa fa-fw fa-user-tie"></i><strong> Buschauffeur toevoegen</strong></h2>
       </div>
       <div class="card-body">
-        <form [formGroup]="busChauffeurToevoegenFormulier" class="row" (ngSubmit)='chauffeurToevoegen()'>
+        <form [formGroup]="busChauffeurToevoegenFormulier" class="row" (ngSubmit)="chauffeurToevoegen()">
           <div class="col-12">
-            <div class="alert alert-success" role="alert" [hidden]="successMessage == null">
-              {{successMessage}}
+            <div class="alert alert-success" role="alert" [hidden]="successMessage === undefined">
+              {{ successMessage }}
             </div>
-            <div class="alert alert-danger" role="alert" [hidden]="errorMessage == null">
-              {{errorMessage}}
+            <div class="alert alert-danger" role="alert" [hidden]="errorMessage === undefined">
+              {{ errorMessage }}
             </div>
-            <h5 class="card-title"><i class="fa fa-fw fa-globe"></i> Algemeen: </h5>
+            <h5 class="card-title"><i class="fa fa-fw fa-globe"></i> Algemeen:</h5>
             <div class="row align-bottom">
               <div class="col-12 col-sm-6 col-md-4">
                 <label for="voornaam" class="marginTop10">Voornaam</label>
-                <input type="text" class="form-control" id="voornaam" formControlName="voornaam">
+                <input type="text" class="form-control" id="voornaam" formControlName="voornaam" />
               </div>
               <div class="col-12 col-sm-6 col-md-4">
                 <label for="achternaam" class="marginTop10">Achternaam</label>
-                <input type="text" class="form-control" id="achternaam" formControlName="achternaam">
+                <input type="text" class="form-control" id="achternaam" formControlName="achternaam" />
               </div>
               <div class="col-12 col-sm-6 col-md-4">
                 <label for="uurloon" class="marginTop10">Uurloon:</label>
-                <input type="number" class="form-control" id="uurloon" formControlName="uurloon">
+                <input type="number" class="form-control" id="uurloon" formControlName="uurloon" />
               </div>
               <div class="col-12 col-sm-6">
                 <label for="geboorteDatum" class="marginTop10">Geboorte datum</label>
-                <input type="date" class="form-control" id="geboorteDatum" formControlName="geboorteDatum">
+                <input type="date" class="form-control" id="geboorteDatum" formControlName="geboorteDatum" />
               </div>
               <div class="col-12 col-md-6">
                 <label for="email" class="marginTop10">Emailadres</label>
-                <input type="email" class="form-control" id="email" formControlName="email">
+                <input type="email" class="form-control" id="email" formControlName="email" />
               </div>
               <div class="col-12 col-md-5 text-left">
-                <button type="submit" class="btn btn-primary width100 marginTop10"
-                  [disabled]='!busChauffeurToevoegenFormulier.valid'>Buschauffeur
-                  toevoegen!</button>
+                <button type="submit" class="btn btn-primary width100 marginTop10" [disabled]="!busChauffeurToevoegenFormulier.valid">Buschauffeur toevoegen!</button>
               </div>
             </div>
           </div>

@@ -1,25 +1,22 @@
 import { NgModule } from "@angular/core";
-import { Routes, RouterModule } from "@angular/router";
-import { BusChauffeurToevoegenComponent } from "./bus-chauffeur-toevoegen/bus-chauffeur-toevoegen.component";
+import { RouterModule, Routes } from "@angular/router";
 import { BusChauffeurOverzichtComponent } from "./bus-chauffeur-overzicht/bus-chauffeur-overzicht.component";
+import { BusChauffeurToevoegenComponent } from "./bus-chauffeur-toevoegen/bus-chauffeur-toevoegen.component";
+import { BusChauffeurWijzigenComponent } from "./bus-chauffeur-wijzigen/bus-chauffeur-wijzigen.component";
 import { BuschauffeurInfoComponent } from "./buschauffeur-info/buschauffeur-info.component";
-import { BusChauffeurResolver } from "./resolvers/bus-chauffeur.resolver";
-import { dienstKalenderComponent } from "./dienst-kalender/dienst-kalender.component";
 import { DienstOverzichtComponent } from "./dienst-overzicht/dienst-overzicht.component";
-import { DienstInfoComponent } from "./dienst-info/dienst-info.component";
-import { DienstResolver } from "./resolvers/dienst.resolver";
 import { DienstToevoegenComponent } from "./dienst-toevoegen/dienst-toevoegen.component";
 import { DienstWijzigenComponent } from "./dienst-wijzigen/dienst-wijzigen.component";
-import { BusChauffeurWijzigenComponent } from "./bus-chauffeur-wijzigen/bus-chauffeur-wijzigen.component";
-import { ToonLoonlijstComponent } from "./toon-loonlijst/toon-loonlijst.component";
-import { FeestdagenAanpassenComponent } from "./feestdagen-aanpassen/feestdagen-aanpassen.component";
 import { EffectieveWeekWijzigenComponent } from "./effectieve-week-wijzigen/effectieve-week-wijzigen.component";
-import { EffectieveDienstenResolver } from "./resolvers/effectieve-diensten.resolver";
-import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
-import { EffectieveDienstenNullOmzettenResolver } from "./resolvers/effectieve-diensten-null-omzetten.resolver";
-import { EffectieveDienstenByMonthResolver } from "./resolvers/effectieve-diensten-by-month.resolver";
+import { FeestdagenAanpassenComponent } from "./feestdagen-aanpassen/feestdagen-aanpassen.component";
 import { InstellingenAanpassenComponent } from "./instellingen-aanpassen/instellingen-aanpassen.component";
+import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
+import { BusChauffeurResolver } from "./resolvers/bus-chauffeur.resolver";
+import { DienstResolver } from "./resolvers/dienst.resolver";
+import { EffectieveDienstenByMonthResolver } from "./resolvers/effectieve-diensten-by-month.resolver";
+import { EffectieveDienstenUndefinedOmzettenResolver } from "./resolvers/effectieve-diensten-undefined-omzetten.resolver";
 import { InstellingenResolver } from "./resolvers/instellingen.resolver";
+import { ToonLoonlijstComponent } from "./toon-loonlijst/toon-loonlijst.component";
 
 const routes: Routes = [
   {
@@ -74,7 +71,7 @@ const routes: Routes = [
   {
     path: "effectieve-week-wijzigen/:jaar/:week/:buschauffeurid",
     component: EffectieveWeekWijzigenComponent,
-    resolve: { effectieveDiensten: EffectieveDienstenNullOmzettenResolver },
+    resolve: { effectieveDiensten: EffectieveDienstenUndefinedOmzettenResolver },
   },
   {
     path: "",

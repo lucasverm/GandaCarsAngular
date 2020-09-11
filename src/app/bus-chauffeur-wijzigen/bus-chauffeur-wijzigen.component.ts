@@ -1,10 +1,9 @@
+import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
-import { BusChauffeurResolver } from "../resolvers/bus-chauffeur.resolver";
-import { Router, ActivatedRoute } from "@angular/router";
-import { FormGroup, Validators, FormBuilder } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
 import { BusChauffeur } from "../modals/bus-chauffeur";
 import { BusChauffeurService } from "../services/bus-chauffeur.service";
-import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
   selector: "app-bus-chauffeur-wijzigen",
@@ -13,16 +12,11 @@ import { HttpErrorResponse } from "@angular/common/http";
 })
 export class BusChauffeurWijzigenComponent implements OnInit {
   public busChauffeur: BusChauffeur;
-  public errorMessage: String = null;
-  public successMessage: String = null;
+  public errorMessage: String = undefined;
+  public successMessage: String = undefined;
   public busChauffeurWijzigenFormulier: FormGroup;
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private fb: FormBuilder,
-    private busChauffeurService: BusChauffeurService
-  ) {
+  constructor(private router: Router, private route: ActivatedRoute, private fb: FormBuilder, private busChauffeurService: BusChauffeurService) {
     this.route.data.subscribe((data) => {
       this.busChauffeur = data["busChauffeur"];
     });
@@ -42,9 +36,7 @@ export class BusChauffeurWijzigenComponent implements OnInit {
     this.busChauffeur.voornaam = this.busChauffeurWijzigenFormulier.value.voornaam;
     this.busChauffeur.achternaam = this.busChauffeurWijzigenFormulier.value.achternaam;
     this.busChauffeur.email = this.busChauffeurWijzigenFormulier.value.email;
-    this.busChauffeur.geboorteDatum = new Date(
-      this.busChauffeurWijzigenFormulier.value.geboorteDatum
-    );
+    this.busChauffeur.geboorteDatum = new Date(this.busChauffeurWijzigenFormulier.value.geboorteDatum);
     this.busChauffeur.uurloon = this.busChauffeurWijzigenFormulier.value.uurloon;
     this.busChauffeurService.putBusChauffeur$(this.busChauffeur).subscribe(
       (val) => {
@@ -63,12 +55,12 @@ export class BusChauffeurWijzigenComponent implements OnInit {
   getDateForInput(date: Date): string {
     var uitvoer: string = "";
     uitvoer += date.getFullYear() + "-";
-    if (date.getMonth().toString().length == 1) {
+    if (date.getMonth().toString().length === 1) {
       uitvoer += "0" + (date.getMonth() + 1) + "-";
     } else {
       uitvoer += date.getMonth() + 1 + "-";
     }
-    if (date.getDate().toString().length == 1) {
+    if (date.getDate().toString().length === 1) {
       uitvoer += "0" + date.getDate();
     } else {
       uitvoer += date.getDate();
